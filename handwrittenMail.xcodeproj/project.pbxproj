@@ -1,0 +1,298 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2F1064361C8B133C00510B49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1064351C8B133C00510B49 /* AppDelegate.swift */; };
+		2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1064371C8B133C00510B49 /* MasterViewController.swift */; };
+		2F10643A1C8B133C00510B49 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1064391C8B133C00510B49 /* DetailViewController.swift */; };
+		2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F10643B1C8B133C00510B49 /* Main.storyboard */; };
+		2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F10643E1C8B133C00510B49 /* Assets.xcassets */; };
+		2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F1064401C8B133C00510B49 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2F1064321C8B133C00510B49 /* handwrittenMail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = handwrittenMail.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F1064351C8B133C00510B49 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2F1064371C8B133C00510B49 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		2F1064391C8B133C00510B49 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		2F10643C1C8B133C00510B49 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2F10643E1C8B133C00510B49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2F1064411C8B133C00510B49 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2F1064431C8B133C00510B49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2F10642F1C8B133C00510B49 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2F1064291C8B133C00510B49 = {
+			isa = PBXGroup;
+			children = (
+				2F1064341C8B133C00510B49 /* handwrittenMail */,
+				2F1064331C8B133C00510B49 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2F1064331C8B133C00510B49 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2F1064321C8B133C00510B49 /* handwrittenMail.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2F1064341C8B133C00510B49 /* handwrittenMail */ = {
+			isa = PBXGroup;
+			children = (
+				2F1064351C8B133C00510B49 /* AppDelegate.swift */,
+				2F1064371C8B133C00510B49 /* MasterViewController.swift */,
+				2F1064391C8B133C00510B49 /* DetailViewController.swift */,
+				2F10643B1C8B133C00510B49 /* Main.storyboard */,
+				2F10643E1C8B133C00510B49 /* Assets.xcassets */,
+				2F1064401C8B133C00510B49 /* LaunchScreen.storyboard */,
+				2F1064431C8B133C00510B49 /* Info.plist */,
+			);
+			path = handwrittenMail;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2F1064311C8B133C00510B49 /* handwrittenMail */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2F1064461C8B133C00510B49 /* Build configuration list for PBXNativeTarget "handwrittenMail" */;
+			buildPhases = (
+				2F10642E1C8B133C00510B49 /* Sources */,
+				2F10642F1C8B133C00510B49 /* Frameworks */,
+				2F1064301C8B133C00510B49 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = handwrittenMail;
+			productName = handwrittenMail;
+			productReference = 2F1064321C8B133C00510B49 /* handwrittenMail.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2F10642A1C8B133C00510B49 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = shiweiwei;
+				TargetAttributes = {
+					2F1064311C8B133C00510B49 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 568K22Q8ZZ;
+					};
+				};
+			};
+			buildConfigurationList = 2F10642D1C8B133C00510B49 /* Build configuration list for PBXProject "handwrittenMail" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2F1064291C8B133C00510B49;
+			productRefGroup = 2F1064331C8B133C00510B49 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2F1064311C8B133C00510B49 /* handwrittenMail */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2F1064301C8B133C00510B49 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */,
+				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
+				2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2F10642E1C8B133C00510B49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F10643A1C8B133C00510B49 /* DetailViewController.swift in Sources */,
+				2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */,
+				2F1064361C8B133C00510B49 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2F10643B1C8B133C00510B49 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F10643C1C8B133C00510B49 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2F1064401C8B133C00510B49 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F1064411C8B133C00510B49 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2F1064441C8B133C00510B49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		2F1064451C8B133C00510B49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2F1064471C8B133C00510B49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = handwrittenMail/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = shiweiwei.handwrittenMail;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2F1064481C8B133C00510B49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = handwrittenMail/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = shiweiwei.handwrittenMail;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2F10642D1C8B133C00510B49 /* Build configuration list for PBXProject "handwrittenMail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F1064441C8B133C00510B49 /* Debug */,
+				2F1064451C8B133C00510B49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2F1064461C8B133C00510B49 /* Build configuration list for PBXNativeTarget "handwrittenMail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F1064471C8B133C00510B49 /* Debug */,
+				2F1064481C8B133C00510B49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2F10642A1C8B133C00510B49 /* Project object */;
+}
