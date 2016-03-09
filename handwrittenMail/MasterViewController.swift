@@ -17,7 +17,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     //邮箱文件夹在    
     var mailFolders=MAILFOLDERS();
     
-    private var mailList:[String]?
+//    private var mailList:[String]?
     private  var mailContent: [String]?
     
     private var listImg=["master1","master2","master3"];
@@ -82,7 +82,6 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         //获取文件夾信息
         self.mailFolders=mail.getMailFolder();
         
-        mailList=mail.getMailList("temp");
         
         maillistViewController!.mail=self.mail;
         
@@ -192,13 +191,26 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             self.maillistViewController?.hidesBottomBarWhenPushed=true;
             
             
-            maillistViewController!.mailList = mailList!;
+//            maillistViewController!.mailList = mailList!;
+            
+            var foldname="INBOX";
+            
+            
+            if indexPath.section==0
+            {
+                foldname=self.mailFolders.getKeyValueOfIndex(indexPath.row)[0];
+            }
+            else
+            {
+                foldname=self.mailFolders.getKeyValueOfIndex(indexPath.row+3)[0];
+            }
+            
             
             
             //隐藏导航栏
             self.navigationController?.pushViewController(maillistViewController!, animated: true);
             
-            self.maillistViewController?.refresh();
+           self.mail.getMailList(foldname, delegate: maillistViewController!);
             
         }
     }

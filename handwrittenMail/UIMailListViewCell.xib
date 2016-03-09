@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="111" id="KGk-i7-Jjw" customClass="UIMailListViewCell" customModule="handwrittenMail" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="111"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="111"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KD1-yL-2Og" userLabel="mailFlag">
+                        <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="eca-76-AJZ"/>
+                            <constraint firstAttribute="width" constant="24" id="gco-Bh-tgD"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="mailDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ql8-yO-xAL" userLabel="mailDate">
+                        <rect key="frame" x="656" y="3" width="112" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="112" id="ypG-95-eGO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ih0-08-0eC" userLabel="mailAttatch">
+                        <rect key="frame" x="0.0" y="30" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="OCL-vU-REe"/>
+                            <constraint firstAttribute="width" constant="24" id="XDC-wK-D2L"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="mailSubject" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlC-VN-qtD" userLabel="mailSubject">
+                        <rect key="frame" x="24" y="30" width="744" height="24"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="mailDigest" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqU-Gn-Idv" userLabel="mailDigest">
+                        <rect key="frame" x="24" y="56" width="744" height="55"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="54.5" id="QhH-mr-e7L"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="mailFrom" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AaA-hd-Mqo" userLabel="mailFrom">
+                        <rect key="frame" x="24" y="0.0" width="630" height="24"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="YqU-Gn-Idv" firstAttribute="top" secondItem="VlC-VN-qtD" secondAttribute="bottom" constant="2" id="0NB-RD-1qo"/>
+                    <constraint firstItem="YqU-Gn-Idv" firstAttribute="leading" secondItem="AaA-hd-Mqo" secondAttribute="leading" id="3hR-HF-PI9"/>
+                    <constraint firstItem="ih0-08-0eC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="3xn-pq-QdB"/>
+                    <constraint firstItem="VlC-VN-qtD" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailing" id="KCG-A0-XBK"/>
+                    <constraint firstItem="AaA-hd-Mqo" firstAttribute="leading" secondItem="KD1-yL-2Og" secondAttribute="trailing" id="L9b-Me-jzS"/>
+                    <constraint firstItem="VlC-VN-qtD" firstAttribute="leading" secondItem="ih0-08-0eC" secondAttribute="trailing" id="Rme-2T-JNY"/>
+                    <constraint firstItem="AaA-hd-Mqo" firstAttribute="trailing" secondItem="Ql8-yO-xAL" secondAttribute="leading" constant="-2" id="Ybr-Zz-Kxf"/>
+                    <constraint firstItem="Ql8-yO-xAL" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailing" id="jo6-no-tJy"/>
+                    <constraint firstItem="VlC-VN-qtD" firstAttribute="top" secondItem="AaA-hd-Mqo" secondAttribute="bottom" constant="6" id="tQC-EP-Wg9"/>
+                    <constraint firstItem="ih0-08-0eC" firstAttribute="top" secondItem="KD1-yL-2Og" secondAttribute="bottom" constant="6" id="vNE-NS-cOE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="mailAttatchImgFlag" destination="ih0-08-0eC" id="uiQ-kH-g1l"/>
+                <outlet property="mailDateLbl" destination="Ql8-yO-xAL" id="fCm-a7-bwM"/>
+                <outlet property="mailDigestLbl" destination="YqU-Gn-Idv" id="f9N-Gh-xNN"/>
+                <outlet property="mailFlagImg" destination="KD1-yL-2Og" id="pvP-O8-wB0"/>
+                <outlet property="mailFromLbl" destination="AaA-hd-Mqo" id="tMB-Hd-Lr6"/>
+                <outlet property="mailSubjectLbl" destination="VlC-VN-qtD" id="C4Q-lz-BCF"/>
+            </connections>
+            <point key="canvasLocation" x="290" y="284.5"/>
+        </tableViewCell>
+    </objects>
+</document>

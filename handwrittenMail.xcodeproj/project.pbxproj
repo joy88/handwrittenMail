@@ -16,6 +16,8 @@
 		2F1064641C8B141F00510B49 /* libMailCore-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064571C8B13EC00510B49 /* libMailCore-ios.a */; };
 		2F1064661C8B143400510B49 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064651C8B143400510B49 /* CFNetwork.framework */; };
 		2F1064681C8B143F00510B49 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064671C8B143F00510B49 /* Security.framework */; };
+		2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */; };
+		2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */; };
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
 		2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC41C8DD3FB006E9736 /* BaseMail.swift */; };
 		2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC61C8DD616006E9736 /* ImapMail.swift */; };
@@ -100,6 +102,8 @@
 		2F1064651C8B143400510B49 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2F1064671C8B143F00510B49 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2F10646B1C8B158D00510B49 /* Maincore-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Maincore-Bridging-Header.h"; sourceTree = "<group>"; };
+		2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMailListViewCell.swift; sourceTree = "<group>"; };
+		2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIMailListViewCell.xib; sourceTree = "<group>"; };
 		2F508CC01C8DCD37006E9736 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
 		2F508CC41C8DD3FB006E9736 /* BaseMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMail.swift; sourceTree = "<group>"; };
 		2F508CC61C8DD616006E9736 /* ImapMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImapMail.swift; sourceTree = "<group>"; };
@@ -191,6 +195,8 @@
 				2F1064401C8B133C00510B49 /* LaunchScreen.storyboard */,
 				2F1064431C8B133C00510B49 /* Info.plist */,
 				2F508CC01C8DCD37006E9736 /* MailListViewController.swift */,
+				2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */,
+				2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */,
 			);
 			name = MainFrame;
 			sourceTree = "<group>";
@@ -323,6 +329,7 @@
 				2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */,
 				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
 				2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */,
+				2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +343,7 @@
 				2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */,
 				2F10643A1C8B133C00510B49 /* DetailViewController.swift in Sources */,
 				2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */,
+				2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */,
 				2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */,
 				2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */,
 				2F1064361C8B133C00510B49 /* AppDelegate.swift in Sources */,

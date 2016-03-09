@@ -195,38 +195,52 @@ class ImapMail : BaseMail {
         return mailFolders;
     }
     //获取邮件列表
-    override func getMailList(folder:String)->[String]
+    override func getMailList(folder:String,delegate:RefreshMailListDataDelegate)
     {
-        var strList=["Letter1","Letter2","Letter3","Letter4","Letter5"]
         
         let requestKind = MCOIMAPMessagesRequestKind(rawValue: MCOIMAPMessagesRequestKind.Headers.rawValue | MCOIMAPMessagesRequestKind.Structure.rawValue |
             MCOIMAPMessagesRequestKind.InternalDate.rawValue | MCOIMAPMessagesRequestKind.HeaderSubject.rawValue |
             MCOIMAPMessagesRequestKind.Flags.rawValue);
         
         
-        // 获取收件箱信息（包含邮件总数等信息）
-        let folderName=folder;
+        
+        var messageList=[MCOIMAPMessage]();
         
         let messagecount:UInt64=40;
         
+        let imapSession=self.mailconnection as! MCOIMAPSession;
+
+        // 获取邮件信息
+        var folderName=folder;//"INBOX";
+        folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
+
         var numberOfMessages:UInt64 = 30;
             numberOfMessages -= 1;
         
         let numbers = MCOIndexSet(range: MCORangeMake(messagecount-numberOfMessages, numberOfMessages));
         
         
-            MCOIMAPFetchMessagesOperation *imapMessagesFetchOp = [imapSession fetchMessagesByNumberOperationWithFolder:folderName
-            requestKind:requestKind
-            numbers:numbers];
+            let imapMessagesFetchOp = imapSession.fetchMessagesByNumberOperationWithFolder(folderName,
+            requestKind:requestKind,
+            numbers:numbers);
             
             // 异步获取邮件
-            [imapMessagesFetchOp start:^(NSError *error, NSArray *messages, MCOIndexSet *vanishedMessages) {
-            [_messageList addObjectsFromArray:messages];
-            [_messageTableView reloadData];
-            }];
-            }];
+            imapMessagesFetchOp.start()
+                {
+                    (error:NSError?,messages:[AnyObject]?,vanishedMessages:MCOIndexSet?)->Void in
+                    if error == nil
+                    {
+                        messageList=messages as! [MCOIMAPMessage];
+                    }
+                    else
+                    {
+                        print("get \(folderName)'s mail fail,because \(error)");
+                        
+                    }
+                    delegate.RefreshMailListData(messageList);
 
-        return strList;
+
+        }
     }
     
     //获取邮件信息

@@ -8,6 +8,16 @@
 
 import Foundation
 
+struct EmailInfo //邮件头信息
+{
+    var mailId=String();// = [NSString stringWithFormat:@"%d",msg.uid];
+    var subject=String();// = [self stringReplaceNil:msg.header.subject];
+    var name=String();//= [self stringReplaceNil:(msg.header.from.displayName?msg.header.from.displayName:[self mailBox2Display:msg.header.from.mailbox])];
+    var sendTime=NSDate();//= [self stringReplaceNil:[self dateFormatString:msg.header.receivedDate]];
+    var attach = Int();// msg.attachments.count;
+}
+
+
 extension Dictionary
 {
     func getKeyValueOfIndex(index:Int)->[String]
@@ -45,17 +55,24 @@ typealias MAILFOLDERS = Dictionary<String,Int32>;//文件夹名称，邮件数�
 //    //文件夹中的邮件数据
 //    var mailCount:Int32=0;
 //}
-//刷新表中数据
+//刷新邮件目录信息中数据
 protocol RefreshMailDataDelegate
 {
     func RefreshMailFolderData(objData:MAILFOLDERS);
 }
 
+//刷新邮件列表信息
+protocol RefreshMailListDataDelegate
+{
+    func RefreshMailListData(objData:[MCOIMAPMessage]);
+}
+
+
 protocol MailOperation {
     //获取邮件目录
     func getMailFolder()->MAILFOLDERS;
     //获取邮件列表
-    func getMailList(folder:String)->[String];
+    func getMailList(folder:String,delegate:RefreshMailListDataDelegate);
     //获取邮件信息
     func getMail(mailid:String)->String;
 
@@ -80,9 +97,9 @@ class BaseMail : NSObject, MailOperation {
         return MAILFOLDERS();
     }
     //获取邮件列表
-    func getMailList(folder:String)->[String]
+    func getMailList(folder:String,delegate:RefreshMailListDataDelegate)
     {
-        return [String]();
+        
     }
 
     //获取邮件信息

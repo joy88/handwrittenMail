@@ -8,11 +8,14 @@
 
 import UIKit
 
-class MailListViewController: UITableViewController {
+class MailListViewController: UITableViewController,RefreshMailListDataDelegate {
     
     var mail:BaseMail!;
 
-    var mailList=[String]();
+    var mailList=[MCOIMAPMessage]();
+    
+//    var t:MCOMessageParser?;
+    
     private var mailContent=String();
     
     var detailViewController: DetailViewController? = nil
@@ -46,7 +49,9 @@ class MailListViewController: UITableViewController {
         
         self.navigationController?.setToolbarHidden(false, animated:true)
         
-        
+        //登记一个可重用的CELL
+        var nib = UINib(nibName: "UIMailListViewCell", bundle: nil)
+        self.tableView.registerNib(nib, forCellReuseIdentifier: "maillist")
     }
     
     //加右边按钮
@@ -62,8 +67,8 @@ class MailListViewController: UITableViewController {
         
         let row = self.mailList.count
         let indexPath = NSIndexPath(forRow:row,inSection:0)
-        self.mailList.append("超图")
-        self.mailList.append("http://www.supermap.com.cn")
+//        self.mailList.append("超图")
+//        self.mailList.append("http://www.supermap.com.cn")
         self.tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
         
     }
@@ -91,21 +96,37 @@ class MailListViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let identifier="mymaillist";
-        var cell=tableView.dequeueReusableCellWithIdentifier(identifier);
-        if(cell == nil){
-            cell=UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier);
-        }
+        let identifier="maillist";
+
+        var cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UIMailListViewCell
+        
+//        if(cell == nil)
+//        {
+//            cell=UIMailListViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier);
+//        }
         
         
-        //       let cell = tableView.dequeueReusableCellWithIdentifier("mymaillist", forIndexPath: indexPath)
+        let msg = mailList[indexPath.row];
+        
+        var info = EmailInfo();
+        
+        info.mailId = "\(msg.uid)";
+        info.subject = msg.header.subject;
+        info.name = msg.header.from.displayName //[self stringReplaceNil:(msg.header.from.displayName?msg.header.from.displayName:[self mailBox2Display:msg.header.from.mailbox])];
+        info.sendTime = msg.header.receivedDate;//[self stringReplaceNil:[self dateFormatString:msg.header.receivedDate]];
+        info.attach = msg.attachments().count;
         
         
-        cell!.textLabel!.text = mailList[indexPath.row]
-        cell!.imageView!.image = UIImage(named:"green")
+        cell.mailFlagImg.image=UIImage(named:"green");//已读,未读标志
+        cell.mailFromLbl.text=info.name;//发件人
+        cell.mailDateLbl.text="\(info.sendTime)";
+        cell.mailDigestLbl.text="\(info.sendTime)";
+        
+        cell.mailSubjectLbl.text=info.subject;
+        cell.mailAttatchImgFlag.image=UIImage(named:"green");//是否有附件
         
         
-        return cell!
+        return cell;
         
     }
     
@@ -175,10 +196,18 @@ class MailListViewController: UITableViewController {
         }
     }
     
-    func refresh()
+    
+    func RefreshMailListData(objData:[MCOIMAPMessage])
     {
+        self.mailList=objData;
         let tableview=self.view as! UITableView;
         tableview.reloadData();
     }
     
+    //返回行高
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath:NSIndexPath) -> CGFloat
+    {
+        //计算行高，返回，textview根据数据计算高度
+        return 111;
+    }
 }
