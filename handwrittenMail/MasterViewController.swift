@@ -15,7 +15,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     //邮箱登录信息
     var mailloginInfo=mailLoginInfo();
     //邮箱文件夹在    
-    var mailFolders=[mailFolder]();
+    var mailFolders=MAILFOLDERS();
     
     private var mailList:[String]?
     private  var mailContent: [String]?
@@ -67,7 +67,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         //初始化登录信息--126
         self.mailloginInfo.hostname="imap.126.com";
         self.mailloginInfo.username="chinagis001@126.com"
-        self.mailloginInfo.password=""
+        self.mailloginInfo.password="shiww761106"
         self.mailloginInfo.port=993;
         //-icloud
 //        self.mailloginInfo.hostname="p03-imap.mail.me.com";
@@ -118,10 +118,10 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //print("master count=\(siteNames!.count)");
-        var count:Int=1;
+        var count:Int=0;
         if section==0 //第一节
         {
-            count=3;
+            count=min(mailFolders.count,3);
         }
         else //第二节
         {
@@ -141,9 +141,10 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         if section==0
         {
-            cell.textLabel!.text = mailFolders[indexPath.row].folderName
+            print(indexPath.row);
+            cell.textLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row)[0]
             //目录中邮件的数量
-            cell.detailTextLabel!.text="\(mailFolders[indexPath.row].mailCount)";
+            cell.detailTextLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row)[1];
 
             
             if indexPath.row==1
@@ -151,13 +152,11 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
                 cell.accessoryType=UITableViewCellAccessoryType.DetailDisclosureButton
             }
         }
-        else
+        else if self.mailFolders.count>3
         {
-            cell.textLabel!.text = mailFolders[indexPath.row+3].folderName
+            cell.textLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row+3)[0]
             //目录中邮件的数量
-
-            cell.detailTextLabel!.text="\(mailFolders[indexPath.row+3].mailCount)";
-            
+            cell.detailTextLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row+3)[1];
         }
         
         let imgIndex=indexPath.row%3
@@ -208,7 +207,12 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 2
+        var section=1;
+        if mailFolders.count>3
+        {
+            section=2;
+        }
+        return section;
     }
     
     // UITableViewDataSource协议中的方法，该方法的返回值决定指定分区的Header文字信息
@@ -237,9 +241,9 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     }
     
     
-  func RefreshData(objData:AnyObject?)
+  func RefreshMailFolderData(objData:MAILFOLDERS)
   {
-    self.mailFolders=objData as! [mailFolder];
+    self.mailFolders=objData;
     self.tableView.reloadData();
     }
     

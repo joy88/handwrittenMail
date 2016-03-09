@@ -57,9 +57,9 @@ class ImapMail : BaseMail {
 
     }
     //获取邮件目录
-    override func getMailFolder()->[mailFolder]
+    override func getMailFolder()->MAILFOLDERS
     {
-        var mailFolders=[mailFolder(),mailFolder(),mailFolder(),mailFolder()];
+        var mailFolders:MAILFOLDERS=["INBOX":3,"SENDBOX":3,"DRAFTBOX":3];
         
         if !self.isCanBeConnected
         {
@@ -119,41 +119,46 @@ class ImapMail : BaseMail {
                         
                         assert(tmpstr != nil)
                         
-                        var tmpmailFolder=mailFolder();//必须在循环体内定义,否则出现相同值
+ 
 
                         
-                        tmpmailFolder.folderName=tmpstr[0] as! String
+                        let folderName=tmpstr[0] as! String
+                        
                         
                         //获取邮箱目录中邮件数量信息
-                        tmpmailFolder.mailCount=0;
+                        var mailCount:Int32=0;
 
-//                        let imapFetchMailCountOp = imapSession.folderInfoOperation("INBOX");
-//                        
-//                        imapFetchMailCountOp.start()
-//                            {
-//                                (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
-//                                
-//                                if error == nil
-//                                {
-//                                    tmpmailFolder.mailCount=(info?.messageCount)!;
-//                                }
-//                                else
-//                                {
-//                                   print("get mail count of \(tmpmailFolder.folderName) fail,\(error!)")
-//                                }
-//                            }
 
-                        //mail 数量
-                        print("foldername=\(tmpmailFolder.folderName)");
-
+                        let imapFetchMailCountOp = imapSession.folderInfoOperation(tmpImapFolder.path);
                         
-                        mailFolders.append(tmpmailFolder);
+                        imapFetchMailCountOp.start()
+                            {
+                                (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
+                                
+                                if error == nil
+                                {
+                                    mailCount=(info?.messageCount)!;
+                                    //mail 数量
+                                    print("foldername=\(folderName)");
+                                    
+                                    mailFolders.updateValue(mailCount,forKey: folderName);
+                                    
+                                    self.delegate!.RefreshMailFolderData(mailFolders);
+                                    
+                                }
+                                else
+                                {
+                                   print("get mail count of \(folderName) fail,\(error!)")
+                                }
+                            }
+
+
                     }
                     
                     print("Mail Folder's count=\(mailFolders.count)");
 
                     
-                    self.delegate!.RefreshData(mailFolders);
+//                    self.delegate!.RefreshData(mailFolders);
                     
                 }
                 else
@@ -169,22 +174,22 @@ class ImapMail : BaseMail {
             MCOIMAPMessagesRequestKind.InternalDate | MCOIMAPMessagesRequestKind.HeaderSubject |
             MCOIMAPMessagesRequestKind.Flags;*/
 
-        imapSession.allowsFolderConcurrentAccessEnabled=true;
-        
-        let imapFetchMailCountOp = imapSession.folderInfoOperation("INBOX");
-        
-        imapFetchMailCountOp.start()
-            {
-                (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
-                if error == nil
-                {
-                    print("inbox mail count=\((info?.messageCount)!)");
-                }
-                else
-                {
-                    print("get mail count of inbox fail,\(error!)")
-                }
-        }
+//        imapSession.allowsFolderConcurrentAccessEnabled=true;
+//        
+//        let imapFetchMailCountOp = imapSession.folderInfoOperation("INBOX");
+//        
+//        imapFetchMailCountOp.start()
+//            {
+//                (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
+//                if error == nil
+//                {
+//                    print("inbox mail count=\((info?.messageCount)!)");
+//                }
+//                else
+//                {
+//                    print("get mail count of inbox fail,\(error!)")
+//                }
+//        }
 
         
         return mailFolders;
@@ -193,6 +198,33 @@ class ImapMail : BaseMail {
     override func getMailList(folder:String)->[String]
     {
         var strList=["Letter1","Letter2","Letter3","Letter4","Letter5"]
+        
+        let requestKind = MCOIMAPMessagesRequestKind(rawValue: MCOIMAPMessagesRequestKind.Headers.rawValue | MCOIMAPMessagesRequestKind.Structure.rawValue |
+            MCOIMAPMessagesRequestKind.InternalDate.rawValue | MCOIMAPMessagesRequestKind.HeaderSubject.rawValue |
+            MCOIMAPMessagesRequestKind.Flags.rawValue);
+        
+        
+        // 获取收件箱信息（包含邮件总数等信息）
+        let folderName=folder;
+        
+        let messagecount:UInt64=40;
+        
+        var numberOfMessages:UInt64 = 30;
+            numberOfMessages -= 1;
+        
+        let numbers = MCOIndexSet(range: MCORangeMake(messagecount-numberOfMessages, numberOfMessages));
+        
+        
+            MCOIMAPFetchMessagesOperation *imapMessagesFetchOp = [imapSession fetchMessagesByNumberOperationWithFolder:folderName
+            requestKind:requestKind
+            numbers:numbers];
+            
+            // 异步获取邮件
+            [imapMessagesFetchOp start:^(NSError *error, NSArray *messages, MCOIndexSet *vanishedMessages) {
+            [_messageList addObjectsFromArray:messages];
+            [_messageTableView reloadData];
+            }];
+            }];
 
         return strList;
     }
