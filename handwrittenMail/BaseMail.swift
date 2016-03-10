@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct EmailInfo //邮件头信息
 {
@@ -110,3 +111,140 @@ class BaseMail : NSObject, MailOperation {
     }
 
  }
+
+
+extension UILabel
+{
+    //代码创建UILabel
+    func setLabel(label:String,x:CGFloat,y:CGFloat,width:CGFloat,height:CGFloat,fonSize:CGFloat,isBold:Bool,color:UIColor)
+    {
+        self.frame = CGRectMake(x,y,width,height);
+        
+        //给label 设值
+        
+        self.text = label;
+        
+        //设置是否默认换行
+        
+        
+        self.numberOfLines = 0
+        
+        //设置label的背景颜色
+        
+        
+        self.backgroundColor = UIColor.whiteColor();
+        
+        //设置label的文本信息展示样式，
+        
+        self.textAlignment = NSTextAlignment.Left
+        
+        //设置label的字体
+        
+        
+        if isBold
+        {
+            self.font = UIFont.boldSystemFontOfSize(fonSize)
+            
+        }
+        else
+        {
+            self.font = UIFont.systemFontOfSize(fonSize)
+            
+        }
+        
+        
+        
+        //设置label的文本颜色
+        
+        
+        
+        self.textColor = color;
+        
+    }
+    
+    
+}
+
+class UIEmailButton:UIButton
+{
+    var emailAddress:String="";//电子邮件地址
+    //代码创建UIButton,返回自适应后的新宽度,不允许改变高度
+    
+    func setEmailTitle(email:String,x:CGFloat,y:CGFloat,width:CGFloat,height:CGFloat,fonSize:CGFloat,isBold:Bool,color:UIColor)->CGFloat//返回自适应的宽度
+    {
+        var newwidth=width;
+        //给label 设值
+        
+        self.emailAddress=email;
+        
+        //提取出邮件地址@之前的信息供显示
+        let range=email.rangeOfString("@", options: NSStringCompareOptions())
+        
+        var btnTitle:String="";
+        
+        if range != nil
+        {
+            let startIndex=range?.startIndex //=3
+            
+            btnTitle=email.substringToIndex(startIndex!);
+            
+            btnTitle=btnTitle+">"
+            
+        }
+        else
+        {
+            btnTitle=email;
+        }
+        
+        self.setTitle(btnTitle, forState: .Normal)
+        
+        //设置button的背景颜色
+        
+        
+        self.backgroundColor = UIColor.whiteColor();
+        
+        
+        
+        //设置button的字体
+        
+        
+        if isBold
+        {
+            self.titleLabel?.font = UIFont.boldSystemFontOfSize(fonSize)
+            
+        }
+        else
+        {
+            self.titleLabel?.font = UIFont.systemFontOfSize(fonSize)
+            
+        }
+        
+        
+        //设置label的文本颜色
+        
+        self.setTitleColor(color
+            , forState: .Normal) ;
+        
+        //设置label的文本信息展示样式，
+        
+        self.titleLabel!.textAlignment = NSTextAlignment.Center
+        
+        //根据内容确定Button宽度
+        
+        let attri = [ NSFontAttributeName : (self.titleLabel?.font)!]
+        
+        
+        let titleSize = NSString(string: btnTitle).sizeWithAttributes(attri)
+        
+        
+        newwidth=titleSize.width+5;
+        
+        self.frame = CGRectMake(x,y,newwidth,height);
+        
+        return newwidth;
+        
+    }
+    
+}
+
+

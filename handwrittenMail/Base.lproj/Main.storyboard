@@ -31,25 +31,10 @@
                     <view key="view" contentMode="scaleToFill" id="svH-Pt-448">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d3L-6o-TcK">
-                                <rect key="frame" x="8" y="72" width="572" height="499"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
-                            </webView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="d3L-6o-TcK" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" id="7k5-e4-zt7"/>
-                            <constraint firstAttribute="trailing" secondItem="d3L-6o-TcK" secondAttribute="trailing" id="CXv-UE-hOc"/>
-                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="d3L-6o-TcK" secondAttribute="bottom" id="r79-YH-7oH"/>
-                            <constraint firstItem="d3L-6o-TcK" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="zWZ-E1-lcH"/>
-                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="邮件" id="mOI-FS-AaM"/>
-                    <connections>
-                        <outlet property="webView" destination="d3L-6o-TcK" id="Atn-Zw-LMO"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
