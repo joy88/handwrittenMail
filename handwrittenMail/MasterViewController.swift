@@ -20,7 +20,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
 //    private var mailList:[String]?
     private  var mailContent: [String]?
     
-    private var listImg=["master1","master2","master3"];
+    private var listImg=["inbox","flag","trash","newmail","folder","sendbox","spam"];
     
     
     
@@ -138,29 +138,68 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         let section=indexPath.section;
         
+        var folderFlag=MCOIMAPFolderFlag.None;
+        
+        var index=0;
+        
+        
         if section==0
         {
-            print(indexPath.row);
-            cell.textLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row)[0]
-            //目录中邮件的数量
-            cell.detailTextLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row)[1];
-
+             index=indexPath.row;
             
-            if indexPath.row==1
+            if index==1
             {
                 cell.accessoryType=UITableViewCellAccessoryType.DetailDisclosureButton
             }
         }
         else if self.mailFolders.count>3
         {
-            cell.textLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row+3)[0]
-            //目录中邮件的数量
-            cell.detailTextLabel!.text = mailFolders.getKeyValueOfIndex(indexPath.row+3)[1];
+            index=indexPath.row+3;
+            
         }
         
-        let imgIndex=indexPath.row%3
+        let folderMeta=getIndexFolder(index);
+        
+        cell.textLabel!.text = folderMeta.folderName
+        //目录中邮件的数量
+        cell.detailTextLabel!.text = "\(folderMeta.mailCount)";
+        
+        folderFlag=folderMeta.folderFlag;
+        
+ //       private var listImg=["inbox","flag","trash","newmail","folder","sendbox","spam"];
+
+        
+        var imgIndex=4;
+        
+        if folderFlag.contains(MCOIMAPFolderFlag.Inbox)
+        {
+            imgIndex=0
+        }
+        
+        if folderFlag.contains(MCOIMAPFolderFlag.Trash)
+        {
+            imgIndex=2
+        }
+        
+        if folderFlag.contains(MCOIMAPFolderFlag.Spam)
+        {
+            imgIndex=6
+        }
+        
+        if folderFlag.contains(MCOIMAPFolderFlag.SentMail)
+        {
+            imgIndex=5
+        }
+
+        if folderFlag.contains(MCOIMAPFolderFlag.Drafts)
+        {
+            imgIndex=3
+        }
+
         
         cell.imageView?.image=UIImage(named: listImg[imgIndex]);
+        
+        
         
         return cell
     }
@@ -198,11 +237,11 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             
             if indexPath.section==0
             {
-                foldname=self.mailFolders.getKeyValueOfIndex(indexPath.row)[0];
+                foldname=self.getIndexFolder(indexPath.row).folderName;
             }
             else
             {
-                foldname=self.mailFolders.getKeyValueOfIndex(indexPath.row+3)[0];
+                foldname=self.getIndexFolder(indexPath.row+3).folderName;
             }
             
             
@@ -256,7 +295,55 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
   func RefreshMailFolderData(objData:MAILFOLDERS)
   {
     self.mailFolders=objData;
+    
+//    for mailfolder in mailFolders
+//    {
+//        print("foldername in list =\(mailfolder.0)")
+//    }
     self.tableView.reloadData();
+    }
+    
+    private  func getIndexFolder(index:Int)->mailFolderMeta
+    {
+        //        assert(index<self.count);
+        var folderMeta=mailFolderMeta();
+        
+        var tempFolders=self.mailFolders;
+        
+        var threeFolders=["INBOX","已发送","草稿箱"];
+        
+  
+        switch index
+            {
+                case 0,1,2:
+                    if self.mailFolders[threeFolders[index]] != nil
+                    {
+                        folderMeta=self.mailFolders[threeFolders[index]]!;
+                    }
+   
+        default:
+           
+            tempFolders.removeValueForKey(threeFolders[0])
+            tempFolders.removeValueForKey(threeFolders[1])
+            tempFolders.removeValueForKey(threeFolders[2])
+
+            
+            let keys = Array(tempFolders.keys).sort(){$0 > $1};
+        
+            
+            let tempValue = keys[index-3];
+
+
+            if self.mailFolders[tempValue] != nil
+            {
+                folderMeta=self.mailFolders[tempValue]!;
+            }
+            
+           
+        }
+        
+        return folderMeta;
+        
     }
     
 }

@@ -45,16 +45,17 @@ struct mailLoginInfo
     var connectionType:MCOConnectionType = .TLS//.StartTLS
 }
 //邮件目录
-typealias MAILFOLDERS = Dictionary<String,Int32>;//文件夹名称，邮件数量
+typealias MAILFOLDERS = Dictionary<String,mailFolderMeta>;//文件夹名称，邮件数量
 
-//class mailFolder:NSObject
-//{
-//    var mailfloder:Dictionary<String,Int32>=["temp",]
-//    //文件夹名称
-//    var folderName:String="temp";
-//    //文件夹中的邮件数据
-//    var mailCount:Int32=0;
-//}
+struct mailFolderMeta
+{
+    var folderName:String="Loading...";//文件夹名称
+    var mailCount:Int32=0;//已读邮件数量
+    //未读邮件数量
+    var unreadMailCount:Int32=0;
+    //文件夹标志
+    var folderFlag=MCOIMAPFolderFlag.None;
+}
 //刷新邮件目录信息中数据
 protocol RefreshMailDataDelegate
 {

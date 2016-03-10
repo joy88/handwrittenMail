@@ -59,7 +59,7 @@ class ImapMail : BaseMail {
     //获取邮件目录
     override func getMailFolder()->MAILFOLDERS
     {
-        var mailFolders:MAILFOLDERS=["INBOX":3,"SENDBOX":3,"DRAFTBOX":3];
+        var mailFolders:MAILFOLDERS=["INBOX":mailFolderMeta(),"已发送":mailFolderMeta(),"草稿箱":mailFolderMeta()];
         
         if !self.isCanBeConnected
         {
@@ -127,7 +127,7 @@ class ImapMail : BaseMail {
                         
                         //获取邮箱目录中邮件数量信息
                         var mailCount:Int32=0;
-
+                        
 
                         let imapFetchMailCountOp = imapSession.folderInfoOperation(tmpImapFolder.path);
                         
@@ -137,11 +137,22 @@ class ImapMail : BaseMail {
                                 
                                 if error == nil
                                 {
+                                    
                                     mailCount=(info?.messageCount)!;
+                                    
+                                    var folderMeta=mailFolderMeta();
+
+                                    
+                                    folderMeta.folderName=folderName;
+                                    
+                                    folderMeta.folderFlag = tmpImapFolder.flags
+                                    
+                                    folderMeta.mailCount=mailCount;
+
                                     //mail 数量
                                     print("foldername=\(folderName)");
                                     
-                                    mailFolders.updateValue(mailCount,forKey: folderName);
+                                    mailFolders.updateValue(folderMeta,forKey: folderName);
                                     
                                     self.delegate!.RefreshMailFolderData(mailFolders);
                                     
@@ -151,6 +162,7 @@ class ImapMail : BaseMail {
                                    print("get mail count of \(folderName) fail,\(error!)")
                                 }
                             }
+                        
 
 
                     }
@@ -158,7 +170,6 @@ class ImapMail : BaseMail {
                     print("Mail Folder's count=\(mailFolders.count)");
 
                     
-//                    self.delegate!.RefreshData(mailFolders);
                     
                 }
                 else
@@ -169,27 +180,6 @@ class ImapMail : BaseMail {
                 
             }
         
-
-/*        let requestKind = MCOIMAPMessagesRequestKind.Headers |  MCOIMAPMessagesRequestKind.Structure |
-            MCOIMAPMessagesRequestKind.InternalDate | MCOIMAPMessagesRequestKind.HeaderSubject |
-            MCOIMAPMessagesRequestKind.Flags;*/
-
-//        imapSession.allowsFolderConcurrentAccessEnabled=true;
-//        
-//        let imapFetchMailCountOp = imapSession.folderInfoOperation("INBOX");
-//        
-//        imapFetchMailCountOp.start()
-//            {
-//                (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
-//                if error == nil
-//                {
-//                    print("inbox mail count=\((info?.messageCount)!)");
-//                }
-//                else
-//                {
-//                    print("get mail count of inbox fail,\(error!)")
-//                }
-//        }
 
         
         return mailFolders;
@@ -206,41 +196,59 @@ class ImapMail : BaseMail {
         
         var messageList=[MCOIMAPMessage]();
         
-        let messagecount:UInt64=40;
+        var messagecount:Int32=0;
         
         let imapSession=self.mailconnection as! MCOIMAPSession;
-
-        // 获取邮件信息
+        
         var folderName=folder;//"INBOX";
         folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
-
-        var numberOfMessages:UInt64 = 30;
-            numberOfMessages -= 1;
-        
-        let numbers = MCOIndexSet(range: MCORangeMake(messagecount-numberOfMessages, numberOfMessages));
         
         
-            let imapMessagesFetchOp = imapSession.fetchMessagesByNumberOperationWithFolder(folderName,
-            requestKind:requestKind,
-            numbers:numbers);
-            
-            // 异步获取邮件
-            imapMessagesFetchOp.start()
+        let imapFetchMailCountOp = imapSession.folderInfoOperation(folderName);
+        
+        imapFetchMailCountOp.start()
+            {
+                (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
+                
+                if error == nil
                 {
-                    (error:NSError?,messages:[AnyObject]?,vanishedMessages:MCOIndexSet?)->Void in
-                    if error == nil
-                    {
-                        messageList=messages as! [MCOIMAPMessage];
+                    messagecount = (info?.messageCount)!;
+                    
+                    // 获取邮件信息
+                    
+                    var numberOfMessages:Int32 = 30;
+//                    numberOfMessages -= 1;
+                    
+                    let numbers = MCOIndexSet(range: MCORangeMake(UInt64(messagecount-numberOfMessages), UInt64(numberOfMessages)));
+                    
+                    
+                    let imapMessagesFetchOp = imapSession.fetchMessagesByNumberOperationWithFolder(folderName,
+                        requestKind:requestKind,
+                        numbers:numbers);
+                    
+                    // 异步获取邮件
+                    imapMessagesFetchOp.start()
+                        {
+                            (error:NSError?,messages:[AnyObject]?,vanishedMessages:MCOIndexSet?)->Void in
+                            if error == nil
+                            {
+                                messageList=messages as! [MCOIMAPMessage];
+                                messageList=messageList.reverse();
+                            }
+                            else
+                            {
+                                print("get \(folderName)'s mail fail,because \(error)");
+                                
+                            }
+                            delegate.RefreshMailListData(messageList);
+                            
+                            
                     }
-                    else
-                    {
-                        print("get \(folderName)'s mail fail,because \(error)");
-                        
-                    }
-                    delegate.RefreshMailListData(messageList);
-
-
+                    
+                    
+                }
         }
+        
     }
     
     //获取邮件信息

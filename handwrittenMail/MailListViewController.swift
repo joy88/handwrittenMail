@@ -112,7 +112,8 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         info.mailId = "\(msg.uid)";
         info.subject = msg.header.subject;
-        info.name = msg.header.from.displayName //[self stringReplaceNil:(msg.header.from.displayName?msg.header.from.displayName:[self mailBox2Display:msg.header.from.mailbox])];
+        info.name = (msg.header.from.displayName != nil) ? msg.header.from.displayName:msg.header.from.mailbox;
+        //[self stringReplaceNil:(msg.header.from.displayName?msg.header.from.displayName:[self mailBox2Display:msg.header.from.mailbox])];
         info.sendTime = msg.header.receivedDate;//[self stringReplaceNil:[self dateFormatString:msg.header.receivedDate]];
         info.attach = msg.attachments().count;
         
