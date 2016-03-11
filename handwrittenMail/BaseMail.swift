@@ -69,6 +69,13 @@ protocol RefreshMailListDataDelegate
     func RefreshMailListData(objData:[MCOIMAPMessage]);
 }
 
+//刷新邮件列表信息
+protocol RefreshMailDelegate
+{
+    func RefreshMailData(mailid:MCOIMAPMessage,htmlContent:String)
+}
+
+
 
 protocol MailOperation {
     //获取邮件目录
@@ -76,8 +83,7 @@ protocol MailOperation {
     //获取邮件列表
     func getMailList(folder:String,delegate:RefreshMailListDataDelegate);
     //获取邮件信息
-    func getMail(mailid:String)->String;
-
+    func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
 }
 
 class BaseMail : NSObject, MailOperation {
@@ -88,6 +94,9 @@ class BaseMail : NSObject, MailOperation {
     var isCanBeConnected:Bool=false;
     
     var delegate:RefreshMailDataDelegate?;
+    
+    var mailFolderName="INBOX";//当前邮件目录
+    
     
 
     init(_ maillogininfo:mailLoginInfo) {
@@ -105,9 +114,9 @@ class BaseMail : NSObject, MailOperation {
     }
 
     //获取邮件信息
-    func getMail(mailid:String)->String
-    {
-        return "";
+func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
+{
+
     }
 
  }
@@ -167,34 +176,45 @@ extension UILabel
 
 class UIEmailButton:UIButton
 {
-    var emailAddress:String="";//电子邮件地址
+    var mailAddress=MCOAddress();//邮件地址
+//    var emailAddress:String="";//电子邮件地址
     //代码创建UIButton,返回自适应后的新宽度,不允许改变高度
     
-    func setEmailTitle(email:String,x:CGFloat,y:CGFloat,width:CGFloat,height:CGFloat,fonSize:CGFloat,isBold:Bool,color:UIColor)->CGFloat//返回自适应的宽度
+    func setEmailTitle(email:MCOAddress,x:CGFloat,y:CGFloat,width:CGFloat,height:CGFloat,fonSize:CGFloat,isBold:Bool,color:UIColor)->CGFloat//返回自适应的宽度
     {
+        self.mailAddress=email;
+        
+        let emailAddress=mailAddress.mailbox;//邮件地址
+        
         var newwidth=width;
         //给label 设值
-        
-        self.emailAddress=email;
-        
-        //提取出邮件地址@之前的信息供显示
-        let range=email.rangeOfString("@", options: NSStringCompareOptions())
-        
         var btnTitle:String="";
+
+        if mailAddress.displayName==nil
+        {
+        //提取出邮件地址@之前的信息供显示
+            let range=emailAddress.rangeOfString("@", options: NSStringCompareOptions())
+        
         
         if range != nil
         {
             let startIndex=range?.startIndex //=3
             
-            btnTitle=email.substringToIndex(startIndex!);
+            btnTitle=emailAddress.substringToIndex(startIndex!);
             
-            btnTitle=btnTitle+">"
             
         }
         else
         {
-            btnTitle=email;
+            btnTitle=emailAddress;
         }
+        }
+        else
+        {
+            btnTitle=mailAddress.displayName;
+        }
+        
+        btnTitle=btnTitle+">";
         
         self.setTitle(btnTitle, forState: .Normal)
         

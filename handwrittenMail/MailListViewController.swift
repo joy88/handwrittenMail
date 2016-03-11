@@ -176,23 +176,23 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     // Pass the selected object to the new view controller.
     }
     */
-    // UITableViewDelegate协议方法，点击时调用
+    // UITableViewDelegate协议方法，点击时调用,显示邮件信息
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         /*       // 跳转到detailViewController，取消选中状态
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         //更具定义的Segue Indentifier进行跳转
         self.performSegueWithIdentifier("ShowMaillist", sender: siteLists![indexPath.row])*/
-        
+
         if indexPath.row >= 0
         {
             //            self.detailViewController?.hidesBottomBarWhenPushed=true;
             
-            self.mailContent = self.mail.getMail("temp");
+            self.mail.getMail(self.mailList[indexPath.row], delegateMail: detailViewController!)
             
             
-            
-            detailViewController!.detailItem = mailContent;
+ //           detailViewController!.detailItem = mailContent;
             
         }
     }

@@ -203,6 +203,9 @@ class ImapMail : BaseMail {
         var folderName=folder;//"INBOX";
         folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
         
+        self.mailFolderName=folderName;//保存一下,获取邮件正文信息的时候还要用
+
+        
         
         let imapFetchMailCountOp = imapSession.folderInfoOperation(folderName);
         
@@ -252,9 +255,68 @@ class ImapMail : BaseMail {
     }
     
     //获取邮件信息
-    override func getMail(mailid:String)->String
-    {
-        return "http://news.163.com";
+    override func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
+      {
+//        self.mailMessage=mailid;
+        
+        let imapSession=self.mailconnection as! MCOIMAPSession;
+
+        // 使用MCOIMAPMessageRenderingOperation来获得邮件概要信息
+        let uidKey = mailid.uid;
+        
+       let fetchContentOp = imapSession.fetchMessageOperationWithFolder(self.mailFolderName,uid:uidKey);
+        
+        
+        fetchContentOp.start
+            {
+                (error:NSError?, data:NSData?)->Void in
+                
+                if error==nil
+                {
+                    // 解析邮件内容
+                    let msgPareser = MCOMessageParser(data: data);
+                    
+                    
+                    let content = msgPareser.htmlRenderingWithDelegate(nil);
+                    
+                    // MCOMessageHeader包含了邮件标题，时间等头信息
+                    //let header = msgPaser.header;//返回MCOMessageHeader
+                    
+                    // 获得邮件正文的HTML内容,一般使用webView加载
+                   let bodyHtml = msgPareser.htmlBodyRendering();//return String
+                    
+                    // 获取附件(多个)
+                    let attachments = msgPareser.attachments ;//NSMutableArray *
+                    
+                    // 拿到一个附件MCOAttachment,可从中得到文件名，文件内容data  
+//                    let attachment=attachments[0];//MCOAttachment
+                    
+                    print(content);
+                    
+                    delegateMail.RefreshMailData(mailid,htmlContent: bodyHtml);
+                    
+                }
+                
+            }
+             //获取邮件纯文件信息代码
+            /*
+        let messageRenderingOperation = imapSession.plainTextBodyRenderingOperationWithMessage(mailid,folder: self.mailFolderName);
+        
+        messageRenderingOperation.start
+            {
+                (plainTextBodyString:String?,error:NSError?)->Void in
+                if error==nil
+                {
+                    
+                    print(plainTextBodyString!);
+                    //delegateMail.RefreshMailData();
+                   delegateMail.RefreshMailData(mailid)//, msgParser:MCOMessageParser());
+                }
+                
+        }
+*/
+        
+  //          return "http://news.163.com";
     }
     
 }

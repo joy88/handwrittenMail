@@ -8,49 +8,35 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController,RefreshMailDelegate
+{
     
     var webView=UIWebView()//邮件正文
     
-    var mailFromLbl=UILabel()//"发件人"标签
-    var mailFromBtn=UIEmailButton()//发件人显示按钮
-    var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
+    private var mailFromLbl=UILabel()//"发件人"标签
+    private var mailFromBtn=UIEmailButton()//发件人显示按钮
+    private var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
     
-    var mailToLbl=UILabel()//"收件人"标签
-    var mailToBtn=[UIEmailButton]();//收件人
-    var mailCcLbl=UILabel();//"抄送"按钮
-    var mailCcBtn=[UIEmailButton]()//抄送人
+    private var mailToLbl=UILabel()//"收件人"标签
+    private var mailToBtns=[UIEmailButton]();//收件人
+    private var mailCcLbl=UILabel();//"抄送"按钮
+    private var mailCcBtns=[UIEmailButton]()//抄送人
     
-    var lineLbl=UILabel();//灰色分割线
+    private var lineLbl=UILabel();//灰色分割线
 
     
-    var subjectLbl=UILabel()//邮件主题
-    var mailDateLbl=UILabel()//邮件收到时间
-
+    private var subjectLbl=UILabel()//邮件主题
+    private var mailDateLbl=UILabel()//邮件收到时间
     
-    
-    var detailItem: AnyObject? {
-        didSet {
-            // Update the view.
-            self.configureView()
-        }
-    }
-    
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let detail: AnyObject = detailItem {
-            
-                let url = NSURL(string: detailItem as! String)
-                let request = NSURLRequest(URL: url!)
-                self.webView.scalesPageToFit = false
-                self.webView.loadRequest(request)
-        }
-    }
+    var mailSender=MCOAddress(displayName: "石伟伟", mailbox: "Chinagis001@126.com")!;//发件人地址
+    private var mailToLists=[MCOAddress]();//收件人地址列表
+    private var mailCcLists=[MCOAddress]();//抄送人地址列表
+    var mailSubject="邮件主题";
+    var mailDate=NSDate();//邮件日期
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.configureView()
         //1.右边第一个按钮
         let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action: nil)
         //2.second
@@ -69,7 +55,12 @@ class DetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = rightItems
         
         //开始生成窗口要素
-        self.AutoLayoutView();
+        let temp=[MCOAddress(displayName: "石伟伟1", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟2", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟3", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟4", mailbox: "Chinagis001@126.com")!]
+        
+        self.setMailToList(temp);//        var mailToBtns=[UIEmailButton]();//收件人
+
+        self.setMailCcList(temp);//        var mailCcBtns=[UIEmailButton]()//抄送人
+       
         
 //        var webView=UIWebView()//邮件正文
         self.view.addSubview(webView)
@@ -78,31 +69,25 @@ class DetailViewController: UIViewController {
         self.view.addSubview(mailFromLbl)
 
 //        var mailFromBtn=UIEmailButton()//发件人显示按钮
+        mailFromBtn.addTarget(self,action: "emailClicked:",forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(mailFromBtn)
+        
 
 //        var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
+        //show or hide mainto and maincc
+        infoHideBtn.addTarget(self,action: "hideMailToCC:",forControlEvents: UIControlEvents.TouchUpInside)
+
         self.view.addSubview(infoHideBtn)
 
 //
 //        var mailToLbl=UILabel()//"收件人"标签
         self.view.addSubview(mailToLbl)
 
-//        var mailToBtn=[UIEmailButton]();//收件人
-        for mailbtn in mailToBtn
-        {
-            self.view.addSubview(mailbtn)
-        }
-
+ 
 //        var mailCcLbl=UILabel();//"抄送"按钮
         self.view.addSubview(mailCcLbl)
 
-//        var mailCcBtn=[UIEmailButton]()//抄送人
-        for ccbtn in mailCcBtn
-        {
-            self.view.addSubview(ccbtn)
-        }
-
-
+ 
 //
 //        var lineLbl=UILabel();//灰色分割线
         self.view.addSubview(lineLbl)
@@ -114,6 +99,9 @@ class DetailViewController: UIViewController {
 
 //        var mailDateLbl=UILabel()//邮件收到时间
         self.view.addSubview(mailDateLbl)
+        
+        self.AutoLayoutView(infoHideBtn.selected);
+
         
         //监测设备的旋转
         //感知设备方向 - 开启监听设备方向
@@ -161,14 +149,17 @@ class DetailViewController: UIViewController {
           mailFromLbl.setLabel("发件人:", x: marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 18, isBold: true, color: black)
         
 //        var mailFromBtn=UIEmailButton()//发件人显示按钮
-        mailFromBtn.setEmailTitle("shiweiwei@superamp.com", x: (marginSpace+ctrWidth+xSpace), y: top1, width: ctrWidth, height: ctrHight, fonSize: 17, isBold: true, color: blue);
+        mailFromBtn.setEmailTitle(self.mailSender, x: (marginSpace+ctrWidth+xSpace), y: top1, width: ctrWidth, height: ctrHight, fonSize: 17, isBold: true, color: blue);
         
 //        var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
+        infoHideBtn.selected=isHide;
+        
+        infoHideBtn.setTitle("显示", forState:.Selected);
         infoHideBtn.setTitle("隐藏", forState: .Normal);
         infoHideBtn.frame=CGRectMake(bounds.width-ctrWidth-2*marginSpace,top1,ctrWidth,ctrHight)
         infoHideBtn.setTitleColor(blue, forState: .Normal);//不加上这句,看不到,可以字体是白色的原因吧
         
-        print(infoHideBtn.frame);
+//        print(infoHideBtn.frame);
 //        
 //        var mailToLbl=UILabel()//"收件人"标签
         
@@ -177,49 +168,25 @@ class DetailViewController: UIViewController {
         mailToLbl.setLabel("收件人:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
         
         
-//        var mailToBtn=[UIEmailButton]();//收件人
+//        var mailToBtns=[UIEmailButton]();//收件人
         
 
-        if mailToBtn.count==0
-        {
-            var tempBtn1=UIEmailButton();
-        
-            mailToBtn.append(tempBtn1);
-        }
-        
-        for a in mailToBtn
-        {
-        
-            a.setEmailTitle("shiweiwei@superamp.com", x: (marginSpace+ctrWidth+xSpace), y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: blue);
-        }
-        
+        top3=self.AutoLayoutMailListBtn(self.mailToBtns,viewWidth: bounds.width-marginSpace, X: marginSpace+ctrWidth+xSpace, Y: top2, Width: ctrWidth, Hight: ctrHight, xSpace: xSpace, ySpace: ySpace, FontSize: 16, color: blue);
 
         
         
 //        var mailCcLbl=UILabel();//"抄送"按钮
-        top3=top2+ctrHight+ySpace;
+        top3=top3+ySpace;
         
         mailCcLbl.setLabel("抄送:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
 
-//        var mailCcBtn=[UIEmailButton]()//抄送人
+//        var mailCcBtns=[UIEmailButton]()//抄送人
         
-        if mailCcBtn.count==0
-        {
-            var tempBtn2=UIEmailButton();
-            mailCcBtn.append(tempBtn2);
-        }
-
- 
-        for b in mailCcBtn
-        {
-            b.setEmailTitle("shiweiwei@superamp.com", x: (marginSpace+ctrWidth+xSpace), y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: blue);
-        }
-        
-        
+        top4=self.AutoLayoutMailListBtn(self.mailCcBtns,viewWidth: bounds.width-marginSpace, X: marginSpace+ctrWidth+xSpace, Y: top3, Width: ctrWidth, Hight: ctrHight, xSpace: xSpace, ySpace: ySpace, FontSize: 16, color: blue);
 
         //画一条线
 //        var lineLbl=UILabel();//灰色分割线
-        top4=top3+ySpace+ctrHight;
+        top4=top4+ySpace;
         
         lineLbl.text="";
         lineLbl.backgroundColor=UIColor.darkGrayColor();
@@ -229,13 +196,19 @@ class DetailViewController: UIViewController {
 //        var subjectLbl=UILabel()//邮件主题
         top5=top4+ySpace+1;
         
-        subjectLbl.setLabel("邮件主题", x: marginSpace, y: top5, width: bounds.width-2*marginSpace, height: ctrHight, fonSize: 20, isBold: true, color: black);
+        subjectLbl.setLabel(self.mailSubject, x: marginSpace, y: top5, width: bounds.width-2*marginSpace, height: ctrHight, fonSize: 20, isBold: true, color: black);
 
         
 //        var mailDateLbl=UILabel()//邮件收到时间
         top6=top5+ctrHight+ySpace;
         
-        mailDateLbl.setLabel("邮件收到时间", x: marginSpace, y: top6, width: bounds.width-2*marginSpace, height: ctrHight, fonSize: 16, isBold: false, color: black);
+        let dateFormatter=NSDateFormatter();
+        dateFormatter.dateFormat="YYYY-MM-dd HH:mm:ss"
+        let strMailDate=dateFormatter.stringFromDate(self.mailDate);
+        
+
+        
+        mailDateLbl.setLabel(strMailDate, x: marginSpace, y: top6, width: bounds.width-2*marginSpace, height: ctrHight, fonSize: 16, isBold: false, color: black);
 
 
         //        var webView=UIWebView()//邮件正文
@@ -264,5 +237,161 @@ class DetailViewController: UIViewController {
         }
     }
     
-}
+    
+    //只创建按钮,不布局,收件人列表
+    func setMailToList(emaillist:[MCOAddress])
+    {
+        self.mailToLists=emaillist;
+        //1.先把以前的按钮从subview中给去掉
+        for btn in self.mailToBtns
+        {
+            btn.removeFromSuperview();
+        }
+        mailToBtns.removeAll();
+        
+        for email in mailToLists
+        {
+            var tmpBtn=UIEmailButton();
+            tmpBtn.mailAddress=email;
+            tmpBtn.addTarget(self,action: "emailClicked:",forControlEvents: UIControlEvents.TouchUpInside)
+            mailToBtns.append(tmpBtn);
+            self.view.addSubview(tmpBtn);
+            
+        }
+        
+    }
+    
+    //只创建按钮,不布局,抄送人列表
+    func setMailCcList(emaillist:[MCOAddress])
+    {
+        self.mailCcLists=emaillist;
+        //1.先把以前的按钮从subview中给去掉
+        for btn in self.mailCcBtns
+        {
+            btn.removeFromSuperview();
+        }
+        mailCcBtns.removeAll();
+        
+        for email in mailCcLists
+        {
+            var tmpBtn=UIEmailButton();
+            tmpBtn.mailAddress=email;
+            tmpBtn.addTarget(self,action: "emailClicked:",forControlEvents: UIControlEvents.TouchUpInside)
+
+            mailCcBtns.append(tmpBtn);
+            self.view.addSubview(tmpBtn);
+        }
+        
+    }
+
+    //email List自动布局,需和setMailFromList配合
+    //viewWdith=self.view.Bounds.width
+    func AutoLayoutMailListBtn(emaillistBtn:[UIEmailButton],viewWidth:CGFloat,X:CGFloat,Y:CGFloat,Width:CGFloat,Hight:CGFloat,xSpace:CGFloat,ySpace:CGFloat,FontSize:CGFloat,isBold:Bool=false,color:UIColor,isHidden:Bool=false)->CGFloat//返回右下角坐标的Y值
+    {
+        var result:CGFloat=Y+Hight;//默认是一行
+        //1.先把以前的按钮从subview中给去掉
+        var widthSum:CGFloat=0;
+        var btnX=X;
+        var btnY=Y;
+        var trueWidth:CGFloat=0;
+        for emailBtn in emaillistBtn
+        {
+//            if emailBtn.emailAddress=="tanxiujuan20@163.com"
+//            {
+//                print(emailBtn.emailAddress);
+//            }
+            
+            trueWidth=emailBtn.setEmailTitle(emailBtn.mailAddress, x: btnX, y: btnY, width: Width, height: Hight, fonSize: FontSize, isBold:isBold , color: color)
+            
+            widthSum=btnX+trueWidth;
+            
+            if widthSum<=viewWidth //不换行
+            {
+                btnX=btnX+trueWidth+xSpace;
+                btnY=btnY+0;
+            }
+            else//换行
+            {
+                btnX=X+0;
+                btnY=btnY+Hight+ySpace;
+                
+                trueWidth=emailBtn.setEmailTitle(emailBtn.mailAddress, x: btnX, y: btnY, width: Width, height: Hight, fonSize: FontSize, isBold:isBold , color: color)
+                
+                btnX=btnX+trueWidth+xSpace;
+                
+            }
+        }
+        result=btnY+Hight;
+        
+        return result;
+    }
+
+    //响应email地址点击事件
+    func emailClicked(button: UIEmailButton)
+    {
+//        let mainStoryboard = UIStoryboard(name:"Main", bundle:nil)
+//        let viewController = mainStoryboard.instantiateInitialViewController()! as UIViewController
+//        
+//        self.presentViewController(viewController, animated: true, completion:nil)
+        print(button.mailAddress.mailbox)
+    }
+    
+    //show or hide mailto and maincc
+    func hideMailToCC(button: UIButton)
+    {
+        //        let mainStoryboard = UIStoryboard(name:"Main", bundle:nil)
+        //        let viewController = mainStoryboard.instantiateInitialViewController()! as UIViewController
+        //
+        //        self.presentViewController(viewController, animated: true, completion:nil)
+        button.selected = !button.selected;
+        self.AutoLayoutView(button.selected)
+    }
+    
+    //刷新邮件内容
+    func RefreshMailData(mailid:MCOIMAPMessage,htmlContent:String)
+    {
+        
+//        info.mailId = "\(msg.uid)";
+//        info.subject = msg.header.subject;
+//        info.name = (msg.header.from.displayName != nil) ? msg.header.from.displayName:msg.header.from.mailbox;
+//        info.sendTime = msg.header.receivedDate;//[self
+//        info.attach = msg.attachments().count;
+        
+
+        self.mailSubject=mailid.header.subject;//邮件主题
+        
+ //       info.name = (msg.header.from.displayName != nil) ? msg.header.from.displayName:msg.header.from.mailbox;
+
+        self.mailSender = mailid.header.from//发件人
+        self.mailDate=mailid.header.receivedDate;//收件日期
+        
+        var tmpmailCcLists=[MCOAddress]();
+        var tmpmailToLists=[MCOAddress]();
+
+        
+        if mailid.header.to != nil
+        {
+            
+            tmpmailToLists=mailid.header.to as! [MCOAddress];
+        }
+        
+        if mailid.header.cc != nil
+        {
+            tmpmailCcLists=mailid.header.cc as! [MCOAddress];
+
+        }
+        
+        self.setMailCcList(tmpmailCcLists)
+        self.setMailToList(tmpmailToLists)
+        
+        
+        webView.loadHTMLString(htmlContent, baseURL: nil);
+        
+        
+        self.AutoLayoutView();
+        
+        
+    }
+
+  }
 
