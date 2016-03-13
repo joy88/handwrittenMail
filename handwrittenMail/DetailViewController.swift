@@ -8,10 +8,12 @@
 
 import UIKit
 
-class DetailViewController: UIViewController,RefreshMailDelegate
+class DetailViewController:MCTMsgViewController,RefreshMailDelegate
 {
+//    private var mymessage=MCOIMAPMessage();//当前打开的邮件
+//    private var mymsgPaser:MCOMessageParser?;//邮件解析
     
-    var webView=UIWebView()//邮件正文
+    var mywebView=MCOMessageView()//邮件正文
     
     private var mailFromLbl=UILabel()//"发件人"标签
     private var mailFromBtn=UIEmailButton()//发件人显示按钮
@@ -23,10 +25,17 @@ class DetailViewController: UIViewController,RefreshMailDelegate
     private var mailCcBtns=[UIEmailButton]()//抄送人
     
     private var lineLbl=UILabel();//灰色分割线
+    private var lineLbl2=UILabel();//灰色分割线
+
 
     
     private var subjectLbl=UILabel()//邮件主题
     private var mailDateLbl=UILabel()//邮件收到时间
+    
+    private var attachLbl=UILabel()//附件标签"附件"
+    private var attachBtns=[UIEmailButton]();//附件按钮
+
+    
     
     var mailSender=MCOAddress(displayName: "石伟伟", mailbox: "Chinagis001@126.com")!;//发件人地址
     private var mailToLists=[MCOAddress]();//收件人地址列表
@@ -63,8 +72,14 @@ class DetailViewController: UIViewController,RefreshMailDelegate
        
         
 //        var webView=UIWebView()//邮件正文
-        self.view.addSubview(webView)
-//        
+        
+         self.mywebView=self.messageView;
+ 
+//        self.mywebView.prefetchIMAPAttachmentsEnabled=true;
+
+        self.mywebView.prefetchIMAPImagesEnabled=true;
+
+//
 //        var mailFromLbl=UILabel()//"发件人"标签
         self.view.addSubview(mailFromLbl)
 
@@ -91,6 +106,7 @@ class DetailViewController: UIViewController,RefreshMailDelegate
 //
 //        var lineLbl=UILabel();//灰色分割线
         self.view.addSubview(lineLbl)
+        self.view.addSubview(lineLbl2)
 
 //
 //        
@@ -133,8 +149,9 @@ class DetailViewController: UIViewController,RefreshMailDelegate
         
         let black=UIColor.blackColor();
         let blue=UIColor.blueColor();
+        let red=UIColor.redColor();
         
-        var top1,top2,top3,top4,top5,top6,top7:CGFloat;
+        var top1,top2,top3,top4,top5,top6,top7,top8:CGFloat;
         
         var navHeight:CGFloat=0;
         
@@ -210,11 +227,39 @@ class DetailViewController: UIViewController,RefreshMailDelegate
         
         mailDateLbl.setLabel(strMailDate, x: marginSpace, y: top6, width: bounds.width-2*marginSpace, height: ctrHight, fonSize: 16, isBold: false, color: black);
 
+        //附件标签和附件按钮
+        top7=top6+ctrHight+ySpace;
+
+        setAttachmentList();
+        
+        top8=top7;
+        
+        
+        
+        if (self.message != nil) && (self.message.attachments().count>0)
+        {
+            attachLbl.setLabel("附件:", x: marginSpace, y: top7, width: ctrWidth, height: ctrHight, fonSize: 19, isBold: true, color: red);
+            
+            self.view.addSubview(attachLbl);
+            
+             top8=self.AutoLayoutMailListBtn(self.attachBtns,viewWidth: bounds.width-marginSpace, X: marginSpace+ctrWidth+xSpace, Y: top7, Width: ctrWidth, Hight: ctrHight, xSpace: xSpace, ySpace: ySpace, FontSize: 16, color: red);
+
+        }
+        
+        top8 = top8+1;
+
+
+        //灰线
+        lineLbl2.text="";
+        lineLbl2.backgroundColor=UIColor.darkGrayColor();
+        lineLbl2.frame=CGRectMake(marginSpace, top8, bounds.width-2*marginSpace, 1);
 
         //        var webView=UIWebView()//邮件正文
-        top7=top6+ctrHight+ySpace;
         
-        webView.frame=CGRectMake(marginSpace, top6, bounds.width-2*marginSpace,bounds.height-top7);
+        self.mywebView.frame=CGRectMake(marginSpace,top8+3, bounds.width-2*marginSpace,bounds.height-top8);
+        
+        print("mywebview bounds=\(mywebView.frame)");
+ 
         
         //
 
@@ -283,6 +328,44 @@ class DetailViewController: UIViewController,RefreshMailDelegate
         }
         
     }
+    
+    //只创建按钮,不布局,抄送人列表
+    func setAttachmentList()
+    {
+        if self.message == nil{
+            return;
+        }
+        //1.先把以前的按钮从subview中给去掉
+        attachLbl.removeFromSuperview();
+        
+        for btn in self.attachBtns
+        {
+            btn.removeFromSuperview();
+        }
+        attachBtns.removeAll();
+        
+        var index=0;
+        
+        for attachment in self.message.attachments()
+        {
+            var tmpBtn=UIEmailButton();
+            tmpBtn.tag=index;
+            
+            let email=MCOAddress(displayName: attachment.filename, mailbox: "s@s.s")//displayName中是文件名啊
+        
+            tmpBtn.mailAddress=email;
+
+            tmpBtn.addTarget(self,action: "previewAttach:",forControlEvents: UIControlEvents.TouchUpInside)
+            
+            attachBtns.append(tmpBtn);
+            
+            self.view.addSubview(tmpBtn);
+            
+            index++;
+        }
+        
+    }
+
 
     //email List自动布局,需和setMailFromList配合
     //viewWdith=self.view.Bounds.width
@@ -321,6 +404,7 @@ class DetailViewController: UIViewController,RefreshMailDelegate
                 
             }
         }
+        
         result=btnY+Hight;
         
         return result;
@@ -347,51 +431,315 @@ class DetailViewController: UIViewController,RefreshMailDelegate
         self.AutoLayoutView(button.selected)
     }
     
-    //刷新邮件内容
-    func RefreshMailData(mailid:MCOIMAPMessage,htmlContent:String)
+    //刷新邮件内容--1
+    func RefreshMailData(session:MCOIMAPSession,mailid:MCOIMAPMessage,folder:String)
     {
-        
-//        info.mailId = "\(msg.uid)";
-//        info.subject = msg.header.subject;
-//        info.name = (msg.header.from.displayName != nil) ? msg.header.from.displayName:msg.header.from.mailbox;
-//        info.sendTime = msg.header.receivedDate;//[self
-//        info.attach = msg.attachments().count;
+        let header=mailid.header;
+
+        self.mailSubject=header.subject;//邮件主题
         
 
-        self.mailSubject=mailid.header.subject;//邮件主题
-        
- //       info.name = (msg.header.from.displayName != nil) ? msg.header.from.displayName:msg.header.from.mailbox;
-
-        self.mailSender = mailid.header.from//发件人
-        self.mailDate=mailid.header.receivedDate;//收件日期
+        self.mailSender = header.from//发件人
+        self.mailDate = header.receivedDate;//收件日期
         
         var tmpmailCcLists=[MCOAddress]();
         var tmpmailToLists=[MCOAddress]();
 
         
-        if mailid.header.to != nil
+        if header.to != nil
         {
             
-            tmpmailToLists=mailid.header.to as! [MCOAddress];
+            tmpmailToLists=header.to as! [MCOAddress];
         }
         
-        if mailid.header.cc != nil
+        if header.cc != nil
         {
-            tmpmailCcLists=mailid.header.cc as! [MCOAddress];
+            tmpmailCcLists=header.cc as! [MCOAddress];
 
         }
         
         self.setMailCcList(tmpmailCcLists)
         self.setMailToList(tmpmailToLists)
         
+
         
-        webView.loadHTMLString(htmlContent, baseURL: nil);
+        self.session=session;
+        self.folder=folder;
+        self.message=mailid;
         
+
+//        if self.attachments != nil{
+//        print("attatch count=\(self.attachments.count)");
+//        
+//        if self.attachments.count>0
+//        {
+//            let attachment=self.attachments[0] as! MCOAttachment
+//            print(attachment.filename);
+//
+//        }
+//        }
         
         self.AutoLayoutView();
+
+     
+        self.refresh();
+
         
         
     }
+    
+    //刷新邮件内容--2
+    func RefreshMailWithParser(session:MCOIMAPSession,msgPareser:MCOMessageParser,folder:String)
+    {
+        let header=msgPareser.header;
+        
+        self.mailSubject=header.subject;//邮件主题
+        
+        
+        self.mailSender = header.from//发件人
+        self.mailDate = header.receivedDate;//收件日期
+        
+        var tmpmailCcLists=[MCOAddress]();
+        var tmpmailToLists=[MCOAddress]();
+        
+        
+        if header.to != nil
+        {
+            
+            tmpmailToLists=header.to as! [MCOAddress];
+        }
+        
+        if header.cc != nil
+        {
+            tmpmailCcLists=header.cc as! [MCOAddress];
+            
+        }
+        
+        self.setMailCcList(tmpmailCcLists)
+        self.setMailToList(tmpmailToLists)
 
-  }
+        
+        //开始处理邮件信息
+        
+        // 获得邮件正文的HTML内容,供webView加载
+        let bodyHtml = msgPareser.htmlBodyRendering();//return String
+        
+        
+        // 获取附件(多个)
+        let mailAttatchments = msgPareser.attachments() as NSArray//NSMutableArray *
+        
+        // 拿到一个附件MCOAttachment,可从中得到文件名，文件内容data
+//         let attachment=mailAttatchments[0];//MCOAttachment
+        
+         print("attatchemnts count=\(mailAttatchments.count)");
+        
+        //                   print(html as String);
+        //self.mywebView.setHtmlContent(bodyHtml);
+        
+ //       self.session=session;
+   //     self.folder=folder;
+        
+//        self.mywebView.delegate =;
+        self.session=session;
+        self.folder=folder;
+
+        self.mywebView.folder=folder;
+        self.mywebView.message=msgPareser;
+
+        
+ //       self.message = msgPareser as MCOAbstractMessage
+
+
+        
+        self.AutoLayoutView();
+      
+        
+        
+       }
+
+/*
+    //UIWebViewDelegate//实现自动加载邮件中的图片
+
+    func webView(webView: UIWebView,
+        shouldStartLoadWithRequest request: NSURLRequest,
+        navigationType: UIWebViewNavigationType) -> Bool
+    {
+        let responseRequest = self.webView(self.mywebView,resource:nil,willSendRequest:request,redirectResponse:nil,fromDataSource:nil);
+        
+        if responseRequest == request
+        {
+            return true;
+        } else {
+            self.mywebView.loadRequest(responseRequest);
+            return false;
+        }
+
+    }
+
+ 
+    func webView(sender:UIWebView,resource:AnyObject?,willSendRequest request:NSURLRequest, redirectResponse:NSURLResponse?,fromDataSource:AnyObject?)->NSURLRequest
+{
+    
+    if request.URL!.scheme=="x-mailcore-msgviewloaded"
+    {
+       self.loadImages();
+    }
+    
+    return request;
+    
+}
+    
+
+    // 加载网页中的图片
+    func loadImages()
+    {
+   
+        let result = self.mywebView.stringByEvaluatingJavaScriptFromString("findCIDImageURL()");
+        
+    print("-----加载网页中的图片-----");
+    print(result);
+    
+    if (result == nil || result=="")
+    {
+        return;
+    }
+    
+    let data = result!.dataUsingEncoding(NSUTF8StringEncoding);
+    var error:NSError? = nil;
+        
+        
+        var imagesURLStrings:[String]?=nil;
+        
+        do
+        {
+        
+            try imagesURLStrings = NSJSONSerialization.JSONObjectWithData(data! ,options:NSJSONReadingOptions()) as? [String];
+        }
+        catch
+        {
+            return;
+        }
+    
+    for urlString in imagesURLStrings!
+    {
+        var part:MCOAbstractPart? = nil;
+        var url = NSURL(string:urlString);
+        
+    
+    if self._isCID(url!)
+    {
+        part = self._partForCIDURL(url!);
+    }
+    else if self._isXMailcoreImage(url!)
+    {
+        let specifier = url!.resourceSpecifier;
+        let partUniqueID = specifier;
+        part = self._partForUniqueID(partUniqueID);
+    }
+    
+    if (part == nil)
+    {
+        continue;
+    }
+    
+    let partUniqueID = part!.uniqueID;
+        
+        
+        let attachment:MCOAttachment  = (mymsgPaser!.partForUniqueID(partUniqueID) as? MCOAttachment)!;
+        
+    var data = attachment.data;
+    
+    if data != nil
+    {
+    
+    //获取文件路径
+    let tmpDirectory = NSTemporaryDirectory();
+    let filePath =
+        NSURL(fileURLWithPath: tmpDirectory).URLByAppendingPathComponent(attachment.filename).path!;
+    
+    let fileManger=NSFileManager.defaultManager;
+    if !fileManger().fileExistsAtPath(filePath)
+    {
+        //不存在就去请求加载
+        let attachmentData=attachment.data;
+        attachmentData.writeToFile(filePath,atomically:true);
+        NSLog("资源：%@已经下载至%@", attachment.filename,filePath);
+    }
+    
+    let cacheURL = NSURL.fileURLWithPath(filePath);
+        
+    let args:NSDictionary=["URLKey": urlString,"LocalPathKey": cacheURL.absoluteString];
+    
+    let jsonString = self._jsonEscapedStringFromDictionary(args);
+    let replaceScript = "replaceImageSrc\(jsonString)";
+    self.mywebView.stringByEvaluatingJavaScriptFromString(replaceScript);
+    }
+    }
+    }
+
+    func _jsonEscapedStringFromDictionary(dictionary:NSDictionary)->String
+    
+    {
+        
+        do
+        {
+            
+            let json = try NSJSONSerialization.dataWithJSONObject(dictionary,options:NSJSONWritingOptions())
+            
+            let jsonString = NSString(data:json,encoding:NSUTF8StringEncoding) as! String
+            
+            return jsonString;
+        }
+        catch
+        {
+            return "";
+        }
+
+    
+
+    }
+    
+    func _cacheJPEGImageData(imageData:NSData,withFilename filename:String)->NSURL
+    {
+    
+    let path = (NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent(filename)).URLByAppendingPathComponent("jpg").path!;
+    imageData.writeToFile(path,atomically:true);
+    return NSURL.fileURLWithPath(path);
+    }
+    
+    func _partForCIDURL(url:NSURL)->MCOAbstractPart
+    {
+        return message.partForContentID(url.resourceSpecifier);
+    }
+    
+    func _partForUniqueID(partUniqueID:String)->MCOAbstractPart
+    {
+        return message.partForUniqueID(partUniqueID);
+    }
+    
+    
+    func _isCID(url:NSURL)->Bool
+    {
+        let theScheme = url.scheme;
+        if theScheme.caseInsensitiveCompare("cid") == NSComparisonResult.OrderedSame
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    func _isXMailcoreImage(url:NSURL)->Bool
+    {
+       let theScheme = url.scheme;
+        if theScheme.caseInsensitiveCompare("x-mailcore-image") == NSComparisonResult.OrderedSame
+
+    {
+        return true;
+  
+        }
+    return false;
+    }
+*/
+
+}
 

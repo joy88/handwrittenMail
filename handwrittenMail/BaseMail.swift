@@ -72,7 +72,11 @@ protocol RefreshMailListDataDelegate
 //刷新邮件列表信息
 protocol RefreshMailDelegate
 {
-    func RefreshMailData(mailid:MCOIMAPMessage,htmlContent:String)
+    //这个方法更简单
+    func RefreshMailData(session:MCOIMAPSession,mailid:MCOIMAPMessage,folder:String);
+    //这个方法不用了
+    func RefreshMailWithParser(session:MCOIMAPSession,msgPareser:MCOMessageParser,folder:String);
+
 }
 
 
@@ -114,7 +118,7 @@ class BaseMail : NSObject, MailOperation {
     }
 
     //获取邮件信息
-func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
+    func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
 {
 
     }

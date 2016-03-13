@@ -16,6 +16,13 @@
 		2F1064641C8B141F00510B49 /* libMailCore-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064571C8B13EC00510B49 /* libMailCore-ios.a */; };
 		2F1064661C8B143400510B49 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064651C8B143400510B49 /* CFNetwork.framework */; };
 		2F1064681C8B143F00510B49 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064671C8B143F00510B49 /* Security.framework */; };
+		2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F41C94215F0072840F /* MCOMessageView.mm */; };
+		2F1E03F81C94215F0072840F /* MCTMsgViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */; };
+		2F1E04031C9425740072840F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04011C9425740072840F /* ImageIO.framework */; };
+		2F1E04051C9425960072840F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04041C9425960072840F /* CoreGraphics.framework */; };
+		2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F31C94215F0072840F /* MCOMessageView.h */; };
+		2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F51C94215F0072840F /* MCTMsgViewController.h */; };
+		2F1E04091C9446320072840F /* MCOMessageViewScript.js in Resources */ = {isa = PBXBuildFile; fileRef = 2F1E04081C9446320072840F /* MCOMessageViewScript.js */; };
 		2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */; };
 		2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */; };
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
@@ -102,6 +109,13 @@
 		2F1064651C8B143400510B49 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2F1064671C8B143F00510B49 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2F10646B1C8B158D00510B49 /* Maincore-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Maincore-Bridging-Header.h"; sourceTree = "<group>"; };
+		2F1E03F31C94215F0072840F /* MCOMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOMessageView.h; sourceTree = "<group>"; };
+		2F1E03F41C94215F0072840F /* MCOMessageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MCOMessageView.mm; sourceTree = "<group>"; };
+		2F1E03F51C94215F0072840F /* MCTMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTMsgViewController.h; sourceTree = "<group>"; };
+		2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MCTMsgViewController.mm; sourceTree = "<group>"; };
+		2F1E04011C9425740072840F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		2F1E04041C9425960072840F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2F1E04081C9446320072840F /* MCOMessageViewScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = MCOMessageViewScript.js; path = ../../../Desktop/MCOMessageViewScript.js; sourceTree = "<group>"; };
 		2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMailListViewCell.swift; sourceTree = "<group>"; };
 		2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIMailListViewCell.xib; sourceTree = "<group>"; };
 		2F508CC01C8DCD37006E9736 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +128,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F1E04051C9425960072840F /* CoreGraphics.framework in Frameworks */,
+				2F1E04031C9425740072840F /* ImageIO.framework in Frameworks */,
 				2F1064681C8B143F00510B49 /* Security.framework in Frameworks */,
 				2F1064661C8B143400510B49 /* CFNetwork.framework in Frameworks */,
 				2F1064641C8B141F00510B49 /* libMailCore-ios.a in Frameworks */,
@@ -126,6 +142,8 @@
 		2F1064291C8B133C00510B49 = {
 			isa = PBXGroup;
 			children = (
+				2F1E04041C9425960072840F /* CoreGraphics.framework */,
+				2F1E04011C9425740072840F /* ImageIO.framework */,
 				2F1064671C8B143F00510B49 /* Security.framework */,
 				2F1064651C8B143400510B49 /* CFNetwork.framework */,
 				2F1064491C8B13EC00510B49 /* mailcore2.xcodeproj */,
@@ -178,6 +196,11 @@
 		2F508CC21C8DD34E006E9736 /* MailFunction */ = {
 			isa = PBXGroup;
 			children = (
+				2F1E04081C9446320072840F /* MCOMessageViewScript.js */,
+				2F1E03F31C94215F0072840F /* MCOMessageView.h */,
+				2F1E03F41C94215F0072840F /* MCOMessageView.mm */,
+				2F1E03F51C94215F0072840F /* MCTMsgViewController.h */,
+				2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */,
 				2F508CC41C8DD3FB006E9736 /* BaseMail.swift */,
 				2F508CC61C8DD616006E9736 /* ImapMail.swift */,
 			);
@@ -327,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */,
+				2F1E04091C9446320072840F /* MCOMessageViewScript.js in Resources */,
 				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
 				2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */,
 				2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */,
@@ -340,8 +364,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */,
+				2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */,
+				2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */,
 				2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */,
 				2F10643A1C8B133C00510B49 /* DetailViewController.swift in Sources */,
+				2F1E03F81C94215F0072840F /* MCTMsgViewController.mm in Sources */,
 				2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */,
 				2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */,
 				2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */,

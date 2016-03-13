@@ -3,3 +3,5 @@
 //
 
 #import <MailCore/MailCore.h>
+#import <MCOMessageView.h>
+#import <MCTMsgViewController.h>
