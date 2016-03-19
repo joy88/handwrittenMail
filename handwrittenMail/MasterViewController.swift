@@ -67,7 +67,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         //初始化登录信息--126
         self.mailloginInfo.hostname="imap.126.com";
         self.mailloginInfo.username="chinagis001@126.com"
-        self.mailloginInfo.password=""
+        self.mailloginInfo.password="shiww761106"
         self.mailloginInfo.port=993;
         //-icloud
 //        self.mailloginInfo.hostname="p03-imap.mail.me.com";

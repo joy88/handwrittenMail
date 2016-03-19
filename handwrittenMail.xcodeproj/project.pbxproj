@@ -28,6 +28,30 @@
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
 		2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC41C8DD3FB006E9736 /* BaseMail.swift */; };
 		2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC61C8DD616006E9736 /* ImapMail.swift */; };
+		2F86230B1C9D06D500A86A84 /* ACAddressBookDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E31C9D06D500A86A84 /* ACAddressBookDataSource.m */; };
+		2F86230C1C9D06D500A86A84 /* ACArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E51C9D06D500A86A84 /* ACArrayDataSource.m */; };
+		2F86230D1C9D06D500A86A84 /* ACBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E71C9D06D500A86A84 /* ACBubble.m */; };
+		2F86230E1C9D06D500A86A84 /* ACItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E91C9D06D500A86A84 /* ACItemCell.m */; };
+		2F86230F1C9D06D500A86A84 /* ACTextArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622EC1C9D06D500A86A84 /* ACTextArea.m */; };
+		2F8623101C9D06D500A86A84 /* BaseBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622EF1C9D06D500A86A84 /* BaseBrush.swift */; };
+		2F8623111C9D06D500A86A84 /* BaseFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622F01C9D06D500A86A84 /* BaseFunction.swift */; };
+		2F8623121C9D06D500A86A84 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622F11C9D06D500A86A84 /* Board.swift */; };
+		2F8623171C9D06D500A86A84 /* BoardImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F8622F91C9D06D500A86A84 /* BoardImages.xcassets */; };
+		2F8623181C9D06D500A86A84 /* PaintingBrushSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622FB1C9D06D500A86A84 /* PaintingBrushSetting.swift */; };
+		2F86231A1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622FD1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift */; };
+		2F86231B1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F8622FE1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib */; };
+		2F86231D1C9D06D500A86A84 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623001C9D06D500A86A84 /* BoardViewController.swift */; };
+		2F86231E1C9D06D500A86A84 /* DashLineBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623021C9D06D500A86A84 /* DashLineBrush.swift */; };
+		2F86231F1C9D06D500A86A84 /* EllipseBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623031C9D06D500A86A84 /* EllipseBrush.swift */; };
+		2F8623201C9D06D500A86A84 /* EraserBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623041C9D06D500A86A84 /* EraserBrush.swift */; };
+		2F8623211C9D06D500A86A84 /* HighlightBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623051C9D06D500A86A84 /* HighlightBrush.swift */; };
+		2F8623221C9D06D500A86A84 /* ImageBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623061C9D06D500A86A84 /* ImageBrush.swift */; };
+		2F8623231C9D06D500A86A84 /* LineBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623071C9D06D500A86A84 /* LineBrush.swift */; };
+		2F8623241C9D06D500A86A84 /* PencilBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623081C9D06D500A86A84 /* PencilBrush.swift */; };
+		2F8623251C9D06D500A86A84 /* RectangleBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623091C9D06D500A86A84 /* RectangleBrush.swift */; };
+		2F8623261C9D06D500A86A84 /* TextBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F86230A1C9D06D500A86A84 /* TextBrush.swift */; };
+		2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */; };
+		2F8623391C9D100300A86A84 /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F8623381C9D100300A86A84 /* Board.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +145,36 @@
 		2F508CC01C8DCD37006E9736 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
 		2F508CC41C8DD3FB006E9736 /* BaseMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMail.swift; sourceTree = "<group>"; };
 		2F508CC61C8DD616006E9736 /* ImapMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImapMail.swift; sourceTree = "<group>"; };
+		2F8622E21C9D06D500A86A84 /* ACAddressBookDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAddressBookDataSource.h; sourceTree = "<group>"; };
+		2F8622E31C9D06D500A86A84 /* ACAddressBookDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAddressBookDataSource.m; sourceTree = "<group>"; };
+		2F8622E41C9D06D500A86A84 /* ACArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACArrayDataSource.h; sourceTree = "<group>"; };
+		2F8622E51C9D06D500A86A84 /* ACArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACArrayDataSource.m; sourceTree = "<group>"; };
+		2F8622E61C9D06D500A86A84 /* ACBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACBubble.h; sourceTree = "<group>"; };
+		2F8622E71C9D06D500A86A84 /* ACBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACBubble.m; sourceTree = "<group>"; };
+		2F8622E81C9D06D500A86A84 /* ACItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACItemCell.h; sourceTree = "<group>"; };
+		2F8622E91C9D06D500A86A84 /* ACItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACItemCell.m; sourceTree = "<group>"; };
+		2F8622EA1C9D06D500A86A84 /* ACTextArea-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ACTextArea-Bridging-Header.h"; sourceTree = "<group>"; };
+		2F8622EB1C9D06D500A86A84 /* ACTextArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACTextArea.h; sourceTree = "<group>"; };
+		2F8622EC1C9D06D500A86A84 /* ACTextArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACTextArea.m; sourceTree = "<group>"; };
+		2F8622EF1C9D06D500A86A84 /* BaseBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseBrush.swift; sourceTree = "<group>"; };
+		2F8622F01C9D06D500A86A84 /* BaseFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFunction.swift; sourceTree = "<group>"; };
+		2F8622F11C9D06D500A86A84 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		2F8622F91C9D06D500A86A84 /* BoardImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = BoardImages.xcassets; sourceTree = "<group>"; };
+		2F8622FB1C9D06D500A86A84 /* PaintingBrushSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintingBrushSetting.swift; sourceTree = "<group>"; };
+		2F8622FD1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetBkgroundViewCtrller.swift; sourceTree = "<group>"; };
+		2F8622FE1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetBkgroundViewCtrller.xib; sourceTree = "<group>"; };
+		2F8623001C9D06D500A86A84 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		2F8623021C9D06D500A86A84 /* DashLineBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashLineBrush.swift; sourceTree = "<group>"; };
+		2F8623031C9D06D500A86A84 /* EllipseBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EllipseBrush.swift; sourceTree = "<group>"; };
+		2F8623041C9D06D500A86A84 /* EraserBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EraserBrush.swift; sourceTree = "<group>"; };
+		2F8623051C9D06D500A86A84 /* HighlightBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighlightBrush.swift; sourceTree = "<group>"; };
+		2F8623061C9D06D500A86A84 /* ImageBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBrush.swift; sourceTree = "<group>"; };
+		2F8623071C9D06D500A86A84 /* LineBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineBrush.swift; sourceTree = "<group>"; };
+		2F8623081C9D06D500A86A84 /* PencilBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PencilBrush.swift; sourceTree = "<group>"; };
+		2F8623091C9D06D500A86A84 /* RectangleBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleBrush.swift; sourceTree = "<group>"; };
+		2F86230A1C9D06D500A86A84 /* TextBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextBrush.swift; sourceTree = "<group>"; };
+		2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaintingBrushSetting.xib; sourceTree = "<group>"; };
+		2F8623381C9D100300A86A84 /* Board.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Board.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +217,8 @@
 		2F1064341C8B133C00510B49 /* handwrittenMail */ = {
 			isa = PBXGroup;
 			children = (
+				2F8622E11C9D06D500A86A84 /* EMAILTEXTFIELD */,
+				2F8622ED1C9D06D500A86A84 /* HANDWRITOR */,
 				2F508CC31C8DD370006E9736 /* MainFrame */,
 				2F508CC21C8DD34E006E9736 /* MailFunction */,
 				2F10646C1C8B159B00510B49 /* SupportFile */,
@@ -222,6 +278,74 @@
 				2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */,
 			);
 			name = MainFrame;
+			sourceTree = "<group>";
+		};
+		2F8622E11C9D06D500A86A84 /* EMAILTEXTFIELD */ = {
+			isa = PBXGroup;
+			children = (
+				2F8622E21C9D06D500A86A84 /* ACAddressBookDataSource.h */,
+				2F8622E31C9D06D500A86A84 /* ACAddressBookDataSource.m */,
+				2F8622E41C9D06D500A86A84 /* ACArrayDataSource.h */,
+				2F8622E51C9D06D500A86A84 /* ACArrayDataSource.m */,
+				2F8622E61C9D06D500A86A84 /* ACBubble.h */,
+				2F8622E71C9D06D500A86A84 /* ACBubble.m */,
+				2F8622E81C9D06D500A86A84 /* ACItemCell.h */,
+				2F8622E91C9D06D500A86A84 /* ACItemCell.m */,
+				2F8622EA1C9D06D500A86A84 /* ACTextArea-Bridging-Header.h */,
+				2F8622EB1C9D06D500A86A84 /* ACTextArea.h */,
+				2F8622EC1C9D06D500A86A84 /* ACTextArea.m */,
+			);
+			path = EMAILTEXTFIELD;
+			sourceTree = "<group>";
+		};
+		2F8622ED1C9D06D500A86A84 /* HANDWRITOR */ = {
+			isa = PBXGroup;
+			children = (
+				2F8622EE1C9D06D500A86A84 /* Base */,
+				2F8622F91C9D06D500A86A84 /* BoardImages.xcassets */,
+				2F8622FA1C9D06D500A86A84 /* BoardSet */,
+				2F8623001C9D06D500A86A84 /* BoardViewController.swift */,
+				2F8623381C9D100300A86A84 /* Board.storyboard */,
+				2F8623011C9D06D500A86A84 /* Brushes */,
+			);
+			path = HANDWRITOR;
+			sourceTree = "<group>";
+		};
+		2F8622EE1C9D06D500A86A84 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				2F8622EF1C9D06D500A86A84 /* BaseBrush.swift */,
+				2F8622F01C9D06D500A86A84 /* BaseFunction.swift */,
+				2F8622F11C9D06D500A86A84 /* Board.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		2F8622FA1C9D06D500A86A84 /* BoardSet */ = {
+			isa = PBXGroup;
+			children = (
+				2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */,
+				2F8622FB1C9D06D500A86A84 /* PaintingBrushSetting.swift */,
+				2F8622FD1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift */,
+				2F8622FE1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib */,
+			);
+			path = BoardSet;
+			sourceTree = "<group>";
+		};
+		2F8623011C9D06D500A86A84 /* Brushes */ = {
+			isa = PBXGroup;
+			children = (
+				2F8623021C9D06D500A86A84 /* DashLineBrush.swift */,
+				2F8623031C9D06D500A86A84 /* EllipseBrush.swift */,
+				2F8623041C9D06D500A86A84 /* EraserBrush.swift */,
+				2F8623051C9D06D500A86A84 /* HighlightBrush.swift */,
+				2F8623061C9D06D500A86A84 /* ImageBrush.swift */,
+				2F8623071C9D06D500A86A84 /* LineBrush.swift */,
+				2F8623081C9D06D500A86A84 /* PencilBrush.swift */,
+				2F8623091C9D06D500A86A84 /* RectangleBrush.swift */,
+				2F86230A1C9D06D500A86A84 /* TextBrush.swift */,
+			);
+			path = Brushes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,9 +474,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */,
+				2F8623391C9D100300A86A84 /* Board.storyboard in Resources */,
+				2F86231B1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib in Resources */,
 				2F1E04091C9446320072840F /* MCOMessageViewScript.js in Resources */,
 				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
+				2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */,
 				2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */,
+				2F8623171C9D06D500A86A84 /* BoardImages.xcassets in Resources */,
 				2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,16 +492,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F8623111C9D06D500A86A84 /* BaseFunction.swift in Sources */,
+				2F86231D1C9D06D500A86A84 /* BoardViewController.swift in Sources */,
+				2F8623101C9D06D500A86A84 /* BaseBrush.swift in Sources */,
 				2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */,
 				2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */,
 				2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */,
+				2F8623181C9D06D500A86A84 /* PaintingBrushSetting.swift in Sources */,
+				2F8623211C9D06D500A86A84 /* HighlightBrush.swift in Sources */,
 				2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */,
 				2F10643A1C8B133C00510B49 /* DetailViewController.swift in Sources */,
 				2F1E03F81C94215F0072840F /* MCTMsgViewController.mm in Sources */,
+				2F86231E1C9D06D500A86A84 /* DashLineBrush.swift in Sources */,
+				2F86230C1C9D06D500A86A84 /* ACArrayDataSource.m in Sources */,
 				2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */,
 				2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */,
+				2F86230F1C9D06D500A86A84 /* ACTextArea.m in Sources */,
+				2F8623221C9D06D500A86A84 /* ImageBrush.swift in Sources */,
+				2F8623241C9D06D500A86A84 /* PencilBrush.swift in Sources */,
+				2F86231F1C9D06D500A86A84 /* EllipseBrush.swift in Sources */,
+				2F8623261C9D06D500A86A84 /* TextBrush.swift in Sources */,
+				2F86230E1C9D06D500A86A84 /* ACItemCell.m in Sources */,
+				2F86230B1C9D06D500A86A84 /* ACAddressBookDataSource.m in Sources */,
 				2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */,
+				2F86230D1C9D06D500A86A84 /* ACBubble.m in Sources */,
+				2F8623201C9D06D500A86A84 /* EraserBrush.swift in Sources */,
+				2F86231A1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift in Sources */,
 				2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */,
+				2F8623121C9D06D500A86A84 /* Board.swift in Sources */,
+				2F8623231C9D06D500A86A84 /* LineBrush.swift in Sources */,
+				2F8623251C9D06D500A86A84 /* RectangleBrush.swift in Sources */,
 				2F1064361C8B133C00510B49 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

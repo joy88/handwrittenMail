@@ -47,7 +47,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //1.右边第一个按钮
-        let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action: nil)
+        //编写新邮件
+        let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:"newMail:")
         //2.second
         let replyButton = UIBarButtonItem(barButtonSystemItem:.Reply, target: self, action: nil)
         let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: nil)
@@ -740,6 +741,18 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
     return false;
     }
 */
+
+    //编写新邮件
+    func newMail(sender: AnyObject) {
+        //added by shiww,弹出邮件编写界面
+        let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as UIViewController
+         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        let popOverController = popVC.popoverPresentationController
+        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popOverController?.permittedArrowDirections = .Any
+        self.presentViewController(popVC, animated: true, completion: nil)
+
+    }
 
 }
 

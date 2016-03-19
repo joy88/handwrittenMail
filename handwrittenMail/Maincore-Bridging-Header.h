@@ -5,3 +5,4 @@
 #import <MailCore/MailCore.h>
 #import <MCOMessageView.h>
 #import <MCTMsgViewController.h>
+#import <ACTextArea-Bridging-Header.h>
