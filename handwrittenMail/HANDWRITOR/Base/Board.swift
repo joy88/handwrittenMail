@@ -23,6 +23,41 @@ class Pages:NSObject
     var CurrentPage:Int=1;
     private var PageList=[String](["temp1"]);
     
+    //added by shiww,返回页面
+    
+    func getPageLists(forEvernote:Bool=true)->[String]
+    {
+        var pageList=[String]();
+        
+        
+        // 获取 Documents 目录
+        let docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray;
+        let docDir = docDirs[0] as! String;
+        var i:Int=0;
+        for i=1;i<=self.PageCount;i++
+        {
+            var pagefilePath=docDir+"/"+PageList[i-1];
+            
+            if forEvernote
+            {
+                pagefilePath=pagefilePath+"_ev.png";
+            }
+            else
+            {
+                pagefilePath=pagefilePath+".png";
+                
+            }
+            
+            pageList.append(pagefilePath);
+
+            
+        }
+        
+        return pageList;
+ 
+        
+    }
+    
     func addPage()//增加一个页面
     {
         PageCount=PageCount+1;

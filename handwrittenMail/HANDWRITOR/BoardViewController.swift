@@ -686,6 +686,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         mailSendBtn.layer.cornerRadius = 8
         mailSendBtn.layer.masksToBounds=true;
+        
+        mailSendBtn.addTarget(self,action: "doSendMail:",forControlEvents: UIControlEvents.TouchUpInside)//发送邮件
+
 
         
         
@@ -706,6 +709,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         mailCancelBtn.layer.cornerRadius = 8
         mailCancelBtn.layer.masksToBounds=true;
+        
+        mailCancelBtn.addTarget(self,action: "doCloseMailComposer:",forControlEvents: UIControlEvents.TouchUpInside)//关闭窗口
+
 
        
         //        private var mailTopicLbl=UILabel();//邮件主题标签
@@ -744,6 +750,127 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     @IBAction func viewExit(sender: UIButton) {
         self.dismissViewControllerAnimated(true,completion:nil);
     }
+    
+    
+    //发送邮件
+    func doSendMail(sender: UIButton)
+    {
+        //发送邮件
+        let smtpSession=MCOSMTPSession();
+        smtpSession.hostname = "smtp.126.com";
+        smtpSession.port = 465;
+        smtpSession.username = "chinagis001@126.com";
+        smtpSession.password = "";
+        smtpSession.connectionType = MCOConnectionType.TLS;
+        
+        let smtpOperation = smtpSession.loginOperation();
+        smtpOperation.start()
+        {
+            (error:NSError?)->Void in
+            
+            if (error == nil) {
+                print("login account successed");
+                // 构建邮件体的发送内容
+                let messageBuilder = MCOMessageBuilder();
+                messageBuilder.header.from = MCOAddress(displayName: "石伟伟", mailbox:"chinagis001@126.com");   // 发送人
+                
+                var canSendMail=true;//是否符合发邮件的条件
+                
+                var mailTo=self.mailToInputText.getEmailLists();
+//                mailTo.append(MCOAddress(displayName: "石伟伟", mailbox:"shiweiwei@supermap.com"));
+//                mailTo.append(MCOAddress(displayName: "卧龙居", mailbox:"139761106@qq.com"));
+                
+                if mailTo.count==0
+                {
+                    canSendMail=false;
+                }
+
+                
+                messageBuilder.header.to=mailTo;       // 收件人（多人）
+                
+                var mailCc=self.mailCcInputText.getEmailLists();
+             //   mailCc.append(MCOAddress(displayName: "石伟伟icloud", mailbox:"shiwwgis@me.com"));
+               // mailCc.append(MCOAddress(displayName: "卧龙居", mailbox:"139761106@qq.com"));
+
+                
+                messageBuilder.header.cc = mailCc;      // 抄送（多人）
+//                messageBuilder.header.bcc = @[[MCOAddress addressWithMailbox:@"444444@qq.com"]];    // 密送（多人）
+                messageBuilder.header.subject = "From石伟伟,来自手写邮件APP的测试邮件";    // 邮件标题
+                //messageBuilder.textBody = "";           // 邮件正文
+//                messageBuilder.htmlBody="<html><body><div>This is a HTML content</div><div><img src=\"cid:123\"></div></body></html>";
+                
+                var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
+
+                
+//                NSString * path = [_builderPath stringByAppendingPathComponent:@"photo.jpg"];
+//                [builder addAttachment:[MCOAttachment attachmentWithContentsOfFile:path]];
+//                path = [_builderPath stringByAppendingPathComponent:@"photo2.jpg"];
+//                MCOAttachment * attachment = [MCOAttachment attachmentWithContentsOfFile:path];
+//                [attachment setContentID:@"123"];
+//                [builder addRelatedAttachment:attachment];
+                
+                self.saveCurrentPages(UIButton());//保存一下当前手写信息
+                
+                let pageLists=self.pages.getPageLists();
+                
+                var index:Int=0;
+                
+                for pageList in pageLists
+                {
+                    index++;
+                    
+                    var cid="cngis-\(index)";
+                    
+                    htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+                    
+                    
+                    let attachment=MCOAttachment(contentsOfFile:pageList);
+                    attachment.contentID=cid;
+                    messageBuilder.addRelatedAttachment(attachment);
+
+                    
+                }
+                
+                htmlBody=htmlBody+"</body></html>";
+                
+                print("htmlBody=\(htmlBody)");
+                
+                messageBuilder.htmlBody=htmlBody;
+                
+                //发送邮件
+                
+                let rfc822Data = messageBuilder.data();
+                let sendOperation = smtpSession.sendOperationWithData(rfc822Data);
+                sendOperation.start()
+                    {
+                        (error:NSError?) -> Void in
+                        if error==nil
+                        {
+                            print("发送成功!");
+                        }
+                        else
+                        {
+                            print("发送不成功!%@",error);
+                            //存放到草稿箱中
+   
+                        }
+                }
+
+            }
+            else
+            {
+                print("login account failure: %@", error);
+                
+        }
+     }
+    }
+    
+    func doCloseMailComposer(sender: UIButton)
+    {
+        //self.mailComposerView.hidden=true;
+        self.mailToInputText.getEmailLists();
+    }
+
 }
 
 
@@ -755,7 +882,7 @@ extension ACTextArea
     {
         self.frame = CGRectMake(x,y,width,height);
         
-          self.backgroundColor = UIColor.whiteColor();
+        self.backgroundColor = UIColor.whiteColor();
         
         //设置字体
         
@@ -777,19 +904,61 @@ extension ACTextArea
         self.layer.cornerRadius = 8
         self.layer.masksToBounds=true;
         
-//       self.loadItems(["Felipe Saint-Jean","Test User","Jack"]);
+        //       self.loadItems(["Felipe Saint-Jean","Test User","Jack"]);
         let arr = ACAddressBookDataSource();
         self.placeholder="email...";
         self.autoCompleteDataSource = arr;
-
-
         
-       }
+        
+        
+    }
     
     
-    
-    
+    //获取邮件地址
+    func getEmailLists()->[MCOAddress]
+    {
+        var emailLists=[MCOAddress]();
+        
+        var tempStr="";
+        
+        var displayName="";
+        var email:String="";
+        
+        for item in self.items
+        {
+            
+            
+            if item is ACAddressBookElement
+            {
+                let a=item as! ACAddressBookElement;
+                displayName=a.last_name+a.first_name;
+                email=a.email;
+                emailLists.append(MCOAddress(displayName: displayName, mailbox: email));
+
+            }
+            
+            if item is String
+            {
+                tempStr="\(item)";
+                
+                let atRange=tempStr.rangeOfString("@");
+                
+                if atRange != nil
+                {
+                    displayName="";
+                    email=tempStr
+                    emailLists.append(MCOAddress(displayName: displayName, mailbox: email));
+
+                }
+                
+            }
+        }
+        
+        return emailLists;
+        
+    }
 }
+
 
 
 

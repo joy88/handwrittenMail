@@ -109,8 +109,15 @@
     
 	NSMutableString * html = [NSMutableString string];
 	NSURL * jsURL = [[NSBundle mainBundle] URLForResource:@"MCOMessageViewScript" withExtension:@"js"];
+    /*
 	[html appendFormat:@"<html><head><script src=\"%@\"></script></head><body'>%@</body><iframe src='x-mailcore-msgviewloaded:' style='width: 0px; height: 0px; border: none;'></iframe></html>",
-	 [jsURL absoluteString], content];
+	 [jsURL absoluteString], content];*/
+    
+    [html appendFormat:@"<html><head><style>img{max-width:1024px !important;}</style><script src=\"%@\"></script></head><body'>%@</body><iframe src='x-mailcore-msgviewloaded:' style='width: 0px; height: 0px; border: none;'></iframe></html>",
+     [jsURL absoluteString], content];
+
+    
+    
 	[_webView loadHTMLString:html baseURL:nil];
 }
 

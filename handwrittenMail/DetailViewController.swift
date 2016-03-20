@@ -259,7 +259,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         
         self.mywebView.frame=CGRectMake(marginSpace,top8+3, bounds.width-2*marginSpace,bounds.height-top8);
         
-        print("mywebview bounds=\(mywebView.frame)");
+      //  print("mywebview bounds=\(mywebView.frame)");
  
         
         //
