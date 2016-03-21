@@ -61,6 +61,14 @@
     return _message;
 }
 
+//added by shiww
+- (UIWebView *) webView
+{
+    return _webView;
+}
+//added end
+
+//added by shiww
 - (void) _refresh
 {
     _webView.frame =self.bounds;//added by shiww

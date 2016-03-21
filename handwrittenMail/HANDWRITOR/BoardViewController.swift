@@ -67,11 +67,12 @@ extension NSUserDefaults {
 
 class BoardViewController: UIViewController,UIPopoverPresentationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
-    var mailTo=[MCOAddress]();//收件人
-    var mailCc=[MCOAddress]();//抄送
-    var mailTopic="";//邮件主题
+    var mailTo=[MCOAddress]();//MARK:收件人
+    var mailCc=[MCOAddress]();//MARK:抄送
+    var mailTopic="";//MARK:邮件主题
+    var mailOrign:UIImage?;//MARK:邮件原文,转发或回复时有用
     
-    @IBOutlet weak var btnInsertImg: UIButton!//插入图片
+    @IBOutlet weak var btnInsertImg: UIButton!//MARK:插入图片
   
  //    @IBOutlet weak var toolboxView: UIView!
     
@@ -559,7 +560,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
     }
     
-    //划动手势支持,确定是否显示工具条
+    //MARK:划动手势支持,确定是否显示工具条
     func handleSwipeGesture(sender: UISwipeGestureRecognizer){
         //划动的方向
         let direction = sender.direction
@@ -587,7 +588,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
             break
         }
     }
-    //保存系统参数
+    //MARK:保存系统参数
     func saveSystemPara()
     {
         /// 1、利用NSUserDefaults存储数据
@@ -602,7 +603,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         defaults.synchronize();
         
     }
-    //加载系统参数
+    //MARK:加载系统参数
     private func loadSystemPara()
     {
         let defaults = NSUserDefaults.standardUserDefaults();
@@ -630,7 +631,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
     }
     
-    //发邮件地址录入窗口自动布局
+    //MARK:发邮件地址录入窗口自动布局
     private func AutoLayoutMailComposerView(startX:CGFloat,startY:CGFloat,frameWidth:CGFloat)
     {
 //        private var mailComposerView:UIView=UIView();//收件人都录入窗口
@@ -752,13 +753,13 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
 
     }
     
-    //关闭窗口
+    //MARK:关闭窗口
     @IBAction func viewExit(sender: UIButton) {
         self.dismissViewControllerAnimated(true,completion:nil);
     }
     
     
-    //发送邮件
+    //MARK:发送邮件
     func doSendMail(sender: UIButton)
     {
         //发送邮件
@@ -838,6 +839,26 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     
                 }
                 
+                //如果是回复或转发邮件,则需要把老邮件附件-图片格式
+                if self.mailOrign != nil
+                {
+                    
+                    htmlBody=htmlBody+"<br/><p>以下是原邮件内容</p><br/>";
+
+                    index++;
+                    
+                    var cid="cngis-\(index)";
+                    
+                    htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+                    
+                    
+                    let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: "originMail.png");
+                    attachment.contentID=cid;
+                    messageBuilder.addRelatedAttachment(attachment);
+                }
+                //老邮件添加完毕
+                
+                
                 htmlBody=htmlBody+"</body></html>";
                 
                 print("htmlBody=\(htmlBody)");
@@ -872,13 +893,14 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         }
      }
     }
-    
+    //MARK:关闭邮件地址录入窗口
     func doCloseMailComposer(sender: UIButton)
     {
         self.mailComposerView.hidden=true;
         //self.mailToInputText.getEmailLists();
     }
     
+    //MARK:回复邮件时构建邮件头信息
     private func loadMailHeader()
     {
         //收件人
@@ -921,10 +943,10 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
 }
 
 
-
+//MARK:ACTextArea扩展
 extension ACTextArea
 {
-    //代码创建UILabel
+    //MARK:代码创建UILabel
     func setTextArea(x:CGFloat,y:CGFloat,width:CGFloat,height:CGFloat,fonSize:CGFloat,isBold:Bool,color:UIColor)
     {
         self.frame = CGRectMake(x,y,width,height);
@@ -961,7 +983,7 @@ extension ACTextArea
     }
     
     
-    //获取邮件地址
+    //MARK:获取邮件地址
     func getEmailLists()->[MCOAddress]
     {
         var emailLists=[MCOAddress]();

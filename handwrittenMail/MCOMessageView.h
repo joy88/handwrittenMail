@@ -22,6 +22,10 @@
 @property (nonatomic, assign) BOOL prefetchIMAPImagesEnabled;
 @property (nonatomic, assign) BOOL prefetchIMAPAttachmentsEnabled;
 
+//added by shiww
+@property (nonatomic, copy) UIWebView * webView;
+
+
 - (void) setHtmlContent:(NSString *)content;
 
 @end

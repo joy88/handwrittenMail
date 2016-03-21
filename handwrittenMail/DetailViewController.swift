@@ -13,35 +13,35 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
 //    private var mymessage=MCOIMAPMessage();//当前打开的邮件
 //    private var mymsgPaser:MCOMessageParser?;//邮件解析
     
-    var mywebView=MCOMessageView()//邮件正文
+    var mywebView=MCOMessageView()//MARK:邮件正文
     
-    private var mailFromLbl=UILabel()//"发件人"标签
-    private var mailFromBtn=UIEmailButton()//发件人显示按钮
-    private var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
+    private var mailFromLbl=UILabel()//MARK:邮件正文"发件人"标签
+    private var mailFromBtn=UIEmailButton()//MARK:邮件正文发件人显示按钮
+    private var infoHideBtn=UIButton()//MARK:邮件正文"隐藏"或"显示"按钮
     
-    private var mailToLbl=UILabel()//"收件人"标签
-    private var mailToBtns=[UIEmailButton]();//收件人
-    private var mailCcLbl=UILabel();//"抄送"按钮
-    private var mailCcBtns=[UIEmailButton]()//抄送人
+    private var mailToLbl=UILabel()//MARK:邮件正文"收件人"标签
+    private var mailToBtns=[UIEmailButton]();//MARK:邮件正文收件人
+    private var mailCcLbl=UILabel();//MARK:邮件正文"抄送"按钮
+    private var mailCcBtns=[UIEmailButton]()////MARK:邮件正文抄送人
     
-    private var lineLbl=UILabel();//灰色分割线
-    private var lineLbl2=UILabel();//灰色分割线
+    private var lineLbl=UILabel();//MARK:邮件正文灰色分割线
+    private var lineLbl2=UILabel();//MARK:灰色分割线
 
 
     
-    private var subjectLbl=UILabel()//邮件主题
-    private var mailDateLbl=UILabel()//邮件收到时间
+    private var subjectLbl=UILabel()//MARK:邮件主题
+    private var mailDateLbl=UILabel()//MARK:邮件收到时间
     
-    private var attachLbl=UILabel()//附件标签"附件"
-    private var attachBtns=[UIEmailButton]();//附件按钮
+    private var attachLbl=UILabel()//MARK:附件标签"附件"
+    private var attachBtns=[UIEmailButton]();//MARK:附件按钮
 
     
     
-    var mailSender=MCOAddress(displayName: "石伟伟", mailbox: "Chinagis001@126.com")!;//发件人地址
-    private var mailToLists=[MCOAddress]();//收件人地址列表
-    private var mailCcLists=[MCOAddress]();//抄送人地址列表
+    var mailSender=MCOAddress(displayName: "石伟伟", mailbox: "Chinagis001@126.com")!;//MARK:发件人地址
+    private var mailToLists=[MCOAddress]();//MARK:收件人地址列表
+    private var mailCcLists=[MCOAddress]();//MARK:抄送人地址列表
     var mailSubject="邮件主题";
-    var mailDate=NSDate();//邮件日期
+    var mailDate=NSDate();//MARK:邮件日期
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,18 +49,31 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         //1.右边第一个按钮
         //编写新邮件
         let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:"newMail:")
-        //2.回复邮件
+        //2.回复邮件至发送人
         let replyButton = UIBarButtonItem(barButtonSystemItem:.Reply, target: self, action: "replyMail:")
+        replyButton.tag=0;//==1 代表回复全部
+        
+        //3.回复邮件至所有
+        
+        //如果是自定义图片,必须得有imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),否则是个纯色图片
+        let replyallButton = UIBarButtonItem(image: UIImage(named: "replyall")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: "replyMail:")
+        replyallButton.tag=1;//==1 代表回复全部
+        
+        //4.转发邮件
+        
+        let forwardButton = UIBarButtonItem(image: UIImage(named: "forward")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: "forwardMail:")
+
+
+
+        
         //3.delete mail
         let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: nil)
         
         let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: nil)
-        //如果是自定义图片,必须得有imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),否则是个纯色图片
-        let moreButton = UIBarButtonItem(image: UIImage(named: "master3")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: nil)
         
         
         
-        let rightItems=[composeButton,replyButton,trashButton,organizeButton,moreButton];
+        let rightItems=[composeButton,replyButton,replyallButton,forwardButton,trashButton,organizeButton];
         
         
         self.navigationItem.rightBarButtonItems = rightItems
@@ -267,7 +280,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
 
     }
 
-    //通知监听触发的方法
+    //MARK:通知监听触发的方法
     func receivedRotation(){
         var device = UIDevice.currentDevice()
         switch device.orientation{
@@ -285,7 +298,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
     }
     
     
-    //只创建按钮,不布局,收件人列表
+    //MARK:只创建按钮,不布局,收件人列表
     func setMailToList(emaillist:[MCOAddress])
     {
         self.mailToLists=emaillist;
@@ -308,7 +321,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         
     }
     
-    //只创建按钮,不布局,抄送人列表
+    //MARK:只创建按钮,不布局,抄送人列表
     func setMailCcList(emaillist:[MCOAddress])
     {
         self.mailCcLists=emaillist;
@@ -331,7 +344,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         
     }
     
-    //只创建按钮,不布局,抄送人列表
+    //MARK:只创建按钮,不布局,抄送人列表
     func setAttachmentList()
     {
         if self.message == nil{
@@ -369,7 +382,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
     }
 
 
-    //email List自动布局,需和setMailFromList配合
+    //MARK:email List自动布局,需和setMailFromList配合
     //viewWdith=self.view.Bounds.width
     func AutoLayoutMailListBtn(emaillistBtn:[UIEmailButton],viewWidth:CGFloat,X:CGFloat,Y:CGFloat,Width:CGFloat,Hight:CGFloat,xSpace:CGFloat,ySpace:CGFloat,FontSize:CGFloat,isBold:Bool=false,color:UIColor,isHidden:Bool=false)->CGFloat//返回右下角坐标的Y值
     {
@@ -412,7 +425,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         return result;
     }
 
-    //响应email地址点击事件
+    //MARK:响应email地址点击事件
     func emailClicked(button: UIEmailButton)
     {
 //        let mainStoryboard = UIStoryboard(name:"Main", bundle:nil)
@@ -422,7 +435,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         print(button.mailAddress.mailbox)
     }
     
-    //show or hide mailto and maincc
+    //MARK:show or hide mailto and maincc
     func hideMailToCC(button: UIButton)
     {
         //        let mainStoryboard = UIStoryboard(name:"Main", bundle:nil)
@@ -433,7 +446,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         self.AutoLayoutView(button.selected)
     }
     
-    //刷新邮件内容--1
+    //MARK:刷新邮件内容--1
     func RefreshMailData(session:MCOIMAPSession,mailid:MCOIMAPMessage,folder:String)
     {
         let header=mailid.header;
@@ -490,7 +503,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         
     }
     
-    //刷新邮件内容--2
+    //MARK:刷新邮件内容--2 弃用了
     func RefreshMailWithParser(session:MCOIMAPSession,msgPareser:MCOMessageParser,folder:String)
     {
         let header=msgPareser.header;
@@ -535,27 +548,13 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         
          print("attatchemnts count=\(mailAttatchments.count)");
         
-        //                   print(html as String);
-        //self.mywebView.setHtmlContent(bodyHtml);
-        
- //       self.session=session;
-   //     self.folder=folder;
-        
-//        self.mywebView.delegate =;
-        self.session=session;
+          self.session=session;
         self.folder=folder;
 
         self.mywebView.folder=folder;
         self.mywebView.message=msgPareser;
-
-        
- //       self.message = msgPareser as MCOAbstractMessage
-
-
         
         self.AutoLayoutView();
-      
-        
         
        }
 
@@ -743,7 +742,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
     }
 */
 
-    //编写新邮件
+    //MARK:编写新邮件
     func newMail(sender: AnyObject) {
         //added by shiww,弹出邮件编写界面
         let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as UIViewController
@@ -755,7 +754,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
 
     }
     
-    //回复老邮件
+    //MARK:全部回复邮件
     func replyMail(sender: AnyObject) {
         if self.message==nil
         {
@@ -777,17 +776,21 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         var tmpmailCcLists=[MCOAddress]();
         var tmpmailToLists=[MCOAddress]();
         
-        
-        if header.to != nil
+        if sender.tag==1 //回复全部,else 回复发件人
         {
             
-            tmpmailToLists=header.to as! [MCOAddress];
-        }
-        
-        if header.cc != nil
-        {
-            tmpmailCcLists=header.cc as! [MCOAddress];
+            if header.to != nil
+            {
+                
+                tmpmailCcLists=header.to as! [MCOAddress];
+            }
             
+            if header.cc != nil
+            {
+                tmpmailCcLists.appendContentsOf(
+                header.cc as! [MCOAddress]);
+                
+            }
         }
         
         tmpmailToLists.append(header.from);
@@ -795,11 +798,73 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         popVC.mailTopic="回复:from石伟伟"+header.subject;//邮件主题;
         popVC.mailTo=tmpmailToLists;
         popVC.mailCc=tmpmailCcLists;
+        popVC.mailOrign=self.mywebView.exportViewToPng();
+
         
         self.presentViewController(popVC, animated: true, completion: nil)
         
     }
+    
+    
+    //MARK:转发邮件
+    func forwardMail(sender: AnyObject) {
+        self.mywebView.exportViewToPng();
+        
+    }
 
 
+
+}
+
+//MARK:MCOMessageView的扩展,可以将webview的内容保存为图片
+extension MCOMessageView
+{
+    //整个WebView视图保存为图片
+    func exportViewToPng()->UIImage
+    {
+        let scrollView=self.webView.scrollView;
+        
+        let boundsSize = self.webView.bounds.size;
+        let boundsWidth = self.webView.bounds.size.width;
+        let boundsHeight = self.webView.bounds.size.height;
+        
+        let offset = scrollView.contentOffset;
+        scrollView.setContentOffset(CGPointMake(0,0),animated: false);
+        
+        
+        var contentHeight = scrollView.contentSize.height;
+         var images = [UIImage]();
+        while (contentHeight > 0)
+        {
+            UIGraphicsBeginImageContext(boundsSize);
+            self.layer.renderInContext(UIGraphicsGetCurrentContext()!);
+            let image = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            images.append(image);
+            
+            let offsetY = scrollView.contentOffset.y;
+            scrollView.setContentOffset(CGPointMake(0, offsetY + boundsHeight),animated: false);
+            contentHeight -= boundsHeight;
+        }
+        
+        scrollView.setContentOffset(offset,animated:false);
+        
+        UIGraphicsBeginImageContext(scrollView.contentSize);
+        
+        var idx:CGFloat=0;
+        for image in images
+        {
+            image.drawInRect(CGRectMake(0, boundsHeight*idx, boundsWidth, boundsHeight));
+            idx++;
+        };
+        let fullImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+//        UIImageWriteToSavedPhotosAlbum(fullImage, self,nil, nil)
+
+        return fullImage;
+    }
+    
 }
 
