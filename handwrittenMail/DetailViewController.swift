@@ -49,8 +49,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         //1.右边第一个按钮
         //编写新邮件
         let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:"newMail:")
-        //2.second
-        let replyButton = UIBarButtonItem(barButtonSystemItem:.Reply, target: self, action: nil)
+        //2.回复邮件
+        let replyButton = UIBarButtonItem(barButtonSystemItem:.Reply, target: self, action: "replyMail:")
+        //3.delete mail
         let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: nil)
         
         let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: nil)
@@ -753,6 +754,52 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         self.presentViewController(popVC, animated: true, completion: nil)
 
     }
+    
+    //回复老邮件
+    func replyMail(sender: AnyObject) {
+        if self.message==nil
+        {
+            return;
+        }
+        //added by shiww,弹出邮件编写界面
+        let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        let popOverController = popVC.popoverPresentationController
+        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popOverController?.permittedArrowDirections = .Any
+        
+        let header=self.message.header;
+        
+        //self.mailSubject=header.subject;//邮件主题
+        
+        
+        
+        var tmpmailCcLists=[MCOAddress]();
+        var tmpmailToLists=[MCOAddress]();
+        
+        
+        if header.to != nil
+        {
+            
+            tmpmailToLists=header.to as! [MCOAddress];
+        }
+        
+        if header.cc != nil
+        {
+            tmpmailCcLists=header.cc as! [MCOAddress];
+            
+        }
+        
+        tmpmailToLists.append(header.from);
+        
+        popVC.mailTopic="回复:from石伟伟"+header.subject;//邮件主题;
+        popVC.mailTo=tmpmailToLists;
+        popVC.mailCc=tmpmailCcLists;
+        
+        self.presentViewController(popVC, animated: true, completion: nil)
+        
+    }
+
 
 }
 

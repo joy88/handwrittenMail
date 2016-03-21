@@ -67,6 +67,10 @@ extension NSUserDefaults {
 
 class BoardViewController: UIViewController,UIPopoverPresentationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
+    var mailTo=[MCOAddress]();//收件人
+    var mailCc=[MCOAddress]();//抄送
+    var mailTopic="";//邮件主题
+    
     @IBOutlet weak var btnInsertImg: UIButton!//插入图片
   
  //    @IBOutlet weak var toolboxView: UIView!
@@ -308,6 +312,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         //初始化邮件发送信息录入窗口//by shiww
     
         AutoLayoutMailComposerView(10,startY:60,frameWidth:self.board.bounds.width-20);
+        
+        self.loadMailHeader();//回复邮件时加载邮件头信息
         
         //划动手势支持,added by shiww
         //上划关闭工具条
@@ -795,19 +801,20 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 messageBuilder.header.cc = mailCc;      // 抄送（多人）
 //                messageBuilder.header.bcc = @[[MCOAddress addressWithMailbox:@"444444@qq.com"]];    // 密送（多人）
-                messageBuilder.header.subject = "From石伟伟,来自手写邮件APP的测试邮件";    // 邮件标题
-                //messageBuilder.textBody = "";           // 邮件正文
-//                messageBuilder.htmlBody="<html><body><div>This is a HTML content</div><div><img src=\"cid:123\"></div></body></html>";
+                if self.mailTopicInputText.text==""
+                {
+                    canSendMail=false;
+                    
+                }
+                messageBuilder.header.subject = self.mailTopicInputText.text  // 邮件标题
+                if !canSendMail
+                {
+                    self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
+                    return;//不能发送邮件了
+                }
                 
                 var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
 
-                
-//                NSString * path = [_builderPath stringByAppendingPathComponent:@"photo.jpg"];
-//                [builder addAttachment:[MCOAttachment attachmentWithContentsOfFile:path]];
-//                path = [_builderPath stringByAppendingPathComponent:@"photo2.jpg"];
-//                MCOAttachment * attachment = [MCOAttachment attachmentWithContentsOfFile:path];
-//                [attachment setContentID:@"123"];
-//                [builder addRelatedAttachment:attachment];
                 
                 self.saveCurrentPages(UIButton());//保存一下当前手写信息
                 
@@ -847,6 +854,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                         if error==nil
                         {
                             print("发送成功!");
+                            self.dismissViewControllerAnimated(true,completion: nil);
                         }
                         else
                         {
@@ -867,9 +875,48 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     
     func doCloseMailComposer(sender: UIButton)
     {
-        //self.mailComposerView.hidden=true;
-        self.mailToInputText.getEmailLists();
+        self.mailComposerView.hidden=true;
+        //self.mailToInputText.getEmailLists();
     }
+    
+    private func loadMailHeader()
+    {
+        //收件人
+        var items=[ACAddressBookElement]();
+        for mailto in self.mailTo
+        {
+            let item=ACAddressBookElement();
+
+            item.email=mailto.mailbox;
+            item.first_name=mailto.displayName;
+            item.last_name="";
+            items.append(item)
+            
+        }
+        self.mailToInputText.loadItems(items);
+        
+        //收件人
+        items.removeAll();
+
+
+        for mailcc in self.mailCc
+        {
+            let item=ACAddressBookElement();
+
+            item.email=mailcc.mailbox;
+            item.first_name=mailcc.displayName;
+            item.last_name="";
+            items.append(item)
+            
+        }
+        self.mailCcInputText.loadItems(items);
+        
+        //邮件主题
+        self.mailTopicInputText.text=self.mailTopic;
+
+        
+    }
+
 
 }
 
@@ -957,6 +1004,7 @@ extension ACTextArea
         return emailLists;
         
     }
+    
 }
 
 

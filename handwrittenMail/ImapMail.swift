@@ -233,10 +233,25 @@ class ImapMail : BaseMail {
                 {
                     messagecount = (info?.messageCount)!;
                     
+                    if messagecount==0
+                    {
+                        let messageList=[MCOIMAPMessage]();
+                        
+                        delegate.RefreshMailListData(messageList);
+
+                        return;
+                    }
+                    
                     // 获取邮件信息
                     
-                    var numberOfMessages:Int32 = 30;
-//                    numberOfMessages -= 1;
+                    var numberOfMessages:Int32 = 50;
+                    
+                    if messagecount<numberOfMessages
+                    {
+                        numberOfMessages=messagecount;
+                    }
+                    
+                    numberOfMessages -= 1;
                     
                     let numbers = MCOIndexSet(range: MCORangeMake(UInt64(messagecount-numberOfMessages), UInt64(numberOfMessages)));
                     
