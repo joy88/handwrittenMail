@@ -248,8 +248,9 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             
             //隐藏导航栏
             self.navigationController?.pushViewController(maillistViewController!, animated: true);
-            
-           self.mail.getMailList(foldname, delegate: maillistViewController!);
+           
+        
+            self.mail.getMailList(foldname, delegate: maillistViewController!,upFresh: true);
             
         }
     }
@@ -266,7 +267,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         return section;
     }
     
-    // UITableViewDataSource协议中的方法，该方法的返回值决定指定分区的Header文字信息
+    // MARK:UITableViewDataSource协议中的方法，该方法的返回值决定指定分区的Header文字信息
     override func tableView(tableView:UITableView, titleForHeaderInSection
         section:Int)->String?
     {
@@ -279,7 +280,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
     }
     
-    // UITableViewDataSource协议中的方法，该方法的返回值决定指定分区的尾部
+    // MARK:UITableViewDataSource协议中的方法，该方法的返回值决定指定分区的尾部
     override func tableView(tableView:UITableView, titleForFooterInSection
         section:Int)->String?
     {

@@ -121,7 +121,7 @@
 	[html appendFormat:@"<html><head><script src=\"%@\"></script></head><body'>%@</body><iframe src='x-mailcore-msgviewloaded:' style='width: 0px; height: 0px; border: none;'></iframe></html>",
 	 [jsURL absoluteString], content];*/
     
-    [html appendFormat:@"<html><head><style>img{max-width:1024px !important;}</style><script src=\"%@\"></script></head><body'>%@</body><iframe src='x-mailcore-msgviewloaded:' style='width: 0px; height: 0px; border: none;'></iframe></html>",
+    [html appendFormat:@"<html><head><style>img{max-width:1000px !important;}</style><script src=\"%@\"></script></head><body'>%@</body><iframe src='x-mailcore-msgviewloaded:' style='width: 0px; height: 0px; border: none;'></iframe></html>",
      [jsURL absoluteString], content];
 
     

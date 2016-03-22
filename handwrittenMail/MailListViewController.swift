@@ -21,6 +21,33 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     var detailViewController: DetailViewController? = nil
     
     
+    func setupRefresh(){
+        self.tableView.addHeaderWithCallback({
+              let delayInSeconds = Int64(NSEC_PER_SEC) * 2
+            let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
+            dispatch_after(popTime, dispatch_get_main_queue(), {
+                self.mail.getMailList("$SAMEFOLDER",delegate:self,upFresh:true)
+                self.tableView.headerEndRefreshing()
+            })
+            
+        })
+        
+        
+        
+        self.tableView.addFooterWithCallback({
+              let delayInSeconds:Int64 = Int64(NSEC_PER_SEC) * 2
+            let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
+            dispatch_after(popTime, dispatch_get_main_queue(), {
+                self.mail.getMailList("$SAMEFOLDER",delegate:self,upFresh:false)
+                self.tableView.footerEndRefreshing()
+                
+                //self.tableView.setFooterHidden(true)
+            })
+        })
+    }
+
+    
+    //MARK:viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,18 +77,20 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         self.navigationController?.setToolbarHidden(false, animated:true)
         
         //登记一个可重用的CELL
-        var nib = UINib(nibName: "UIMailListViewCell", bundle: nil)
+        let nib = UINib(nibName: "UIMailListViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "maillist")
+        
+        setupRefresh();//下拉刷新,上拉加载
     }
     
-    //加右边按钮
+    //MARK:加右边按钮
     func setupRightBarButtonItem()
     {
         let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: "rightBarButtonItemClicked")
         self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
-    //增加事件
+    //MARK:增加事件
     func rightBarButtonItemClicked()
     {
         
@@ -89,7 +118,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print("count=\(mailList.count)");
+       // print("count=\(mailList.count)");
         return mailList.count;
     }
     
@@ -197,7 +226,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         }
     }
     
-    
+    //MARK:刷新邮件列表
     func RefreshMailListData(objData:[MCOIMAPMessage])
     {
         self.mailList=objData;

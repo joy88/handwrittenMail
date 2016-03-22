@@ -8,23 +8,20 @@
 
 import Foundation
 
+//MARK:单次获取的邮件数量
+let NUMBEROFMSGLOAD:Int32 = 20;
+
 
 
 class ImapMail : BaseMail {
-    //JS代码串
- //   private var jsCode:String="";
-    //初始化
+    private var messageTotalList=[MCOIMAPMessage]();//当前目录下已经加载的邮件列表
+    //MARK:初始化
     override init(_ maillogininfo: mailLoginInfo) {
         super.init(maillogininfo);
         
         let imapSession = MCOIMAPSession();
         
         
-  /*
-        imapSession.connectionLogger = {
-            (connectionID:unsafePointer,type:MCOConnectionLogType, data:NSData)->Void in
-            print("ID: %p, type: %d, data: %@", connectionID,type,NSString(data: data, encoding: NSUTF8StringEncoding));
-        };*/
         
         self.mailconnection=imapSession;
         
@@ -57,22 +54,10 @@ class ImapMail : BaseMail {
             
         };
         
-//        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
         
-        //获取要在webveiw中注入的JScipt代码
-        
-/*        jsCode = NSBundle.mainBundle().URLForResource("WebviewDelegate", withExtension:"js")!.path!;
-        
-        do {
-            jsCode = try NSString(contentsOfFile: jsCode, encoding: NSUTF8StringEncoding) as String
-        }
-        catch {/* error handling here */}
-        
-        print(jsCode);*/
-            
 
     }
-    //获取邮件目录
+    //MARK:获取邮件目录
     override func getMailFolder()->MAILFOLDERS
     {
         var mailFolders:MAILFOLDERS=["INBOX":mailFolderMeta(),"已发送":mailFolderMeta(),"草稿箱":mailFolderMeta()];
@@ -166,7 +151,7 @@ class ImapMail : BaseMail {
                                     folderMeta.mailCount=mailCount;
 
                                     //mail 数量
-                                    print("foldername=\(folderName)");
+                                   // print("foldername=\(folderName)");
                                     
                                     mailFolders.updateValue(folderMeta,forKey: folderName);
                                     
@@ -200,9 +185,34 @@ class ImapMail : BaseMail {
         
         return mailFolders;
     }
-    //获取邮件列表
-    override func getMailList(folder:String,delegate:RefreshMailListDataDelegate)
+    //MARK:获取邮件列表
+    override func getMailList(folder:String,delegate:RefreshMailListDataDelegate,upFresh:Bool)
     {
+        var folderName=folder;//"INBOX";
+
+        
+        let imapSession=self.mailconnection as! MCOIMAPSession;
+        
+        
+        folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
+        
+        if folder=="$SAMEFOLDER"
+        {
+            folderName=self.mailFolderName;
+        }
+        else
+        {
+            if self.mailFolderName != folderName //表示切换了邮件目录
+            {
+                self.messageTotalList.removeAll();
+                self.messageStart=0;
+                self.messageCount=0;
+                self.messageEnd=0;
+            }
+            self.mailFolderName=folderName;//保存一下,获取邮件正文信息的时候还要用
+        }
+
+          
         
         let requestKind = MCOIMAPMessagesRequestKind(rawValue: MCOIMAPMessagesRequestKind.Headers.rawValue | MCOIMAPMessagesRequestKind.Structure.rawValue |
             MCOIMAPMessagesRequestKind.InternalDate.rawValue | MCOIMAPMessagesRequestKind.HeaderSubject.rawValue |
@@ -214,14 +224,6 @@ class ImapMail : BaseMail {
         
         var messagecount:Int32=0;
         
-        let imapSession=self.mailconnection as! MCOIMAPSession;
-        
-        var folderName=folder;//"INBOX";
-        folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
-        
-        self.mailFolderName=folderName;//保存一下,获取邮件正文信息的时候还要用
-
-        
         
         let imapFetchMailCountOp = imapSession.folderInfoOperation(folderName);
         
@@ -232,28 +234,57 @@ class ImapMail : BaseMail {
                 if error == nil
                 {
                     messagecount = (info?.messageCount)!;
+                    self.messageCount=messagecount;//邮件总数记录下来
                     
                     if messagecount==0
                     {
-                        let messageList=[MCOIMAPMessage]();
                         
-                        delegate.RefreshMailListData(messageList);
+                        self.messageTotalList.removeAll();
+                        
+                        delegate.RefreshMailListData(self.messageTotalList);
 
                         return;
                     }
                     
                     // 获取邮件信息
+                    var numberOfMsgLoad:Int32 = 0;
+                    var msgLoadStart:Int32=0;
                     
-                    var numberOfMessages:Int32 = 50;
-                    
-                    if messagecount<numberOfMessages
+                    if upFresh //下拉刷新
                     {
-                        numberOfMessages=messagecount;
+                        numberOfMsgLoad = NUMBEROFMSGLOAD;
+                    
+                        if messagecount < numberOfMsgLoad
+                        {
+                            numberOfMsgLoad=messagecount;
+                        }
+                        
+                        msgLoadStart=messagecount-numberOfMsgLoad;
+                        
                     }
+                    else
+                    {
+                        numberOfMsgLoad = NUMBEROFMSGLOAD;
+
+                        msgLoadStart=self.messageStart-numberOfMsgLoad;
+                        
+                        
+                        if msgLoadStart<0
+                        {
+                            numberOfMsgLoad=NUMBEROFMSGLOAD
+                            +msgLoadStart;
+                            msgLoadStart=0;
+                        }
+                       }
                     
-                    numberOfMessages -= 1;
+                    //要记录下当前的位置
+                    self.messageStart=msgLoadStart;
+                    self.messageEnd=messagecount;
+
                     
-                    let numbers = MCOIndexSet(range: MCORangeMake(UInt64(messagecount-numberOfMessages), UInt64(numberOfMessages)));
+                    //numberOfMsgLoad -= 1;
+                    
+                    let numbers = MCOIndexSet(range: MCORangeMake(UInt64(self.messageStart), UInt64(numberOfMsgLoad)));
                     
                     
                     let imapMessagesFetchOp = imapSession.fetchMessagesByNumberOperationWithFolder(folderName,
@@ -268,13 +299,25 @@ class ImapMail : BaseMail {
                             {
                                 messageList=messages as! [MCOIMAPMessage];
                                 messageList=messageList.reverse();
+                                
+                                if upFresh //下拉刷新
+                                {
+                                    self.messageTotalList.insertContentsOf(messageList, at:0)
+                                }
+                                else //上拉加载
+                                {
+                                    self.messageTotalList.appendContentsOf(messageList);                                 
+                                }
                             }
                             else
                             {
                                 print("get \(folderName)'s mail fail,because \(error)");
                                 
                             }
-                            delegate.RefreshMailListData(messageList);
+                            
+ //                           print("maillistcount=\("self.messageTotalList.count")");
+                            
+                            delegate.RefreshMailListData(self.messageTotalList);
                             
                             
                     }
@@ -285,7 +328,7 @@ class ImapMail : BaseMail {
         
     }
     
-    //获取邮件信息
+    //MARK:获取邮件信息
     override func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
     {
         

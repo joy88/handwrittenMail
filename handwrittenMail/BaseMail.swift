@@ -85,39 +85,42 @@ protocol MailOperation {
     //获取邮件目录
     func getMailFolder()->MAILFOLDERS;
     //获取邮件列表
-    func getMailList(folder:String,delegate:RefreshMailListDataDelegate);
+    func getMailList(folder:String,delegate:RefreshMailListDataDelegate,upFresh:Bool);
     //获取邮件信息
     func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
 }
 
 class BaseMail : NSObject, MailOperation {
-//    var mailFolders:MAILFOLDERS?;//邮件目录
-    //邮件连接Session,需要在init中初始化
+    //MARK:邮件连接Session,需要在init中初始化
     var mailconnection:NSObject?;
-    //邮件是否可以连接
+    //MARK:邮件是否可以连接
     var isCanBeConnected:Bool=false;
     
     var delegate:RefreshMailDataDelegate?;
     
     var mailFolderName="INBOX";//当前邮件目录
     
+    var messageStart:Int32=0;//MARK:当前已加载的邮件起始位置
+    var messageEnd:Int32=0;//MARK:当前已加载的邮件结束位置
+    var messageCount:Int32=0//MARK:邮件数量
+   
     
 
     init(_ maillogininfo:mailLoginInfo) {
         self.mailconnection=nil;//NSObject();
     }
-    //获取邮件目录
+    //MARK:获取邮件目录
     func getMailFolder()->MAILFOLDERS
     {
         return MAILFOLDERS();
     }
-    //获取邮件列表
-    func getMailList(folder:String,delegate:RefreshMailListDataDelegate)
+    //MARK:获取邮件列表
+    func getMailList(folder:String,delegate:RefreshMailListDataDelegate,upFresh:Bool)
     {
         
     }
 
-    //获取邮件信息
+    //MARK:获取邮件信息
     func getMail(mailid:MCOIMAPMessage, delegateMail:RefreshMailDelegate)
 {
 

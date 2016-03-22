@@ -546,7 +546,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         // 拿到一个附件MCOAttachment,可从中得到文件名，文件内容data
 //         let attachment=mailAttatchments[0];//MCOAttachment
         
-         print("attatchemnts count=\(mailAttatchments.count)");
+       //  print("attatchemnts count=\(mailAttatchments.count)");
         
           self.session=session;
         self.folder=folder;

@@ -22,7 +22,6 @@
 		2F1E04051C9425960072840F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04041C9425960072840F /* CoreGraphics.framework */; };
 		2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F31C94215F0072840F /* MCOMessageView.h */; };
 		2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F51C94215F0072840F /* MCTMsgViewController.h */; };
-		2F1E04091C9446320072840F /* MCOMessageViewScript.js in Resources */ = {isa = PBXBuildFile; fileRef = 2F1E04081C9446320072840F /* MCOMessageViewScript.js */; };
 		2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */; };
 		2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */; };
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
@@ -52,6 +51,14 @@
 		2F8623261C9D06D500A86A84 /* TextBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F86230A1C9D06D500A86A84 /* TextBrush.swift */; };
 		2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */; };
 		2F8623391C9D100300A86A84 /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F8623381C9D100300A86A84 /* Board.storyboard */; };
+		2F8922B21CA17EC100A78CA1 /* MCOMessageViewScript.js in Resources */ = {isa = PBXBuildFile; fileRef = 2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */; };
+		2FE5F6711CA198300056BAE4 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE5F66A1CA198300056BAE4 /* arrow@2x.png */; };
+		2FE5F6721CA198300056BAE4 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66B1CA198300056BAE4 /* Refresh.swift */; };
+		2FE5F6731CA198300056BAE4 /* RefreshBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66C1CA198300056BAE4 /* RefreshBaseView.swift */; };
+		2FE5F6741CA198300056BAE4 /* RefreshConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66D1CA198300056BAE4 /* RefreshConst.swift */; };
+		2FE5F6751CA198300056BAE4 /* RefreshFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66E1CA198300056BAE4 /* RefreshFooterView.swift */; };
+		2FE5F6761CA198300056BAE4 /* RefreshHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66F1CA198300056BAE4 /* RefreshHeaderView.swift */; };
+		2FE5F6771CA198300056BAE4 /* UIScrollView+Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F6701CA198300056BAE4 /* UIScrollView+Refresh.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,7 +146,6 @@
 		2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MCTMsgViewController.mm; sourceTree = "<group>"; };
 		2F1E04011C9425740072840F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2F1E04041C9425960072840F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2F1E04081C9446320072840F /* MCOMessageViewScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = MCOMessageViewScript.js; path = ../../../Desktop/MCOMessageViewScript.js; sourceTree = "<group>"; };
 		2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMailListViewCell.swift; sourceTree = "<group>"; };
 		2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIMailListViewCell.xib; sourceTree = "<group>"; };
 		2F508CC01C8DCD37006E9736 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +181,14 @@
 		2F86230A1C9D06D500A86A84 /* TextBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextBrush.swift; sourceTree = "<group>"; };
 		2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaintingBrushSetting.xib; sourceTree = "<group>"; };
 		2F8623381C9D100300A86A84 /* Board.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Board.storyboard; sourceTree = "<group>"; };
+		2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MCOMessageViewScript.js; sourceTree = "<group>"; };
+		2FE5F66A1CA198300056BAE4 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
+		2FE5F66B1CA198300056BAE4 /* Refresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
+		2FE5F66C1CA198300056BAE4 /* RefreshBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshBaseView.swift; sourceTree = "<group>"; };
+		2FE5F66D1CA198300056BAE4 /* RefreshConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshConst.swift; sourceTree = "<group>"; };
+		2FE5F66E1CA198300056BAE4 /* RefreshFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshFooterView.swift; sourceTree = "<group>"; };
+		2FE5F66F1CA198300056BAE4 /* RefreshHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshHeaderView.swift; sourceTree = "<group>"; };
+		2FE5F6701CA198300056BAE4 /* UIScrollView+Refresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Refresh.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +231,7 @@
 		2F1064341C8B133C00510B49 /* handwrittenMail */ = {
 			isa = PBXGroup;
 			children = (
+				2FE5F6691CA198300056BAE4 /* Refresh */,
 				2F8622E11C9D06D500A86A84 /* EMAILTEXTFIELD */,
 				2F8622ED1C9D06D500A86A84 /* HANDWRITOR */,
 				2F508CC31C8DD370006E9736 /* MainFrame */,
@@ -252,7 +267,7 @@
 		2F508CC21C8DD34E006E9736 /* MailFunction */ = {
 			isa = PBXGroup;
 			children = (
-				2F1E04081C9446320072840F /* MCOMessageViewScript.js */,
+				2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */,
 				2F1E03F31C94215F0072840F /* MCOMessageView.h */,
 				2F1E03F41C94215F0072840F /* MCOMessageView.mm */,
 				2F1E03F51C94215F0072840F /* MCTMsgViewController.h */,
@@ -346,6 +361,20 @@
 				2F86230A1C9D06D500A86A84 /* TextBrush.swift */,
 			);
 			path = Brushes;
+			sourceTree = "<group>";
+		};
+		2FE5F6691CA198300056BAE4 /* Refresh */ = {
+			isa = PBXGroup;
+			children = (
+				2FE5F66A1CA198300056BAE4 /* arrow@2x.png */,
+				2FE5F66B1CA198300056BAE4 /* Refresh.swift */,
+				2FE5F66C1CA198300056BAE4 /* RefreshBaseView.swift */,
+				2FE5F66D1CA198300056BAE4 /* RefreshConst.swift */,
+				2FE5F66E1CA198300056BAE4 /* RefreshFooterView.swift */,
+				2FE5F66F1CA198300056BAE4 /* RefreshHeaderView.swift */,
+				2FE5F6701CA198300056BAE4 /* UIScrollView+Refresh.swift */,
+			);
+			path = Refresh;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,9 +505,10 @@
 				2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */,
 				2F8623391C9D100300A86A84 /* Board.storyboard in Resources */,
 				2F86231B1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib in Resources */,
-				2F1E04091C9446320072840F /* MCOMessageViewScript.js in Resources */,
 				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
 				2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */,
+				2F8922B21CA17EC100A78CA1 /* MCOMessageViewScript.js in Resources */,
+				2FE5F6711CA198300056BAE4 /* arrow@2x.png in Resources */,
 				2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */,
 				2F8623171C9D06D500A86A84 /* BoardImages.xcassets in Resources */,
 				2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */,
@@ -497,6 +527,7 @@
 				2F8623101C9D06D500A86A84 /* BaseBrush.swift in Sources */,
 				2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */,
 				2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */,
+				2FE5F6761CA198300056BAE4 /* RefreshHeaderView.swift in Sources */,
 				2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */,
 				2F8623181C9D06D500A86A84 /* PaintingBrushSetting.swift in Sources */,
 				2F8623211C9D06D500A86A84 /* HighlightBrush.swift in Sources */,
@@ -515,12 +546,17 @@
 				2F86230E1C9D06D500A86A84 /* ACItemCell.m in Sources */,
 				2F86230B1C9D06D500A86A84 /* ACAddressBookDataSource.m in Sources */,
 				2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */,
+				2FE5F6721CA198300056BAE4 /* Refresh.swift in Sources */,
 				2F86230D1C9D06D500A86A84 /* ACBubble.m in Sources */,
 				2F8623201C9D06D500A86A84 /* EraserBrush.swift in Sources */,
+				2FE5F6751CA198300056BAE4 /* RefreshFooterView.swift in Sources */,
+				2FE5F6731CA198300056BAE4 /* RefreshBaseView.swift in Sources */,
 				2F86231A1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift in Sources */,
 				2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */,
+				2FE5F6741CA198300056BAE4 /* RefreshConst.swift in Sources */,
 				2F8623121C9D06D500A86A84 /* Board.swift in Sources */,
 				2F8623231C9D06D500A86A84 /* LineBrush.swift in Sources */,
+				2FE5F6771CA198300056BAE4 /* UIScrollView+Refresh.swift in Sources */,
 				2F8623251C9D06D500A86A84 /* RectangleBrush.swift in Sources */,
 				2F1064361C8B133C00510B49 /* AppDelegate.swift in Sources */,
 			);
@@ -595,6 +631,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -633,6 +670,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-D RELEASE";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
