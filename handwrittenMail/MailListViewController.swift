@@ -147,13 +147,29 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         info.attach = msg.attachments().count;
         
         
-        cell.mailFlagImg.image=UIImage(named:"green");//已读,未读标志
+        if msg.flags.contains(MCOMessageFlag.Seen)
+        {
+            cell.mailFlagImg.image=UIImage(named:"read");//已读,未读标志
+        }
+        else
+        {
+            cell.mailFlagImg.image=UIImage(named:"unread");//已读,未读标志
+            
+        }
         cell.mailFromLbl.text=info.name;//发件人
         cell.mailDateLbl.text="\(info.sendTime)";
         cell.mailDigestLbl.text="\(info.sendTime)";
         
         cell.mailSubjectLbl.text=info.subject;
-        cell.mailAttatchImgFlag.image=UIImage(named:"green");//是否有附件
+        
+        if info.attach > 0
+        {
+        cell.mailAttatchImgFlag.image=UIImage(named:"hasattatch");//是否有附件
+        }
+        else{
+            cell.mailAttatchImgFlag.image=UIImage(named:"read");//是否有附件
+ 
+        }
         
         
         return cell;
