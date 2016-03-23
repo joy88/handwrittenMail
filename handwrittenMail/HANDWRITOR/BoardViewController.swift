@@ -766,8 +766,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         let smtpSession=MCOSMTPSession();
         smtpSession.hostname = "smtp.126.com";
         smtpSession.port = 465;
-        smtpSession.username = "chinagis001@126.com";
-        smtpSession.password = "shiww761106";
+        smtpSession.username = "shiwwtest@126.com";
+        smtpSession.password = "sww761106";
         smtpSession.connectionType = MCOConnectionType.TLS;
         
         let smtpOperation = smtpSession.loginOperation();
@@ -861,7 +861,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 htmlBody=htmlBody+"</body></html>";
                 
-                print("htmlBody=\(htmlBody)");
+             //   print("htmlBody=\(htmlBody)");
                 
                 messageBuilder.htmlBody=htmlBody;
                 

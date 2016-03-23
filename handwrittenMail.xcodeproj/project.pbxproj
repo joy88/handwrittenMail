@@ -52,6 +52,7 @@
 		2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */; };
 		2F8623391C9D100300A86A84 /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F8623381C9D100300A86A84 /* Board.storyboard */; };
 		2F8922B21CA17EC100A78CA1 /* MCOMessageViewScript.js in Resources */ = {isa = PBXBuildFile; fileRef = 2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */; };
+		2FCF4B351CA2D6DC008BFB3D /* SwiftDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCF4B341CA2D6DC008BFB3D /* SwiftDate.swift */; };
 		2FE5F6711CA198300056BAE4 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE5F66A1CA198300056BAE4 /* arrow@2x.png */; };
 		2FE5F6721CA198300056BAE4 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66B1CA198300056BAE4 /* Refresh.swift */; };
 		2FE5F6731CA198300056BAE4 /* RefreshBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66C1CA198300056BAE4 /* RefreshBaseView.swift */; };
@@ -182,6 +183,7 @@
 		2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaintingBrushSetting.xib; sourceTree = "<group>"; };
 		2F8623381C9D100300A86A84 /* Board.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Board.storyboard; sourceTree = "<group>"; };
 		2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MCOMessageViewScript.js; sourceTree = "<group>"; };
+		2FCF4B341CA2D6DC008BFB3D /* SwiftDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDate.swift; sourceTree = "<group>"; };
 		2FE5F66A1CA198300056BAE4 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		2FE5F66B1CA198300056BAE4 /* Refresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
 		2FE5F66C1CA198300056BAE4 /* RefreshBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshBaseView.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 		2F1064341C8B133C00510B49 /* handwrittenMail */ = {
 			isa = PBXGroup;
 			children = (
+				2FCF4B2C1CA2D6CE008BFB3D /* thirdparty */,
 				2FE5F6691CA198300056BAE4 /* Refresh */,
 				2F8622E11C9D06D500A86A84 /* EMAILTEXTFIELD */,
 				2F8622ED1C9D06D500A86A84 /* HANDWRITOR */,
@@ -361,6 +364,14 @@
 				2F86230A1C9D06D500A86A84 /* TextBrush.swift */,
 			);
 			path = Brushes;
+			sourceTree = "<group>";
+		};
+		2FCF4B2C1CA2D6CE008BFB3D /* thirdparty */ = {
+			isa = PBXGroup;
+			children = (
+				2FCF4B341CA2D6DC008BFB3D /* SwiftDate.swift */,
+			);
+			name = thirdparty;
 			sourceTree = "<group>";
 		};
 		2FE5F6691CA198300056BAE4 /* Refresh */ = {
@@ -527,6 +538,7 @@
 				2F8623101C9D06D500A86A84 /* BaseBrush.swift in Sources */,
 				2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */,
 				2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */,
+				2FCF4B351CA2D6DC008BFB3D /* SwiftDate.swift in Sources */,
 				2FE5F6761CA198300056BAE4 /* RefreshHeaderView.swift in Sources */,
 				2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */,
 				2F8623181C9D06D500A86A84 /* PaintingBrushSetting.swift in Sources */,

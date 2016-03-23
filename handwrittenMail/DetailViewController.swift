@@ -498,6 +498,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
 
      
         self.refresh();
+        
+        //设置邮件状态为已读
 
         
         
@@ -811,9 +813,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
         self.mywebView.exportViewToPng();
         
     }
-
-
-
+    
+ 
 }
 
 //MARK:MCOMessageView的扩展,可以将webview的内容保存为图片

@@ -26,6 +26,41 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     
     var maillistViewController: MailListViewController? = nil
     
+    //MARK:下拉刷新,上拉加载
+    func setupRefresh(){
+        self.tableView.addHeaderWithCallback({
+            self.setupStatus("正在加载邮件目录");
+            
+            let delayInSeconds = Int64(NSEC_PER_SEC) * 2
+            let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
+            dispatch_after(popTime, dispatch_get_main_queue(), {
+                
+                self.mailFolders=self.mail.getMailFolder();
+                
+                self.tableView.headerEndRefreshing()
+            })
+            
+        })
+        
+        
+        
+        self.tableView.addFooterWithCallback({
+            
+            self.setupStatus("正在加载邮件目录");
+            
+            let delayInSeconds:Int64 = Int64(NSEC_PER_SEC) * 2
+            let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
+            dispatch_after(popTime, dispatch_get_main_queue(), {
+                
+                self.mailFolders=self.mail.getMailFolder();
+                
+                self.tableView.footerEndRefreshing()
+                
+                //self.tableView.setFooterHidden(true)
+            })
+        })
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +90,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
         
         
-        self.navigationController?.toolbar.tintColor=UIColor.redColor();
+        //self.navigationController?.toolbar.tintColor=UIColor.redColor();
         
         
         
@@ -71,8 +106,8 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         //初始化登录信息--126
         self.mailloginInfo.hostname="imap.126.com";
-        self.mailloginInfo.username="chinagis001@126.com"
-        self.mailloginInfo.password="shiww761106"
+        self.mailloginInfo.username="shiwwtest@126.com"
+        self.mailloginInfo.password="sww761106"
         self.mailloginInfo.port=993;
         //-icloud
 //        self.mailloginInfo.hostname="p03-imap.mail.me.com";
@@ -87,6 +122,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         //获取文件夾信息
         self.mailFolders=mail.getMailFolder();
         
+        setupRefresh();//下拉刷新,上拉加载
         
         maillistViewController!.mail=self.mail;
         
@@ -307,6 +343,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
 //        print("foldername in list =\(mailfolder.0)")
 //    }
     self.tableView.reloadData();
+    self.setupStatus("邮件列表刚刚更新");
     }
     
     private  func getIndexFolder(index:Int)->mailFolderMeta
@@ -357,6 +394,14 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     {
         
     }
+    
+    //MARK:设置底部状态栏信息
+    func setupStatus(info:String)
+    {
+        let statusbar=self.navigationController?.topViewController!.toolbarItems![0];
+        statusbar?.title=info;
+    }
+
     
 }
 

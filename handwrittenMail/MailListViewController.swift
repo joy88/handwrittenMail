@@ -20,9 +20,11 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
     var detailViewController: DetailViewController? = nil
     
-    
+    //MARK:下拉刷新,上拉加载
     func setupRefresh(){
         self.tableView.addHeaderWithCallback({
+            self.setupStatus("正在加载邮件列表");
+
               let delayInSeconds = Int64(NSEC_PER_SEC) * 2
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
             dispatch_after(popTime, dispatch_get_main_queue(), {
@@ -35,6 +37,9 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         
         self.tableView.addFooterWithCallback({
+            
+            self.setupStatus("正在加载邮件列表");
+
               let delayInSeconds:Int64 = Int64(NSEC_PER_SEC) * 2
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
             dispatch_after(popTime, dispatch_get_main_queue(), {
@@ -66,7 +71,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         setupRightBarButtonItem();
         
         //3.加底部状态信息
-        let statusbutton = UIBarButtonItem(title: "编辑加底部状态信息", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+        let statusbutton = UIBarButtonItem(title: "刚刚更新", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
         statusbutton.width=0;//调左边距的(self.navigationController?.toolbar.bounds.width)!;
         
         
@@ -75,6 +80,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
         
         self.navigationController?.setToolbarHidden(false, animated:true)
+        
         
         //登记一个可重用的CELL
         let nib = UINib(nibName: "UIMailListViewCell", bundle: nil)
@@ -157,8 +163,39 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             
         }
         cell.mailFromLbl.text=info.name;//发件人
-        cell.mailDateLbl.text="\(info.sendTime)";
-        cell.mailDigestLbl.text="\(info.sendTime)";
+        
+        let sendtime = info.sendTime;
+        var timeStamp = sendtime.toString(format: DateFormat.Custom("HH:mm"));//HH：两位字符串表示“小时”（例如08或19）
+        var timePrefix="";
+        if sendtime.isToday()
+        {
+            timePrefix="";
+        }
+        else
+        if sendtime.isYesterday()
+        {
+            timePrefix="昨天";
+        }
+        else
+        if sendtime.isYesterday()
+        {
+            timePrefix=sendtime.weekdayName
+        }
+        else
+            {
+                timePrefix=sendtime.toShortDateString();
+        }
+        
+        timeStamp=timePrefix+timeStamp;
+
+
+        
+        
+        cell.mailDateLbl.text=timeStamp;
+        
+        timeStamp=sendtime.toString(format: DateFormat.Custom("YYYY-MM-DD EEEE HH:mm"));
+        
+        cell.mailDigestLbl.text=timeStamp;//目前没有提取摘要信息
         
         cell.mailSubjectLbl.text=info.subject;
         
@@ -225,20 +262,29 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        /*       // 跳转到detailViewController，取消选中状态
-        self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
-        //更具定义的Segue Indentifier进行跳转
-        self.performSegueWithIdentifier("ShowMaillist", sender: siteLists![indexPath.row])*/
-
+  
         if indexPath.row >= 0
         {
-            //            self.detailViewController?.hidesBottomBarWhenPushed=true;
+  
             
             self.mail.getMail(self.mailList[indexPath.row], delegateMail: detailViewController!)
             
+            let delayInSeconds = Int64(NSEC_PER_SEC) * 2
+            let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
+            dispatch_after(popTime, dispatch_get_main_queue(), {
+                //设置read/unread状态
+                self.setReaded(true,uid:UInt64(self.mailList[indexPath.row].uid),folder:self.mail.mailFolderName)
+                
+                self.mailList[indexPath.row].flags=[self.mailList[indexPath.row].flags,MCOMessageFlag.Seen];
+                
+                let tableview=self.view as! UITableView;
+                
+                
+                tableview.reloadRowsAtIndexPaths([indexPath],withRowAnimation:UITableViewRowAnimation.None);
+              
+            })
             
- //           detailViewController!.detailItem = mailContent;
-            
+ 
         }
     }
     
@@ -248,6 +294,8 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         self.mailList=objData;
         let tableview=self.view as! UITableView;
         tableview.reloadData();
+        self.setupStatus("邮件列表刚刚更新");
+
     }
     
     //返回行高
@@ -256,4 +304,34 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         //计算行高，返回，textview根据数据计算高度
         return 111;
     }
+    
+    //MARK:设置底部状态栏信息
+    func setupStatus(info:String)
+    {
+        let statusbar=self.navigationController?.topViewController!.toolbarItems![0];
+        statusbar?.title=info;
+    }
+    
+    //Mark:设置消息为已读/未读
+    func setReaded(readed:Bool,uid:UInt64,folder:String)
+    {
+        let imapSession=self.mail.mailconnection as! MCOIMAPSession;
+        let folderName = imapSession.defaultNamespace.pathForComponents([folder]);
+        
+        let op2 = imapSession.storeFlagsOperationWithFolder(folderName,
+                                                            uids:MCOIndexSet(index:uid),kind:(readed ? MCOIMAPStoreFlagsRequestKind.Set:MCOIMAPStoreFlagsRequestKind.Remove),
+                                                            flags:MCOMessageFlag.Seen);
+        
+        op2.start { (error:NSError?) in
+            if error==nil
+            {
+                print("undo/redo设置成功!")
+                
+            }
+            
+        }
+        
+    }
+    
+    
 }

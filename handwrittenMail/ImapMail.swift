@@ -168,7 +168,7 @@ class ImapMail : BaseMail {
 
                     }
                     
-                    print("Mail Folder's count=\(mailFolders.count)");
+                  //  print("Mail Folder's count=\(mailFolders.count)");
 
                     
                     
@@ -252,14 +252,26 @@ class ImapMail : BaseMail {
                     
                     if upFresh //下拉刷新
                     {
-                        numberOfMsgLoad = NUMBEROFMSGLOAD;
-                    
-                        if messagecount < numberOfMsgLoad
+                        numberOfMsgLoad = messagecount-self.messageEnd;
+
+                        if (numberOfMsgLoad > NUMBEROFMSGLOAD)
                         {
-                            numberOfMsgLoad=messagecount;
+                            numberOfMsgLoad = NUMBEROFMSGLOAD
+                            
                         }
                         
+         //               print("numberOfMsgLoad=\(numberOfMsgLoad),messagecount=\(messagecount)");
+                    
+//                        if (messagecount<numberOfMsgLoad)
+//                        {
+//                            numberOfMsgLoad=messagecount;
+//                        }
+                        
+                        
                         msgLoadStart=messagecount-numberOfMsgLoad;
+                        
+                        self.messageEnd=messagecount;
+
                         
                     }
                     else
@@ -271,20 +283,20 @@ class ImapMail : BaseMail {
                         
                         if msgLoadStart<0
                         {
-                            numberOfMsgLoad=NUMBEROFMSGLOAD
-                            +msgLoadStart;
+                            numberOfMsgLoad=NUMBEROFMSGLOAD+msgLoadStart;
                             msgLoadStart=0;
                         }
+                        //要记录下当前的位置
+                        self.messageStart=msgLoadStart;
+
                        }
                     
-                    //要记录下当前的位置
-                    self.messageStart=msgLoadStart;
-                    self.messageEnd=messagecount;
+              //      print("self.messageStart=\(self.messageStart),self.messageEnd=\(self.messageEnd)");
 
                     
                     //numberOfMsgLoad -= 1;
                     
-                    let numbers = MCOIndexSet(range: MCORangeMake(UInt64(self.messageStart), UInt64(numberOfMsgLoad)));
+                    let numbers = MCOIndexSet(range: MCORangeMake(UInt64(msgLoadStart+1), UInt64(numberOfMsgLoad)));
                     
                     
                     let imapMessagesFetchOp = imapSession.fetchMessagesByNumberOperationWithFolder(folderName,
@@ -374,6 +386,7 @@ class ImapMail : BaseMail {
         }
         */
  */
-    }
+    }   
+ 
     
 }
