@@ -767,7 +767,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         smtpSession.hostname = "smtp.126.com";
         smtpSession.port = 465;
         smtpSession.username = "chinagis001@126.com";
-        smtpSession.password = "";
+        smtpSession.password = "shiww761106";
         smtpSession.connectionType = MCOConnectionType.TLS;
         
         let smtpOperation = smtpSession.loginOperation();

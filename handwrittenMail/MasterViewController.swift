@@ -31,11 +31,16 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //初始化界面风格
+        /*先不加按钮了
         //1.加左边按钮
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         //2.加右边按钮
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
+        */
+        //加设置按钮
+               let setupButton = UIBarButtonItem(image: UIImage(named: "setupmail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: "setupMail:")
+        self.navigationItem.rightBarButtonItem = setupButton
         
         //顶部信息栏的颜色
         self.navigationController?.navigationBar.backgroundColor = UIColor.redColor()
@@ -67,7 +72,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         //初始化登录信息--126
         self.mailloginInfo.hostname="imap.126.com";
         self.mailloginInfo.username="chinagis001@126.com"
-        self.mailloginInfo.password=""
+        self.mailloginInfo.password="shiww761106"
         self.mailloginInfo.port=993;
         //-icloud
 //        self.mailloginInfo.hostname="p03-imap.mail.me.com";
@@ -344,6 +349,12 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         }
         
         return folderMeta;
+        
+    }
+    
+    //MARK:邮件设置
+    func setupMail(sender:AnyObject)
+    {
         
     }
     
