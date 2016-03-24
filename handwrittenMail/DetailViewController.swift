@@ -822,19 +822,66 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     {
         let index=sender.tag;
         let attachment=self.message.attachments()[index];
+        
+        if !(attachment is MCOIMAPPart)//paser出来的可以直接保存
+        {
+            return;
+        }
+        
+        let msgpart=attachment as! MCOIMAPPart;
+        
         let filename=attachment.filename//sender.mailAddress.displayName;
 
         var tmpDirectory = NSTemporaryDirectory();
         tmpDirectory=tmpDirectory+"/"+filename;
-
         
-        if 1>0//attachment
+        let isDownloaded=NSFileManager.defaultManager().fileExistsAtPath(tmpDirectory);//判断一下是否已经下载
+        
+        if isDownloaded//已经下载
         {
-            attachment.writeToFile(tmpDirectory,atomically:true);
             self.tempFilePath=tmpDirectory;
             let ql = QLPreviewController()
-            ql.dataSource  = self
-            presentViewController(ql, animated: true, completion: nil)
+            
+            ql.dataSource  = self;
+            
+            self.presentViewController(ql, animated: true, completion: nil)
+        }
+        else//未下载
+        {
+           
+           // let part = self.message.mainPart as! MCOAbstractPart;//.partForUniqueID(msgpart.partUniqueID);
+            
+            
+            let imapsession=self.session;
+  
+            let op = imapsession.fetchMessageAttachmentOperationWithFolder(self.folder,uid:self.message.uid,partID:msgpart.partID,encoding:msgpart.encoding,urgent:false);
+            
+            op.start()
+                {
+                    (error:NSError?,data:NSData?)->Void in
+                    if error==nil
+                    {
+                        if let attachData=data
+                        {
+                            attachData.writeToFile(tmpDirectory,atomically:true);
+                            self.tempFilePath=tmpDirectory;
+                            let ql = QLPreviewController()
+                            
+                            ql.dataSource  = self;
+                            
+                            self.presentViewController(ql, animated: true, completion: nil)
+                            
+
+                        }
+                        
+                        
+                    }
+                    else{
+                        print("附件获取失败!");
+                    }
+            }
+            
+            //attachment.writeToFile(tmpDirectory,atomically:true);
         }
         
     }

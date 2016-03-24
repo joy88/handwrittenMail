@@ -37,13 +37,26 @@ extension Dictionary
     }
 }
 //邮件登录所需要的头信息
-struct mailLoginInfo
+class mailLoginInfo
 {
+    //imap
     var hostname:String = "smtp.exmail.qq.com";
     var port:UInt32 = 587;
     var username:String = "hello@qq.com";
     var password:String = "passward";
     var connectionType:MCOConnectionType = .TLS//.StartTLS
+    
+    var useOauth:Bool=false;
+    var fetchFullMsg:Bool=false;
+    
+    //smtp
+    var smtphostname:String = "smtp.exmail.qq.com";
+    var smtpport:UInt32 = 587;
+    var smtpusername:String = "hello@qq.com";
+    var smtppassword:String = "passward";
+    
+    var nicklename:String="stone"//发信时用的呢称
+    
 }
 //邮件目录
 typealias MAILFOLDERS = Dictionary<String,mailFolderMeta>;//文件夹名称，邮件数量

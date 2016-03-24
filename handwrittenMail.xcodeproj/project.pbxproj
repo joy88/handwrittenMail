@@ -16,6 +16,8 @@
 		2F1064641C8B141F00510B49 /* libMailCore-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064571C8B13EC00510B49 /* libMailCore-ios.a */; };
 		2F1064661C8B143400510B49 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064651C8B143400510B49 /* CFNetwork.framework */; };
 		2F1064681C8B143F00510B49 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064671C8B143F00510B49 /* Security.framework */; };
+		2F16466F1CA4309800AFE9FF /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F16466D1CA4309800AFE9FF /* SettingViewController.swift */; };
+		2F1646701CA4309800AFE9FF /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F16466E1CA4309800AFE9FF /* SettingViewController.xib */; };
 		2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F41C94215F0072840F /* MCOMessageView.mm */; };
 		2F1E03F81C94215F0072840F /* MCTMsgViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */; };
 		2F1E04031C9425740072840F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04011C9425740072840F /* ImageIO.framework */; };
@@ -141,6 +143,8 @@
 		2F1064651C8B143400510B49 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2F1064671C8B143F00510B49 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2F10646B1C8B158D00510B49 /* Maincore-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Maincore-Bridging-Header.h"; sourceTree = "<group>"; };
+		2F16466D1CA4309800AFE9FF /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		2F16466E1CA4309800AFE9FF /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		2F1E03F31C94215F0072840F /* MCOMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOMessageView.h; sourceTree = "<group>"; };
 		2F1E03F41C94215F0072840F /* MCOMessageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MCOMessageView.mm; sourceTree = "<group>"; };
 		2F1E03F51C94215F0072840F /* MCTMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTMsgViewController.h; sourceTree = "<group>"; };
@@ -277,6 +281,8 @@
 				2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */,
 				2F508CC41C8DD3FB006E9736 /* BaseMail.swift */,
 				2F508CC61C8DD616006E9736 /* ImapMail.swift */,
+				2F16466D1CA4309800AFE9FF /* SettingViewController.swift */,
+				2F16466E1CA4309800AFE9FF /* SettingViewController.xib */,
 			);
 			name = MailFunction;
 			sourceTree = "<group>";
@@ -520,6 +526,7 @@
 				2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */,
 				2F8922B21CA17EC100A78CA1 /* MCOMessageViewScript.js in Resources */,
 				2FE5F6711CA198300056BAE4 /* arrow@2x.png in Resources */,
+				2F1646701CA4309800AFE9FF /* SettingViewController.xib in Resources */,
 				2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */,
 				2F8623171C9D06D500A86A84 /* BoardImages.xcassets in Resources */,
 				2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */,
@@ -562,6 +569,7 @@
 				2F86230D1C9D06D500A86A84 /* ACBubble.m in Sources */,
 				2F8623201C9D06D500A86A84 /* EraserBrush.swift in Sources */,
 				2FE5F6751CA198300056BAE4 /* RefreshFooterView.swift in Sources */,
+				2F16466F1CA4309800AFE9FF /* SettingViewController.swift in Sources */,
 				2FE5F6731CA198300056BAE4 /* RefreshBaseView.swift in Sources */,
 				2F86231A1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift in Sources */,
 				2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */,

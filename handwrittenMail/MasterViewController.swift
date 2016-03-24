@@ -65,6 +65,19 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        //检查邮件号,进行登录,登录不成功,则重新设置登录信息
+        
+        //初始化登录信息--126
+        self.mailloginInfo.hostname="imap.126.com";
+        self.mailloginInfo.username="shiwwtest@126.com"
+        self.mailloginInfo.password="sww761106"
+        self.mailloginInfo.port=993;
+        
+        mail=ImapMail(mailloginInfo);
+        
+        mail.delegate=self;
+
+        
         //初始化界面风格
         /*先不加按钮了
         //1.加左边按钮
@@ -104,20 +117,6 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         //界面初始化完毕
         
-        //初始化登录信息--126
-        self.mailloginInfo.hostname="imap.126.com";
-        self.mailloginInfo.username="shiwwtest@126.com"
-        self.mailloginInfo.password="sww761106"
-        self.mailloginInfo.port=993;
-        //-icloud
-//        self.mailloginInfo.hostname="p03-imap.mail.me.com";
-//        self.mailloginInfo.username="chinagis001@sina.com"
-//        self.mailloginInfo.password=""
-//        self.mailloginInfo.port=993;
-//
-        mail=ImapMail(mailloginInfo);
-        
-        mail.delegate=self;
         
         //获取文件夾信息
         self.mailFolders=mail.getMailFolder();

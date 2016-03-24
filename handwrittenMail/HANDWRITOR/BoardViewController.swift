@@ -779,7 +779,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 print("login account successed");
                 // 构建邮件体的发送内容
                 let messageBuilder = MCOMessageBuilder();
-                messageBuilder.header.from = MCOAddress(displayName: "石伟伟", mailbox:"chinagis001@126.com");   // 发送人
+                messageBuilder.header.from = MCOAddress(displayName: "石伟伟", mailbox:"shiwwtest@126.com");   // 发送人
                 
                 var canSendMail=true;//是否符合发邮件的条件
                 

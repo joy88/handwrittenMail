@@ -177,7 +177,7 @@ typedef void (^DownloadCallback)(NSError * error);
 
 - (NSString *) MCOMessageView_templateForMessage:(MCOMessageView *)view
 {
-    return @"<div style=\"padding-bottom: 20px; font-family: Helvetica; font-size: 13px;\">{{HEADER}}</div><div>{{BODY}}</div>";
+    return @"<div style=\"padding-bottom: 20px; font-family: Helvetica-Bold; font-size: 16px;\">{{HEADER}}</div><div>{{BODY}}</div>";
 
 }
 
