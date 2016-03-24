@@ -269,7 +269,10 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             
             self.mail.getMail(self.mailList[indexPath.row], delegateMail: detailViewController!)
             
-            let delayInSeconds = Int64(NSEC_PER_SEC) * 2
+            if !self.mailList[indexPath.row].flags.contains(MCOMessageFlag.Seen)
+            {
+            
+            let delayInSeconds = Int64(NSEC_PER_SEC) * 1
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
             dispatch_after(popTime, dispatch_get_main_queue(), {
                 //设置read/unread状态
@@ -283,6 +286,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
                 tableview.reloadRowsAtIndexPaths([indexPath],withRowAnimation:UITableViewRowAnimation.None);
               
             })
+            }
             
  
         }

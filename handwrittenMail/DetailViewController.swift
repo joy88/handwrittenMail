@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import QuickLook
 
-class DetailViewController:MCTMsgViewController,RefreshMailDelegate
+class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewControllerDataSource
 {
 //    private var mymessage=MCOIMAPMessage();//当前打开的邮件
 //    private var mymsgPaser:MCOMessageParser?;//邮件解析
@@ -34,6 +35,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
     
     private var attachLbl=UILabel()//MARK:附件标签"附件"
     private var attachBtns=[UIEmailButton]();//MARK:附件按钮
+    
+    private var tempFilePath="";//MARK:文件路径，供附件预览用
 
     
     
@@ -812,6 +815,39 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate
     func forwardMail(sender: AnyObject) {
         self.mywebView.exportViewToPng();
         
+    }
+    
+    //MARK:点击下载和预览附件
+    func previewAttach(sender: UIEmailButton)
+    {
+        let index=sender.tag;
+        let attachment=self.message.attachments()[index];
+        let filename=attachment.filename//sender.mailAddress.displayName;
+
+        var tmpDirectory = NSTemporaryDirectory();
+        tmpDirectory=tmpDirectory+"/"+filename;
+
+        
+        if 1>0//attachment
+        {
+            attachment.writeToFile(tmpDirectory,atomically:true);
+            self.tempFilePath=tmpDirectory;
+            let ql = QLPreviewController()
+            ql.dataSource  = self
+            presentViewController(ql, animated: true, completion: nil)
+        }
+        
+    }
+    //MARK:Quick Look支持--1
+    func numberOfPreviewItemsInPreviewController(controller: QLPreviewController) -> Int{
+        return 1
+    }
+    //MARK:Quick Look支持--2
+
+    func previewController(controller: QLPreviewController, previewItemAtIndex index: Int) -> QLPreviewItem
+    {
+        let doc = NSURL(fileURLWithPath: self.tempFilePath)
+        return doc;
     }
     
  

@@ -292,9 +292,13 @@ class ImapMail : BaseMail {
                        }
                     
               //      print("self.messageStart=\(self.messageStart),self.messageEnd=\(self.messageEnd)");
+                    
+                    if numberOfMsgLoad<=0
+                    {
+                        return;
+                    }
 
                     
-                    //numberOfMsgLoad -= 1;
                     
                     let numbers = MCOIndexSet(range: MCORangeMake(UInt64(msgLoadStart+1), UInt64(numberOfMsgLoad)));
                     
