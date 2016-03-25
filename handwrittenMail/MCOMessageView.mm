@@ -89,7 +89,7 @@
         if ([_message isKindOfClass:[MCOIMAPMessage class]]) {
             content = [(MCOIMAPMessage *) _message htmlRenderingWithFolder:_folder delegate:self];
  
-            NSLog(@"%@", content);
+//            NSLog(@"%@", content);
         }
         else if ([_message isKindOfClass:[MCOMessageBuilder class]]) {
             content = [(MCOMessageBuilder *) _message htmlRenderingWithDelegate:self];
@@ -330,6 +330,7 @@
 
 - (NSString *) MCOAbstractMessage:(MCOAbstractMessage *)msg templateForMainHeader:(MCOMessageHeader *)header
 {
+    return @" ";//added by shiww
     if (![[self delegate] respondsToSelector:@selector(MCOMessageView_templateForMainHeader:)]) {
         return nil;
     }
@@ -351,6 +352,8 @@
 
 - (NSString *) MCOAbstractMessage:(MCOAbstractMessage *)msg templateForAttachment:(MCOAbstractPart *)part
 {
+    return @" ";//added by shiww
+
     if (![[self delegate] respondsToSelector:@selector(MCOMessageView_templateForAttachment:)]) {
         return NULL;
     }

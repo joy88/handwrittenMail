@@ -186,6 +186,8 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
                 timePrefix=sendtime.toShortDateString();
         }
         
+        timePrefix=timePrefix+" ";
+        
         timeStamp=timePrefix+timeStamp;
 
 
@@ -193,7 +195,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         cell.mailDateLbl.text=timeStamp;
         
-        timeStamp=sendtime.toString(format: DateFormat.Custom("YYYY-MM-DD EEEE HH:mm"));
+        timeStamp=sendtime.toString(format: DateFormat.Custom("YYYY-MM-dd EEEE HH:mm"));
         
         cell.mailDigestLbl.text=timeStamp;//目前没有提取摘要信息
         

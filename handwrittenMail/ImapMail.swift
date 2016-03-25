@@ -276,6 +276,7 @@ class ImapMail : BaseMail {
                         msgLoadStart=messagecount-numberOfMsgLoad;
                         
                         self.messageEnd=messagecount;
+                        self.messageStart=msgLoadStart;
 
                         
                     }
@@ -283,7 +284,7 @@ class ImapMail : BaseMail {
                     {
                         numberOfMsgLoad = NUMBEROFMSGLOAD;
 
-                        msgLoadStart=self.messageStart-numberOfMsgLoad;
+                        msgLoadStart=self.messageStart-numberOfMsgLoad-1;
                         
                         
                         if msgLoadStart<0
@@ -295,6 +296,7 @@ class ImapMail : BaseMail {
                         self.messageStart=msgLoadStart;
 
                        }
+                    print("self.messageStart=\(self.messageStart)");
                     
               //      print("self.messageStart=\(self.messageStart),self.messageEnd=\(self.messageEnd)");
                     
@@ -358,44 +360,7 @@ class ImapMail : BaseMail {
          delegateMail.RefreshMailData(imapSession, mailid: mailid, folder: self.mailFolderName);
         
      
-        
- /*
-        let fetchContentOp = imapSession.fetchMessageOperationWithFolder(self.mailFolderName,uid:mailid.uid);
-        
-        
-        fetchContentOp.start
-            {
-                (error:NSError?, data:NSData?)->Void in
-                
-                if error==nil
-                {
-                    // 解析邮件内容
-                    let msgPareser = MCOMessageParser(data: data);
-                    
-                    delegateMail.RefreshMailWithParser(imapSession, msgPareser: msgPareser, folder: self.mailFolderName);
-                    
-                }
-                
-        }
-        //获取邮件纯文件信息代码
-        /*
-        let messageRenderingOperation = imapSession.plainTextBodyRenderingOperationWithMessage(mailid,folder: self.mailFolderName);
-        
-        messageRenderingOperation.start
-        {
-        (plainTextBodyString:String?,error:NSError?)->Void in
-        if error==nil
-        {
-        
-        print(plainTextBodyString!);
-        //delegateMail.RefreshMailData();
-        delegateMail.RefreshMailData(mailid)//, msgParser:MCOMessageParser());
-        }
-        
-        }
-        */
- */
-    }   
+     }
  
     
 }

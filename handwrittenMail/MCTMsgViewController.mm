@@ -81,7 +81,7 @@
 - (void) refresh
 {
     //modified by shiww
-    BOOL isFetchFullMessageEnabled=NO;//![[NSUserDefaults standardUserDefaults] boolForKey:@"FetchFullMessageEnabled"];
+    BOOL isFetchFullMessageEnabled=YES;//![[NSUserDefaults standardUserDefaults] boolForKey:@"FetchFullMessageEnabled"];
     
     if (isFetchFullMessageEnabled)//by shiww
     {
@@ -265,8 +265,8 @@ typedef void (^DownloadCallback)(NSError * error);
     }
 }
 
-#define IMAGE_PREVIEW_HEIGHT 300
-#define IMAGE_PREVIEW_WIDTH 500
+#define IMAGE_PREVIEW_HEIGHT 1000
+#define IMAGE_PREVIEW_WIDTH 1000
 
 - (NSData *) _convertToJPEGData:(NSData *)data {
     CGImageSourceRef imageSource;
@@ -281,6 +281,7 @@ typedef void (^DownloadCallback)(NSError * error);
     quality = 1.0;
 
     imageSource = CGImageSourceCreateWithData((__bridge CFDataRef) data, NULL);
+
     if (imageSource == NULL)
         return nil;
 

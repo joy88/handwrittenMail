@@ -766,15 +766,17 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         let smtpSession=MCOSMTPSession();
         
         let smtpinfo=self.loadMailLoginInfo();
+        smtpSession.hostname = smtpinfo.smtphostname;
+        smtpSession.port = smtpinfo.smtpport;
+        smtpSession.username = smtpinfo.smtpusername;
+        smtpSession.password = smtpinfo.smtppassword;
         
 //        smtpSession.hostname = "smtp.126.com";
 //        smtpSession.port = 465;
 //        smtpSession.username = "shiwwtest@126.com";
 //        smtpSession.password = "sww761106";
-                smtpSession.hostname = smtpinfo.smtphostname;
-                smtpSession.port = smtpinfo.smtpport;
-                smtpSession.username = smtpinfo.smtpusername;
-                smtpSession.password = smtpinfo.smtppassword;
+        smtpSession.timeout=NSTimeInterval(3);
+
         smtpSession.connectionType = MCOConnectionType.TLS;
         
         let smtpOperation = smtpSession.loginOperation();
@@ -786,7 +788,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 print("login account successed");
                 // 构建邮件体的发送内容
                 let messageBuilder = MCOMessageBuilder();
-                messageBuilder.header.from = MCOAddress(displayName: "石伟伟", mailbox:"shiwwtest@126.com");   // 发送人
+                messageBuilder.header.from = MCOAddress(displayName: smtpinfo.nicklename, mailbox:smtpinfo.smtpusername);   // 发送人
                 
                 var canSendMail=true;//是否符合发邮件的条件
                 
@@ -832,7 +834,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 for pageList in pageLists
                 {
-                    index += 1;
+                    index=index+1;
                     
                     let cid="cngis-\(index)";
                     
@@ -873,6 +875,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 messageBuilder.htmlBody=htmlBody;
                 
                 //发送邮件
+                self.mailSendBtn.enabled=false;
+                self.mailSendBtn.backgroundColor=UIColor.grayColor();
                 
                 let rfc822Data = messageBuilder.data();
                 let sendOperation = smtpSession.sendOperationWithData(rfc822Data);
@@ -886,10 +890,15 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                         }
                         else
                         {
+                            self.ShowNotice("提示", "发送不成功-\(error?.localizedDescription)");
                             print("发送不成功!%@",error);
                             //存放到草稿箱中
    
                         }
+                        self.mailSendBtn.enabled=true;
+                        self.mailSendBtn.backgroundColor=UIColor.greenColor();
+
+
                 }
 
             }
