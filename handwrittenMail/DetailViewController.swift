@@ -82,16 +82,18 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.navigationItem.rightBarButtonItems = rightItems
         
         //开始生成窗口要素
-        let temp=[MCOAddress(displayName: "石伟伟1", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟2", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟3", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟4", mailbox: "Chinagis001@126.com")!]
+   /*     let temp=[MCOAddress(displayName: "石伟伟1", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟2", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟3", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟4", mailbox: "Chinagis001@126.com")!]
         
         self.setMailToList(temp);//        var mailToBtns=[UIEmailButton]();//收件人
 
         self.setMailCcList(temp);//        var mailCcBtns=[UIEmailButton]()//抄送人
-       
+         */
+ 
         
 //        var webView=UIWebView()//邮件正文
         
          self.mywebView=self.messageView;
+        self.messageView.setHtmlContent("<html><head><title>Hello</title></head><body><h1>邮件正在加载中......</h1><ul><li>123</li><li>321</li><li>1234567</li></ul></body></html>")
  
 //        self.mywebView.prefetchIMAPAttachmentsEnabled=true;
 

@@ -11,6 +11,8 @@ import UIKit
 
 class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     
+    
+    
     var mail:BaseMail!;
     //邮箱登录信息
     var mailloginInfo=mailLoginInfo();
@@ -153,6 +155,12 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
                 //获取文件夾信息
                 
                 self.mailFolders=self.mail.getMailFolder();
+                
+                //启动时加载或切换账号时加载inbox邮件
+                self.navigationController?.pushViewController(self.maillistViewController!, animated: true);
+                
+                
+                self.mail.getMailList("inbox", delegate: self.maillistViewController!,upFresh: true);
                 
             }
             else
@@ -332,8 +340,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             }
             
             
-            
-            //隐藏导航栏
+            //推出mail list view
             self.navigationController?.pushViewController(maillistViewController!, animated: true);
            
         
@@ -384,7 +391,9 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
 //        print("foldername in list =\(mailfolder.0)")
 //    }
     self.tableView.reloadData();
+    
     self.setupStatus("邮件列表刚刚更新");
+
     }
     
     private  func getIndexFolder(index:Int)->mailFolderMeta

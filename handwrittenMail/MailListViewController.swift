@@ -87,6 +87,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         self.tableView.registerNib(nib, forCellReuseIdentifier: "maillist")
         
         setupRefresh();//下拉刷新,上拉加载
+  
     }
     
     //MARK:加右边按钮
@@ -300,6 +301,18 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         self.mailList=objData;
         let tableview=self.view as! UITableView;
         tableview.reloadData();
+        
+        //默认选中第一个
+        
+        let selectedIndex:Int = 0;
+        
+        let selectedIndexPath = NSIndexPath(forRow:selectedIndex,inSection:0);
+        
+        self.tableView.selectRowAtIndexPath(selectedIndexPath,animated:false,scrollPosition:UITableViewScrollPosition.None);
+        
+        //加上这一句,才会触发点击事件
+        self.tableView.delegate!.tableView!(self.tableView,didSelectRowAtIndexPath:selectedIndexPath);
+
         self.setupStatus("邮件列表刚刚更新");
 
     }
