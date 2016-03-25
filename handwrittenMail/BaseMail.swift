@@ -87,8 +87,7 @@ protocol RefreshMailDelegate
 {
     //这个方法更简单
     func RefreshMailData(session:MCOIMAPSession,mailid:MCOIMAPMessage,folder:String);
-    //这个方法不用了
-    func RefreshMailWithParser(session:MCOIMAPSession,msgPareser:MCOMessageParser,folder:String);
+  
 
 }
 

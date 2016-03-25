@@ -65,29 +65,26 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //检查邮件号,进行登录,登录不成功,则重新设置登录信息
-        
-        //初始化登录信息--126
-        self.mailloginInfo.hostname="imap.126.com";
-        self.mailloginInfo.username="shiwwtest@126.com"
-        self.mailloginInfo.password="sww761106"
-        self.mailloginInfo.port=993;
-        
-        mail=ImapMail(mailloginInfo);
-        
-        mail.delegate=self;
-
-        
+        //初始化界面
+        self.setupmasterview();
+        //加载邮件目录信息
+        self.startLogin();
+    }
+    
+    //MARK:MaterView界面初始化
+    
+    private func setupmasterview()
+    {
         //初始化界面风格
         /*先不加按钮了
-        //1.加左边按钮
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
-        //2.加右边按钮
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
-        */
+         //1.加左边按钮
+         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+         //2.加右边按钮
+         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
+         self.navigationItem.rightBarButtonItem = addButton
+         */
         //加设置按钮
-               let setupButton = UIBarButtonItem(image: UIImage(named: "setupmail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: "setupMail:")
+        let setupButton = UIBarButtonItem(image: UIImage(named: "setupmail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MasterViewController.setupMail(_:)))
         self.navigationItem.rightBarButtonItem = setupButton
         
         //顶部信息栏的颜色
@@ -116,16 +113,66 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         self.maillistViewController = MailListViewController();
         
         //界面初始化完毕
-        
-        
-        //获取文件夾信息
-        self.mailFolders=mail.getMailFolder();
-        
         setupRefresh();//下拉刷新,上拉加载
         
-        maillistViewController!.mail=self.mail;
         
-      }
+    }
+    
+    //MARK:邮件登录
+    func startLogin()
+    {
+        //检查邮件号,进行登录,登录不成功,则重新设置登录信息
+        
+        //初始化登录信息--126
+//        self.mailloginInfo.hostname="imap.126.com";
+//        self.mailloginInfo.username="shiwwtest@126.com"
+//        self.mailloginInfo.password="sww761106"
+//        self.mailloginInfo.port=993;
+        
+        self.mailloginInfo=self.loadMailLoginInfo();
+        
+//        self.mail=nil;
+        
+        mail=ImapMail(mailloginInfo);
+        mail.delegate=self;
+        self.maillistViewController!.mail=self.mail;
+
+        
+        let imapSession=self.mail.mailconnection as! MCOIMAPSession;
+        
+        
+        let imapOperation = imapSession.checkAccountOperation();
+        
+        
+        
+        imapOperation.start(){
+            (error:NSError?)->Void in
+            if (error == nil) {
+                print("login account successed!");
+                self.mail.isCanBeConnected=true;
+                //获取文件夾信息
+                
+                self.mailFolders=self.mail.getMailFolder();
+                
+            }
+            else
+            {
+                print("login account failure: %@\n", error);
+                self.mail.isCanBeConnected=false;
+                
+                //added by shiww,弹出邮件设置界面
+                let popVC = SettingViewController();
+                
+                popVC.masterView=self;
+                
+                popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+                popVC.preferredContentSize=popVC.view.frame.size;
+                
+                self.presentViewController(popVC, animated: true,completion: nil)
+                
+            }
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed;
@@ -324,12 +371,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     override func tableView(tableView:UITableView, titleForFooterInSection
         section:Int)->String?
     {
-        var str:String?;
-        if section==1
-        {
-            // str = "刚刚更新";
-        }
-        return str;
+          return "";
     }
     
     
@@ -391,7 +433,15 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     //MARK:邮件设置
     func setupMail(sender:AnyObject)
     {
+        //added by shiww,弹出邮件设置界面
+        let popVC = SettingViewController();
         
+        popVC.masterView=self;
+        
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        popVC.preferredContentSize=popVC.view.frame.size;
+        
+        self.presentViewController(popVC, animated: true,completion: nil)
     }
     
     //MARK:设置底部状态栏信息

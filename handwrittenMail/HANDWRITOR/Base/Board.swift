@@ -34,7 +34,7 @@ class Pages:NSObject
         let docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray;
         let docDir = docDirs[0] as! String;
         var i:Int=0;
-        for i=1;i<=self.PageCount;i++
+        for i=1;i<=self.PageCount;i += 1
         {
             var pagefilePath=docDir+"/"+PageList[i-1];
             
@@ -333,7 +333,7 @@ class Board: UIImageView {
         func imageForUndo() -> UIImage? {
             var image: UIImage? = nil
             if self.canUndo {
-                --index;
+                index -= 1;
                 setNeedsCache()
                 image = images[index]
             }

@@ -29,6 +29,8 @@
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
 		2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC41C8DD3FB006E9736 /* BaseMail.swift */; };
 		2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC61C8DD616006E9736 /* ImapMail.swift */; };
+		2F648D6E1CA5275800044BAC /* WTReParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F648D6B1CA5275800044BAC /* WTReParser.m */; };
+		2F648D6F1CA5275800044BAC /* WTReTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F648D6D1CA5275800044BAC /* WTReTextField.m */; };
 		2F86230B1C9D06D500A86A84 /* ACAddressBookDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E31C9D06D500A86A84 /* ACAddressBookDataSource.m */; };
 		2F86230C1C9D06D500A86A84 /* ACArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E51C9D06D500A86A84 /* ACArrayDataSource.m */; };
 		2F86230D1C9D06D500A86A84 /* ACBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E71C9D06D500A86A84 /* ACBubble.m */; };
@@ -156,6 +158,10 @@
 		2F508CC01C8DCD37006E9736 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
 		2F508CC41C8DD3FB006E9736 /* BaseMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMail.swift; sourceTree = "<group>"; };
 		2F508CC61C8DD616006E9736 /* ImapMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImapMail.swift; sourceTree = "<group>"; };
+		2F648D6A1CA5275800044BAC /* WTReParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTReParser.h; sourceTree = "<group>"; };
+		2F648D6B1CA5275800044BAC /* WTReParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTReParser.m; sourceTree = "<group>"; };
+		2F648D6C1CA5275800044BAC /* WTReTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTReTextField.h; sourceTree = "<group>"; };
+		2F648D6D1CA5275800044BAC /* WTReTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTReTextField.m; sourceTree = "<group>"; };
 		2F8622E21C9D06D500A86A84 /* ACAddressBookDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAddressBookDataSource.h; sourceTree = "<group>"; };
 		2F8622E31C9D06D500A86A84 /* ACAddressBookDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAddressBookDataSource.m; sourceTree = "<group>"; };
 		2F8622E41C9D06D500A86A84 /* ACArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACArrayDataSource.h; sourceTree = "<group>"; };
@@ -238,9 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				2FCF4B2C1CA2D6CE008BFB3D /* thirdparty */,
-				2FE5F6691CA198300056BAE4 /* Refresh */,
-				2F8622E11C9D06D500A86A84 /* EMAILTEXTFIELD */,
-				2F8622ED1C9D06D500A86A84 /* HANDWRITOR */,
 				2F508CC31C8DD370006E9736 /* MainFrame */,
 				2F508CC21C8DD34E006E9736 /* MailFunction */,
 				2F10646C1C8B159B00510B49 /* SupportFile */,
@@ -302,6 +305,17 @@
 				2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */,
 			);
 			name = MainFrame;
+			sourceTree = "<group>";
+		};
+		2F648D691CA5275800044BAC /* ValidTextField */ = {
+			isa = PBXGroup;
+			children = (
+				2F648D6A1CA5275800044BAC /* WTReParser.h */,
+				2F648D6B1CA5275800044BAC /* WTReParser.m */,
+				2F648D6C1CA5275800044BAC /* WTReTextField.h */,
+				2F648D6D1CA5275800044BAC /* WTReTextField.m */,
+			);
+			path = ValidTextField;
 			sourceTree = "<group>";
 		};
 		2F8622E11C9D06D500A86A84 /* EMAILTEXTFIELD */ = {
@@ -375,6 +389,10 @@
 		2FCF4B2C1CA2D6CE008BFB3D /* thirdparty */ = {
 			isa = PBXGroup;
 			children = (
+				2F8622ED1C9D06D500A86A84 /* HANDWRITOR */,
+				2F8622E11C9D06D500A86A84 /* EMAILTEXTFIELD */,
+				2FE5F6691CA198300056BAE4 /* Refresh */,
+				2F648D691CA5275800044BAC /* ValidTextField */,
 				2FCF4B341CA2D6DC008BFB3D /* SwiftDate.swift */,
 			);
 			name = thirdparty;
@@ -572,12 +590,14 @@
 				2F16466F1CA4309800AFE9FF /* SettingViewController.swift in Sources */,
 				2FE5F6731CA198300056BAE4 /* RefreshBaseView.swift in Sources */,
 				2F86231A1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift in Sources */,
+				2F648D6F1CA5275800044BAC /* WTReTextField.m in Sources */,
 				2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */,
 				2FE5F6741CA198300056BAE4 /* RefreshConst.swift in Sources */,
 				2F8623121C9D06D500A86A84 /* Board.swift in Sources */,
 				2F8623231C9D06D500A86A84 /* LineBrush.swift in Sources */,
 				2FE5F6771CA198300056BAE4 /* UIScrollView+Refresh.swift in Sources */,
 				2F8623251C9D06D500A86A84 /* RectangleBrush.swift in Sources */,
+				2F648D6E1CA5275800044BAC /* WTReParser.m in Sources */,
 				2F1064361C8B133C00510B49 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

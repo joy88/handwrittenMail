@@ -9,16 +9,25 @@
 import UIKit
 
 class SettingViewController: UIViewController {
-
-    @IBOutlet weak var smtpPort: UITextField!
-    @IBOutlet weak var smtpHost: UITextField!
-    @IBOutlet weak var smtpPassword: UITextField!
-    @IBOutlet weak var nickleName: UITextField!
-    @IBOutlet weak var smtpUser: UITextField!
-    @IBOutlet weak var imapPort: UITextField!
-    @IBOutlet weak var imapHost: UITextField!
-    @IBOutlet weak var imapPassword: UITextField!
-    @IBOutlet weak var imapUser: UITextField!
+    var masterView:MasterViewController?;
+    //MARK:退出系统
+    @IBAction func exit(sender: AnyObject) {
+        exit(0);        
+    }
+    //MARK:SMTP账号密码和收件箱一致
+    @IBAction func sendEqualInbox(sender: AnyObject) {
+        smtpUser.text=imapUser.text;
+        smtpPassword.text=imapPassword.text;
+    }
+    @IBOutlet weak var smtpPort: WTReTextField!
+    @IBOutlet weak var smtpHost: WTReTextField!
+    @IBOutlet weak var smtpPassword: WTReTextField!
+    @IBOutlet weak var nickleName: WTReTextField!
+    @IBOutlet weak var smtpUser: WTReTextField!
+    @IBOutlet weak var imapPort: WTReTextField!
+    @IBOutlet weak var imapHost: WTReTextField!
+    @IBOutlet weak var imapPassword: WTReTextField!
+    @IBOutlet weak var imapUser: WTReTextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,16 +37,38 @@ class SettingViewController: UIViewController {
         let defaults = NSUserDefaults.standardUserDefaults();
         //  2、加载数据
   
-        smtpPort.text                  = defaults.objectForKey("smtpport")?.string
-        smtpHost.text                  = defaults.objectForKey("smtphost")?.string
-        smtpPassword.text              = defaults.objectForKey("smtppassword")?.string
-        nickleName.text                = defaults.objectForKey("nicklename")?.string
-        smtpUser.text                  = defaults.objectForKey("smtpuser")?.string
-        imapPort.text                  = defaults.objectForKey("imapport")?.string
-        imapHost.text                  = defaults.objectForKey("imaphost")?.string
-        imapPassword.text              = defaults.objectForKey("imappassword")?.string
-        imapUser.text                  = defaults.objectForKey("imapuser")?.string
-   
+        smtpPort.text                  = defaults.stringForKey("smtpport")
+        smtpHost.text                  = defaults.stringForKey("smtphost")
+        smtpPassword.text              = defaults.stringForKey("smtppassword")
+        nickleName.text                = defaults.stringForKey("nicklename")
+        smtpUser.text                  = defaults.stringForKey("smtpuser")
+        imapPort.text                  = defaults.stringForKey("imapport")
+        imapHost.text                  = defaults.stringForKey("imaphost")
+        imapPassword.text              = defaults.stringForKey("imappassword")
+        imapUser.text                  = defaults.stringForKey("imapuser")
+        
+//        _cardNumber.pattern = @"^(\\d{4}(?: )){3}\\d{4}$";
+//        _cardholder.pattern = @"^[a-zA-Z ]{3,}$";
+//        _validUntil.pattern = @"^(1[0-2]|(?:0)[1-9])(?:/)\\d{2}$";
+        
+        imapPort.pattern = "^\\d{3}$";
+        smtpPort.pattern = imapPort.pattern ;//验证三位数字
+        
+        smtpUser.pattern = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
+        imapUser.pattern=smtpUser.pattern//验证email
+        
+        /*
+         //域名验证的正则没搞对
+        smtpHost.pattern = "[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?";//验证域名
+
+        
+        imapHost.pattern=smtpHost.pattern;*/
+
+
+        
+//        _date.pattern = @"^(3[0-1]|[1-2][0-9]|(?:0)[1-9])(?:\\.)(1[0-2]|(?:0)[1-9])(?:\\.)[1-9][0-9]{3}$";
+//        _time.pattern = @"^(2[0-3]|1[0-9]|(?:0)[0-9])(?::)([0-5][0-9])$";
+
     }
 
     //MARK:保存收件和发件信息
@@ -79,6 +110,14 @@ class SettingViewController: UIViewController {
      
         //  3、同步数据
         defaults.synchronize();
+        
+
+        self.dismissViewControllerAnimated(true)
+        {
+            //重新登录并刷新邮件列表
+            self.masterView?.startLogin();
+
+        }
 
 
     }
@@ -114,18 +153,23 @@ extension UIViewController
 
         let maillogininfo=mailLoginInfo();
         
-        maillogininfo.smtpport  = UInt32(defaults.stringForKey("smtpport")!)!;
+        if defaults.stringForKey("smtpport") != nil
+        {
+            maillogininfo.smtpport  = UInt32(defaults.stringForKey("smtpport")!)!;
+            
+            maillogininfo.smtphostname = defaults.stringForKey("smtphost")!
+            
+            maillogininfo.smtppassword              = defaults.stringForKey("smtppassword")!
+            
+            maillogininfo.nicklename              = defaults.stringForKey("nicklename")!
+            maillogininfo.smtpusername              = defaults.stringForKey("smtpuser")!
+            maillogininfo.port              = UInt32(defaults.stringForKey("imapport")!)!
+            maillogininfo.hostname              = defaults.stringForKey("imaphost")!
+            maillogininfo.password              = defaults.stringForKey("imappassword")!
+            maillogininfo.username              = defaults.stringForKey("imapuser")!
+
+        }
         
-        maillogininfo.smtphostname = defaults.stringForKey("smtphost")!
-        
-        maillogininfo.smtppassword              = defaults.stringForKey("smtppassword")!
-        
-        maillogininfo.nicklename              = defaults.stringForKey("nicklename")!
-        maillogininfo.smtpusername              = defaults.stringForKey("smtpuser")!
-        maillogininfo.port              = UInt32(defaults.stringForKey("imapport")!)!
-        maillogininfo.hostname              = defaults.stringForKey("imaphost")!
-        maillogininfo.password              = defaults.stringForKey("imappassword")!
-        maillogininfo.username              = defaults.stringForKey("imapuser")!
         
         return maillogininfo;
     }

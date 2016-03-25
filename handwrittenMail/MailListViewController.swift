@@ -92,7 +92,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //MARK:加右边按钮
     func setupRightBarButtonItem()
     {
-        let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: "rightBarButtonItemClicked")
+        let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.rightBarButtonItemClicked))
         self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
@@ -133,7 +133,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         let identifier="maillist";
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UIMailListViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! UIMailListViewCell
         
 //        if(cell == nil)
 //        {

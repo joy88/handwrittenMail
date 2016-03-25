@@ -51,20 +51,20 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         // Do any additional setup after loading the view, typically from a nib.
         //1.右边第一个按钮
         //编写新邮件
-        let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:"newMail:")
+        let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:#selector(DetailViewController.newMail(_:)))
         //2.回复邮件至发送人
-        let replyButton = UIBarButtonItem(barButtonSystemItem:.Reply, target: self, action: "replyMail:")
+        let replyButton = UIBarButtonItem(barButtonSystemItem:.Reply, target: self, action: #selector(DetailViewController.replyMail(_:)))
         replyButton.tag=0;//==1 代表回复全部
         
         //3.回复邮件至所有
         
         //如果是自定义图片,必须得有imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),否则是个纯色图片
-        let replyallButton = UIBarButtonItem(image: UIImage(named: "replyall")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: "replyMail:")
+        let replyallButton = UIBarButtonItem(image: UIImage(named: "replyall")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(DetailViewController.replyMail(_:)))
         replyallButton.tag=1;//==1 代表回复全部
         
         //4.转发邮件
         
-        let forwardButton = UIBarButtonItem(image: UIImage(named: "forward")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: "forwardMail:")
+        let forwardButton = UIBarButtonItem(image: UIImage(named: "forward")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(DetailViewController.forwardMail(_:)))
 
 
 
@@ -102,13 +102,13 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.view.addSubview(mailFromLbl)
 
 //        var mailFromBtn=UIEmailButton()//发件人显示按钮
-        mailFromBtn.addTarget(self,action: "emailClicked:",forControlEvents: UIControlEvents.TouchUpInside)
+        mailFromBtn.addTarget(self,action: #selector(DetailViewController.emailClicked(_:)),forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(mailFromBtn)
         
 
 //        var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
         //show or hide mainto and maincc
-        infoHideBtn.addTarget(self,action: "hideMailToCC:",forControlEvents: UIControlEvents.TouchUpInside)
+        infoHideBtn.addTarget(self,action: #selector(DetailViewController.hideMailToCC(_:)),forControlEvents: UIControlEvents.TouchUpInside)
 
         self.view.addSubview(infoHideBtn)
 
@@ -141,7 +141,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //感知设备方向 - 开启监听设备方向
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
         //添加通知，监听设备方向改变
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "receivedRotation",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailViewController.receivedRotation),
             name: UIDeviceOrientationDidChangeNotification, object: nil)
      
         //关闭设备监听
@@ -285,7 +285,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
     //MARK:通知监听触发的方法
     func receivedRotation(){
-        var device = UIDevice.currentDevice()
+        let device = UIDevice.currentDevice()
         switch device.orientation{
         case .Portrait,.PortraitUpsideDown,.LandscapeLeft,.LandscapeRight:
             self.AutoLayoutView();//旋转时,重新布局视图
@@ -314,9 +314,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         for email in mailToLists
         {
-            var tmpBtn=UIEmailButton();
+            let tmpBtn=UIEmailButton();
             tmpBtn.mailAddress=email;
-            tmpBtn.addTarget(self,action: "emailClicked:",forControlEvents: UIControlEvents.TouchUpInside)
+            tmpBtn.addTarget(self,action: #selector(DetailViewController.emailClicked(_:)),forControlEvents: UIControlEvents.TouchUpInside)
             mailToBtns.append(tmpBtn);
             self.view.addSubview(tmpBtn);
             
@@ -337,9 +337,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         for email in mailCcLists
         {
-            var tmpBtn=UIEmailButton();
+            let tmpBtn=UIEmailButton();
             tmpBtn.mailAddress=email;
-            tmpBtn.addTarget(self,action: "emailClicked:",forControlEvents: UIControlEvents.TouchUpInside)
+            tmpBtn.addTarget(self,action: #selector(DetailViewController.emailClicked(_:)),forControlEvents: UIControlEvents.TouchUpInside)
 
             mailCcBtns.append(tmpBtn);
             self.view.addSubview(tmpBtn);
@@ -366,20 +366,20 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         for attachment in self.message.attachments()
         {
-            var tmpBtn=UIEmailButton();
+            let tmpBtn=UIEmailButton();
             tmpBtn.tag=index;
             
             let email=MCOAddress(displayName: attachment.filename, mailbox: "s@s.s")//displayName中是文件名啊
         
             tmpBtn.mailAddress=email;
 
-            tmpBtn.addTarget(self,action: "previewAttach:",forControlEvents: UIControlEvents.TouchUpInside)
+            tmpBtn.addTarget(self,action: #selector(DetailViewController.previewAttach(_:)),forControlEvents: UIControlEvents.TouchUpInside)
             
             attachBtns.append(tmpBtn);
             
             self.view.addSubview(tmpBtn);
             
-            index++;
+            index += 1;
         }
         
     }
@@ -508,60 +508,6 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
     }
     
-    //MARK:刷新邮件内容--2 弃用了
-    func RefreshMailWithParser(session:MCOIMAPSession,msgPareser:MCOMessageParser,folder:String)
-    {
-        let header=msgPareser.header;
-        
-        self.mailSubject=header.subject;//邮件主题
-        
-        
-        self.mailSender = header.from//发件人
-        self.mailDate = header.receivedDate;//收件日期
-        
-        var tmpmailCcLists=[MCOAddress]();
-        var tmpmailToLists=[MCOAddress]();
-        
-        
-        if header.to != nil
-        {
-            
-            tmpmailToLists=header.to as! [MCOAddress];
-        }
-        
-        if header.cc != nil
-        {
-            tmpmailCcLists=header.cc as! [MCOAddress];
-            
-        }
-        
-        self.setMailCcList(tmpmailCcLists)
-        self.setMailToList(tmpmailToLists)
-
-        
-        //开始处理邮件信息
-        
-        // 获得邮件正文的HTML内容,供webView加载
-        let bodyHtml = msgPareser.htmlBodyRendering();//return String
-        
-        
-        // 获取附件(多个)
-        let mailAttatchments = msgPareser.attachments() as NSArray//NSMutableArray *
-        
-        // 拿到一个附件MCOAttachment,可从中得到文件名，文件内容data
-//         let attachment=mailAttatchments[0];//MCOAttachment
-        
-       //  print("attatchemnts count=\(mailAttatchments.count)");
-        
-          self.session=session;
-        self.folder=folder;
-
-        self.mywebView.folder=folder;
-        self.mywebView.message=msgPareser;
-        
-        self.AutoLayoutView();
-        
-       }
 
 /*
     //UIWebViewDelegate//实现自动加载邮件中的图片

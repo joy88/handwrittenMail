@@ -31,31 +31,36 @@ class ImapMail : BaseMail {
         imapSession.password = maillogininfo.password;
         imapSession.connectionType = maillogininfo.connectionType;
         
+        /*
+        
         let imapOperation = imapSession.checkAccountOperation();
      
- //       let semaphore = dispatch_semaphore_create(0)
+     let semaphore = dispatch_semaphore_create(0)
 
         
         imapOperation.start(){
             (error:NSError?)->Void in
+            
+
         if (error == nil) {
             print("login account successed!");
             self.isCanBeConnected=true;
             // 在这里获取邮件，获取文件夹信息
             //[self loadIMAPFolder];
+
         }
         else
         {
             print("login account failure: %@\n", error);
             self.isCanBeConnected=false;
         }
-            
-//        dispatch_semaphore_signal(semaphore);
-            
+      dispatch_semaphore_signal(semaphore);
+       
         };
-        
-        
 
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);*/
+ 
+ 
     }
     //MARK:获取邮件目录
     override func getMailFolder()->MAILFOLDERS

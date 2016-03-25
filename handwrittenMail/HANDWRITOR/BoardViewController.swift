@@ -20,7 +20,7 @@ extension UIViewController//实现一个提示框
         
         self.presentViewController(alertController, animated: true)
             {
-                let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:"removeIt:", userInfo:alertController, repeats:false);
+                let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:#selector(UIViewController.removeIt(_:)), userInfo:alertController, repeats:false);
         }
     }
     
@@ -266,10 +266,10 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         for btnTemp in btnList
         {
             btnTemp.imageView?.contentMode=UIViewContentMode.ScaleToFill;
-            btnTemp.addTarget(self,action:Selector("doPenSwitch:"),forControlEvents:.TouchUpInside);//点击事件
+            btnTemp.addTarget(self,action:#selector(BoardViewController.doPenSwitch(_:)),forControlEvents:.TouchUpInside);//点击事件
             
             //添加长按事件
-            let longPress=UILongPressGestureRecognizer(target: self, action: Selector("doSetBrush:"));
+            let longPress=UILongPressGestureRecognizer(target: self, action: #selector(BoardViewController.doSetBrush(_:)));
             longPress.minimumPressDuration=0.4;
             btnTemp.addGestureRecognizer(longPress);
             
@@ -301,14 +301,14 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
        
         
         //为页码标签框添加长按事件
-        let longPress=UILongPressGestureRecognizer(target: self, action: Selector("doRemoveCurPage:"));
+        let longPress=UILongPressGestureRecognizer(target: self, action: #selector(BoardViewController.doRemoveCurPage(_:)));
         longPress.minimumPressDuration=0.4;
         self.labPages.addGestureRecognizer(longPress);
         
         //插入图片按钮初始化
         btnInsertImg.setImage(UIImage(named: "insertimg"), forState: UIControlState.Normal);
         btnInsertImg.setImage(UIImage(named: "insertimgck"), forState: UIControlState.Selected);
-        btnInsertImg.addTarget(self,action:Selector("doPenSwitch:"),forControlEvents:.TouchUpInside);//点击事件
+        btnInsertImg.addTarget(self,action:#selector(BoardViewController.doPenSwitch(_:)),forControlEvents:.TouchUpInside);//点击事件
         
         //初始化邮件发送信息录入窗口//by shiww
     
@@ -318,14 +318,14 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         //划动手势支持,added by shiww
         //上划关闭工具条
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeGesture:")
+        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(BoardViewController.handleSwipeGesture(_:)))
         swipeUpGesture.direction = UISwipeGestureRecognizerDirection.Up;
         
         swipeUpGesture.numberOfTouchesRequired=2;
         
         self.view.addGestureRecognizer(swipeUpGesture)
         //下划显示工具条
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeGesture:")
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(BoardViewController.handleSwipeGesture(_:)))
         swipeDownGesture.direction = UISwipeGestureRecognizerDirection.Down
         swipeDownGesture.numberOfTouchesRequired=2;
         self.view.addGestureRecognizer(swipeDownGesture)
@@ -539,7 +539,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     
     
     func saveToAlbum() {
-        UIImageWriteToSavedPhotosAlbum(self.board.takeImage(), self, "image:didFinishSavingWithError:contextInfo:", nil)
+        UIImageWriteToSavedPhotosAlbum(self.board.takeImage(), self, #selector(BoardViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     
@@ -694,7 +694,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         mailSendBtn.layer.cornerRadius = 8
         mailSendBtn.layer.masksToBounds=true;
         
-        mailSendBtn.addTarget(self,action: "doSendMail:",forControlEvents: UIControlEvents.TouchUpInside)//发送邮件
+        mailSendBtn.addTarget(self,action: #selector(BoardViewController.doSendMail(_:)),forControlEvents: UIControlEvents.TouchUpInside)//发送邮件
 
 
         
@@ -717,7 +717,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         mailCancelBtn.layer.cornerRadius = 8
         mailCancelBtn.layer.masksToBounds=true;
         
-        mailCancelBtn.addTarget(self,action: "doCloseMailComposer:",forControlEvents: UIControlEvents.TouchUpInside)//关闭窗口
+        mailCancelBtn.addTarget(self,action: #selector(BoardViewController.doCloseMailComposer(_:)),forControlEvents: UIControlEvents.TouchUpInside)//关闭窗口
 
 
        
@@ -764,10 +764,17 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     {
         //发送邮件
         let smtpSession=MCOSMTPSession();
-        smtpSession.hostname = "smtp.126.com";
-        smtpSession.port = 465;
-        smtpSession.username = "shiwwtest@126.com";
-        smtpSession.password = "sww761106";
+        
+        let smtpinfo=self.loadMailLoginInfo();
+        
+//        smtpSession.hostname = "smtp.126.com";
+//        smtpSession.port = 465;
+//        smtpSession.username = "shiwwtest@126.com";
+//        smtpSession.password = "sww761106";
+                smtpSession.hostname = smtpinfo.smtphostname;
+                smtpSession.port = smtpinfo.smtpport;
+                smtpSession.username = smtpinfo.smtpusername;
+                smtpSession.password = smtpinfo.smtppassword;
         smtpSession.connectionType = MCOConnectionType.TLS;
         
         let smtpOperation = smtpSession.loginOperation();
@@ -783,7 +790,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 var canSendMail=true;//是否符合发邮件的条件
                 
-                var mailTo=self.mailToInputText.getEmailLists();
+                let mailTo=self.mailToInputText.getEmailLists();
 //                mailTo.append(MCOAddress(displayName: "石伟伟", mailbox:"shiweiwei@supermap.com"));
 //                mailTo.append(MCOAddress(displayName: "卧龙居", mailbox:"139761106@qq.com"));
                 
@@ -795,7 +802,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 messageBuilder.header.to=mailTo;       // 收件人（多人）
                 
-                var mailCc=self.mailCcInputText.getEmailLists();
+                let mailCc=self.mailCcInputText.getEmailLists();
              //   mailCc.append(MCOAddress(displayName: "石伟伟icloud", mailbox:"shiwwgis@me.com"));
                // mailCc.append(MCOAddress(displayName: "卧龙居", mailbox:"139761106@qq.com"));
 
@@ -825,9 +832,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 for pageList in pageLists
                 {
-                    index++;
+                    index += 1;
                     
-                    var cid="cngis-\(index)";
+                    let cid="cngis-\(index)";
                     
                     htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
                     
@@ -845,9 +852,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     
                     htmlBody=htmlBody+"<br/><p>以下是原邮件内容</p><br/>";
 
-                    index++;
+                    index=index+1;
                     
-                    var cid="cngis-\(index)";
+                    let cid="cngis-\(index)";
                     
                     htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
                     
