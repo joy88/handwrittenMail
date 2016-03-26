@@ -22,6 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         splitViewController.delegate = self
         return true
     }
+    
+    static func getMainWindow()->UIWindow
+    {
+        let app = UIApplication.sharedApplication().delegate as!  AppDelegate;
+        return app.window!;
+    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

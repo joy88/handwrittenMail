@@ -49,6 +49,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.navigationItem.leftBarButtonItem?.title="Inbox"
         //1.右边第一个按钮
         //编写新邮件
         let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:#selector(DetailViewController.newMail(_:)))
@@ -454,6 +456,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:刷新邮件内容--1
     func RefreshMailData(session:MCOIMAPSession,mailid:MCOIMAPMessage,folder:String)
     {
+        
+
+
         let header=mailid.header;
 
         self.mailSubject=header.subject;//邮件主题

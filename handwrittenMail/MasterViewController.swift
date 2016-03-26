@@ -315,17 +315,9 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     // UITableViewDelegate协议方法，点击时调用
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        /*       // 跳转到detailViewController，取消选中状态
-        self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
-        //更具定义的Segue Indentifier进行跳转
-        self.performSegueWithIdentifier("ShowMaillist", sender: siteLists![indexPath.row])*/
         
         if indexPath.row >= 0
         {
-            self.maillistViewController?.hidesBottomBarWhenPushed=true;
-            
-            
-//            maillistViewController!.mailList = mailList!;
             
             var foldname="INBOX";
             
@@ -343,6 +335,16 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             //推出mail list view
             self.navigationController?.pushViewController(maillistViewController!, animated: true);
            
+            maillistViewController!.navigationItem.title=foldname;//显示导航栏标题
+            
+   /*         let parController=AppDelegate.getMainWindow().rootViewController;
+            
+            let splitViewController=parController as! UISplitViewController
+            
+            let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
+            navigationController.topViewController!.navigationItem.leftBarButtonItem?.title=foldname;*/
+
+
         
             self.mail.getMailList(foldname, delegate: maillistViewController!,upFresh: true);
             

@@ -16,7 +16,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
 //    var t:MCOMessageParser?;
     
-    private var mailContent=String();
+//    private var mailContent=String();
     
     var detailViewController: DetailViewController? = nil
     
@@ -87,6 +87,8 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         self.tableView.registerNib(nib, forCellReuseIdentifier: "maillist")
         
         setupRefresh();//下拉刷新,上拉加载
+        
+        self.navigationItem.title="Inbox"
   
     }
     
@@ -261,7 +263,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     // Pass the selected object to the new view controller.
     }
     */
-    // UITableViewDelegate协议方法，点击时调用,显示邮件信息
+    // MARK:点击邮件列表,显示邮件信息
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
@@ -270,8 +272,14 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         {
   
             
+            
             self.mail.getMail(self.mailList[indexPath.row], delegateMail: detailViewController!)
             
+//            detailViewController!.navigationItem.leftBarButtonItem?.title=self.navigationItem.title!;
+//            print(detailViewController!.navigationItem.leftBarButtonItem?.title);
+
+            
+  
             if !self.mailList[indexPath.row].flags.contains(MCOMessageFlag.Seen)
             {
             
@@ -312,7 +320,8 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         //加上这一句,才会触发点击事件
         self.tableView.delegate!.tableView!(self.tableView,didSelectRowAtIndexPath:selectedIndexPath);
-
+        
+        
         self.setupStatus("邮件列表刚刚更新");
 
     }

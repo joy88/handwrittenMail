@@ -289,7 +289,7 @@ class ImapMail : BaseMail {
                         
                         if msgLoadStart<0
                         {
-                            numberOfMsgLoad=NUMBEROFMSGLOAD+msgLoadStart;
+                            numberOfMsgLoad=NUMBEROFMSGLOAD+msgLoadStart+1;
                             msgLoadStart=0;
                         }
                         //要记录下当前的位置
