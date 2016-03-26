@@ -137,6 +137,8 @@ class ImapMail : BaseMail {
 
                         let imapFetchMailCountOp = imapSession.folderInfoOperation(tmpImapFolder.path);
                         
+                        print(tmpImapFolder.path);
+                        
                         imapFetchMailCountOp.start()
                             {
                                 (error:NSError?,info:MCOIMAPFolderInfo?)->Void in

@@ -702,14 +702,47 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
     //MARK:编写新邮件
     func newMail(sender: AnyObject) {
-        //added by shiww,弹出邮件编写界面
-        let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as UIViewController
-         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        let popOverController = popVC.popoverPresentationController
-        popVC.preferredContentSize=CGSizeMake(820,1093);
-        popOverController?.permittedArrowDirections = .Any
-        self.presentViewController(popVC, animated: true, completion: nil)
+        let composeMenu = UIAlertController(title: nil, message: "新邮件选项", preferredStyle: .ActionSheet)
+        
+        let handwrittenAction = UIAlertAction(title: "手写邮件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            //added by shiww,弹出手写邮件编写界面
+            let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as UIViewController
+            popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            let popOverController = popVC.popoverPresentationController
+            popVC.preferredContentSize=CGSizeMake(820,1093);
+            popOverController?.permittedArrowDirections = .Any
+            self.presentViewController(popVC, animated: true, completion: nil)
+            
+        };
+        
+        let digitalmailAction = UIAlertAction(title: "普通邮件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            print("普通邮件代码实现在此!");
+            
+        };
+        
+        
+//        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        composeMenu.addAction(handwrittenAction)
+        composeMenu.addAction(digitalmailAction)
+        
+//        composeMenu.addAction(cancelAction)
+        
+        composeMenu.popoverPresentationController?.sourceView=sender.view;
+        
+        composeMenu.popoverPresentationController?.sourceRect=sender.view!.bounds;
+        
+        
+        self.presentViewController(composeMenu, animated: true, completion: nil)
 
+        
+ 
     }
     
     //MARK:全部回复邮件
@@ -766,7 +799,55 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     
     //MARK:转发邮件
     func forwardMail(sender: AnyObject) {
-        self.mywebView.exportViewToPng();
+       // self.mywebView.exportViewToPng();
+        let forwardMenu = UIAlertController(title: nil, message: "转发选项", preferredStyle: .ActionSheet)
+        
+        let readAction = UIAlertAction(title: "带附件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            print("带附件代码实现在此!");
+            
+        };
+        
+        let unreadAction = UIAlertAction(title: "不带附件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+           print("不带附件代码实现在此!");
+            
+        };
+        
+        
+        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        forwardMenu.addAction(readAction)
+        forwardMenu.addAction(unreadAction)
+        
+        forwardMenu.addAction(cancelAction)
+        
+        forwardMenu.popoverPresentationController?.sourceView=sender.view;
+        
+        forwardMenu.popoverPresentationController?.sourceRect=sender.view!.bounds;
+
+        
+        self.presentViewController(forwardMenu, animated: true, completion: nil)
+        
+        
+//        let popVC=PaintingBrushSetting();
+//        popVC.mainViewController=self;
+//        
+//        popVC.modalPresentationStyle = UIModalPresentationStyle.Popover
+//        popVC.popoverPresentationController!.delegate = self
+//        let popOverController = popVC.popoverPresentationController
+//        popOverController!.sourceView = sender.view;
+//        popOverController!.sourceRect = sender.view!.bounds
+//        popVC.preferredContentSize=CGSizeMake(455,268);
+//        popOverController?.permittedArrowDirections = .Any
+//        self.presentViewController(popVC, animated: true, completion: nil)
+//        
+
+
         
     }
     

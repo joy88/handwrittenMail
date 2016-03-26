@@ -257,8 +257,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         self.loadSystemPara();
         
-        //added by shiww,设置默认背景
-        self.board.backgroundColor = UIColor(patternImage: UIImage(named: self.board.bkImgName)!);
+        
         
         
         //added by shiww,设置按钮图片和按钮事件
@@ -339,6 +338,11 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         let tempImage=self.pages.loadPage()
         self.board.loadImage(tempImage);
+        
+        let image=UIImage(named: self.board.bkImgName)!
+        self.setBackgroundColor(image);
+
+        
         self.labPages.setTitle("\(self.pages.CurrentPage)/\(self.pages.PageCount)", forState: UIControlState.Normal);
         
     }
@@ -347,7 +351,6 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     
     
@@ -548,8 +551,10 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     func setBackgroundColor(image:UIImage)
     {
         //added by shiww,to support retina
-        UIGraphicsBeginImageContextWithOptions(self.view.frame.size,false,0);
-        image.drawInRect(self.view.bounds);
+        let bounds=CGRect(x: 0,y: 0,width: 820,height: 1093);//self.view.bounds,不知道为什么,必须设置为固定大小,否则会得到屏幕大小
+        UIGraphicsBeginImageContextWithOptions(bounds.size,false,0);
+        image.drawInRect(bounds);
+//        print(bounds);
         let tempImage=UIGraphicsGetImageFromCurrentImageContext();
         
         UIGraphicsEndImageContext();

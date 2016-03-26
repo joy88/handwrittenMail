@@ -34,7 +34,9 @@
         _webView = [[UIWebView alloc] initWithFrame:[self bounds]];
         [_webView setAutoresizingMask:(UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth)];
         [_webView setDelegate:self];
-        
+          _webView.scalesPageToFit=YES;//支持手势缩放
+         _webView.multipleTouchEnabled=YES;//支持手势缩放
+        _webView.userInteractionEnabled=YES;//支持交互
 //        [self addSubview:_webView];
     }
     

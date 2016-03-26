@@ -95,20 +95,15 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //MARK:加右边按钮
     func setupRightBarButtonItem()
     {
-        let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.rightBarButtonItemClicked))
+        let rightButtonItem = UIBarButtonItem(title: "刷新", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.rightBarButtonItemClicked))
         self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
     //MARK:增加事件
     func rightBarButtonItemClicked()
     {
-        
-        let row = self.mailList.count
-        let indexPath = NSIndexPath(forRow:row,inSection:0)
-//        self.mailList.append("超图")
-//        self.mailList.append("http://www.supermap.com.cn")
-        self.tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
-        
+        self.setupStatus("正在加载邮件列表");
+        self.mail.getMailList("$SAMEFOLDER",delegate:self,upFresh:true)
     }
     
     
@@ -310,7 +305,14 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         let tableview=self.view as! UITableView;
         tableview.reloadData();
         
+        self.setupStatus("邮件列表刚刚更新");
+
+        
         //默认选中第一个
+        if(self.mailList.count<=0)
+        {
+            return;
+        }
         
         let selectedIndex:Int = 0;
         
@@ -322,7 +324,6 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         self.tableView.delegate!.tableView!(self.tableView,didSelectRowAtIndexPath:selectedIndexPath);
         
         
-        self.setupStatus("邮件列表刚刚更新");
 
     }
     
@@ -360,6 +361,100 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         }
         
     }
+    
+    
+    //左滑和右滑操作
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    }
+    //左滑操作
+    override func tableView(tableView: UITableView,
+                            editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?{
+        // 1
+        let shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "删除" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+            // 2
+            let deleteMenu = UIAlertController(title: nil, message: "删除", preferredStyle: .ActionSheet)
+            
+            let deleteAction = UIAlertAction(title: "确定删除", style: UIAlertActionStyle.Default, handler: nil)
+            let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            deleteMenu.addAction(deleteAction)
+            deleteMenu.addAction(cancelAction)
+            
+            
+            self.presentViewController(deleteMenu, animated: true, completion: nil)
+        })
+       // shareAction.backgroundColor=UIColor(patternImage: UIImage(named: "trash")!);
+        // 3
+        let unreadAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "已读?" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+            // 4
+            let setreadMenu = UIAlertController(title: nil, message: "阅读状态", preferredStyle: .ActionSheet)
+            
+            let readAction = UIAlertAction(title: "已读", style: UIAlertActionStyle.Default)
+            {
+                (UIAlertAction) -> Void in
+                
+                self.setcurrentMsgRead(indexPath,readed: true);
+                
+            };
+
+            let unreadAction = UIAlertAction(title: "未读", style: UIAlertActionStyle.Default)
+            {
+                (UIAlertAction) -> Void in
+                
+                self.setcurrentMsgRead(indexPath,readed: false);
+                
+            };
+
+            
+            let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            setreadMenu.addAction(readAction)
+            setreadMenu.addAction(unreadAction)
+
+            setreadMenu.addAction(cancelAction)
+            
+            
+            self.presentViewController(setreadMenu, animated: true, completion: nil)
+        })
+        // 5
+        return [shareAction,unreadAction]
+    }
+    
+    //MARK:设置当前邮件为未读或已读
+    private func setcurrentMsgRead(indexPath: NSIndexPath,readed:Bool)
+    {
+        //点击时自动设置为未读,现在又可手工设置,二者冲突不知如何解决?以下代码现在还不起作用,有待修改
+          let delayInSeconds = Int64(NSEC_PER_SEC) * 1
+        let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
+        dispatch_after(popTime, dispatch_get_main_queue(), {
+            //设置read/unread状态
+            self.setReaded(readed,uid:UInt64(self.mailList[indexPath.row].uid),folder:self.mail.mailFolderName)
+            
+            if readed
+            {
+                if !self.mailList[indexPath.row].flags.contains(MCOMessageFlag.Seen)
+                {
+                self.mailList[indexPath.row].flags=[self.mailList[indexPath.row].flags,MCOMessageFlag.Seen];
+                }
+            }
+            else
+            {
+                if self.mailList[indexPath.row].flags.contains(MCOMessageFlag.Seen)
+                {
+
+                   self.mailList[indexPath.row].flags.remove(MCOMessageFlag.Seen);
+                }
+            }
+            
+            let tableview=self.tableView;
+            
+            
+            tableview.reloadRowsAtIndexPaths([indexPath],withRowAnimation:UITableViewRowAnimation.None);
+            
+        })
+        
+    }
+    
     
     
 }
