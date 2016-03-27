@@ -354,7 +354,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         op2.start { (error:NSError?) in
             if error==nil
             {
-                print("undo/redo设置成功!")
+//                print("undo/redo设置成功!")
                 
             }
             
@@ -374,7 +374,15 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             // 2
             let deleteMenu = UIAlertController(title: nil, message: "删除", preferredStyle: .ActionSheet)
             
-            let deleteAction = UIAlertAction(title: "确定删除", style: UIAlertActionStyle.Default, handler: nil)
+            let deleteAction = UIAlertAction(title: "确定删除", style: UIAlertActionStyle.Default)
+            {
+                //删除邮件
+                (UIAlertAction) -> Void in
+                
+                self.delCurrentMsg(indexPath);
+
+                
+            }
             let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
             
             deleteMenu.addAction(deleteAction)
@@ -420,6 +428,89 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         return [shareAction,unreadAction]
     }
     
+    //MARK:删除当前邮件
+    private func  delCurrentMsg(indexPath: NSIndexPath)
+    {
+        if indexPath.row < 0
+        {
+            return;
+        }
+        
+        let index=indexPath.row;
+        
+        let imapSession=self.mail.mailconnection as! MCOIMAPSession;
+        let folderName = self.mail.mailFolderName;//imapSession.defaultNamespace.pathForComponents([self.mail.m]);
+        let deleteFolder = imapSession.defaultNamespace.pathForComponents(["已删除"]);
+        let draftFolder = imapSession.defaultNamespace.pathForComponents(["草稿箱"]);
+        //这里判断是不是“已删除”和“草稿箱”两个文件夹，如果不是那么使用copyMessage来复制邮件到“已删除”
+        
+        
+        if (folderName != deleteFolder) && (folderName != draftFolder)
+        {
+            let op = imapSession.copyMessagesOperationWithFolder(folderName,uids:MCOIndexSet(index:UInt64(self.mailList[index].uid)),destFolder:deleteFolder);
+            
+            op.start()
+                {
+                    (error:NSError?,uidMapping:[NSObject : AnyObject]?)->Void in
+                    if error==nil
+                    {
+                
+                        self.unturnedDelete(self.mailList[index].uid,indexPath: indexPath)
+                    }
+                
+            }
+            
+        }
+        else
+        {
+            self.unturnedDelete(self.mailList[index].uid,indexPath: indexPath);
+        }
+        
+    }
+    
+    
+    //MARK:真正地删除邮件,而不是复制到"已删除"目录中
+    private func unturnedDelete(uid:UInt32,indexPath: NSIndexPath)
+    {
+        if indexPath.row < 0
+        {
+            return;
+        }
+        
+        let index=indexPath.row;
+        
+        let imapSession=self.mail.mailconnection as! MCOIMAPSession;
+        let folderName = self.mail.mailFolderName;//imapSession.defaultNamespace.pathForComponents([self.mail.m]);
+        //先添加删除flags
+        let op2 = imapSession.storeFlagsOperationWithFolder(folderName,            uids:MCOIndexSet(index:UInt64(self.mailList[index].uid)),
+            kind:MCOIMAPStoreFlagsRequestKind.Set,
+            flags:MCOMessageFlag.Deleted);
+        
+        op2.start()
+        {
+            (error:NSError?) in
+            if error==nil{
+                let deleteOp = imapSession.expungeOperation(folderName);
+                
+                deleteOp.start(){
+                        (error:NSError?) in
+                        
+                        if error==nil{
+//                            print("real delete succeeded!");
+                            self.mailList.removeAtIndex(indexPath.row);
+                            self.tableView.reloadData();
+                            
+                        }
+                        else{
+                            print("real delete failed!");
+
+                        }
+                }
+            }
+        }
+        
+    }
+
     //MARK:设置当前邮件为未读或已读
     private func setcurrentMsgRead(indexPath: NSIndexPath,readed:Bool)
     {

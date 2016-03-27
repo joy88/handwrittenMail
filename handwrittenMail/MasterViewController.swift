@@ -242,10 +242,10 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         {
              index=indexPath.row;
             
-            if index==1
-            {
-                cell.accessoryType=UITableViewCellAccessoryType.DetailDisclosureButton
-            }
+//            if index==1
+//            {
+//                cell.accessoryType=UITableViewCellAccessoryType.DetailDisclosureButton
+//            }
         }
         else if self.mailFolders.count>3
         {
