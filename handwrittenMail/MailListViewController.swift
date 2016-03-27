@@ -388,12 +388,21 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             deleteMenu.addAction(deleteAction)
             deleteMenu.addAction(cancelAction)
             
+//            deleteMenu.popoverPresentationController?.sourceView=tableView.cellForRowAtIndexPath(indexPath);
+//            
+//            var bounds=(tableView.cellForRowAtIndexPath(indexPath)?.bounds)!;
+//            
+//            bounds=CGRect(x:0,y: bounds.origin.y,width: bounds.width,height: bounds.height);
+//            
+//            
+//            deleteMenu.popoverPresentationController?.sourceRect=bounds;
+
             
             self.presentViewController(deleteMenu, animated: true, completion: nil)
         })
        // shareAction.backgroundColor=UIColor(patternImage: UIImage(named: "trash")!);
         // 3
-        let unreadAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "已读?" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+        let unreadAction =  UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "已读?" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
             // 4
             let setreadMenu = UIAlertController(title: nil, message: "阅读状态", preferredStyle: .ActionSheet)
             
@@ -420,6 +429,17 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             setreadMenu.addAction(unreadAction)
 
             setreadMenu.addAction(cancelAction)
+            
+            
+//            setreadMenu.popoverPresentationController?.sourceView=tableView.cellForRowAtIndexPath(indexPath);
+//            
+//            var bounds=(tableView.cellForRowAtIndexPath(indexPath)?.bounds)!;
+//            
+//            bounds=CGRect(x:0,y: bounds.origin.y,width: bounds.width,height: bounds.height);
+//            
+//            
+//            setreadMenu.popoverPresentationController?.sourceRect=bounds;
+//
             
             
             self.presentViewController(setreadMenu, animated: true, completion: nil)
