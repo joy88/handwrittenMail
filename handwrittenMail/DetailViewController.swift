@@ -11,9 +11,10 @@ import QuickLook
 
 class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewControllerDataSource
 {
-//    private var mymessage=MCOIMAPMessage();//当前打开的邮件
-//    private var mymsgPaser:MCOMessageParser?;//邮件解析
+    //MARK:Open In Controller,must like this
+    private var docController:UIDocumentInteractionController?
     
+
     var mywebView=MCOMessageView()//MARK:邮件正文
     
     private var mailFromLbl=UILabel()//MARK:邮件正文"发件人"标签
@@ -373,11 +374,23 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             let tmpBtn=UIEmailButton();
             tmpBtn.tag=index;
             
-            let email=MCOAddress(displayName: attachment.filename, mailbox: "s@s.s")//displayName中是文件名啊
+            let fileSize=Double(attachment.decodedSize())/(1024*1024);
+            
+            var strFileSize=String(format: "%.2f", fileSize)
+            
+            strFileSize = attachment.filename+"("+strFileSize+"M)";
+            
+            let email=MCOAddress(displayName:strFileSize, mailbox: "s@s.s")//displayName中是文件名啊
         
             tmpBtn.mailAddress=email;
 
             tmpBtn.addTarget(self,action: #selector(DetailViewController.previewAttach(_:)),forControlEvents: UIControlEvents.TouchUpInside)
+            
+            //添加长按事件,和按分享附件
+            let longPress=UILongPressGestureRecognizer(target: self, action: #selector(DetailViewController.shareAttachment(_:)));
+            longPress.minimumPressDuration=0.4;
+            tmpBtn.addGestureRecognizer(longPress);
+
             
             attachBtns.append(tmpBtn);
             
@@ -387,8 +400,89 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         }
         
     }
+    
+    //MARK:长按附件按钮，分享附件到其他系统中
+    func shareAttachment(sender : UILongPressGestureRecognizer) {
+        
+        if sender.state != UIGestureRecognizerState.Began
+        {
+            return;
+        }
+        
+        let index=sender.view!.tag;
+        
+        let attachment=self.message.attachments()[index];
+        
+        if !(attachment is MCOIMAPPart)//paser出来的可以直接保存
+        {
+            return;
+        }
+        
+        let msgpart=attachment as! MCOIMAPPart;
+        
+        let filename=attachment.filename//sender.mailAddress.displayName;
+        
+        var tmpDirectory = NSTemporaryDirectory();
+        tmpDirectory=tmpDirectory+"/"+filename;
+        
+        let isDownloaded=NSFileManager.defaultManager().fileExistsAtPath(tmpDirectory);//判断一下是否已经下载
+        
+        if isDownloaded//已经下载
+        {
+            self.tempFilePath=tmpDirectory;
+           
+            self.shareDocument(self.tempFilePath,sender:sender)
+        }
+        else//未下载
+        {
+            
+            
+            let imapsession=self.session;
+            
+            let op = imapsession.fetchMessageAttachmentOperationWithFolder(self.folder,uid:self.message.uid,partID:msgpart.partID,encoding:msgpart.encoding,urgent:false);
+            
+            op.start()
+                {
+                    (error:NSError?,data:NSData?)->Void in
+                    if error==nil
+                    {
+                        if let attachData=data
+                        {
+                            attachData.writeToFile(tmpDirectory,atomically:true);
+                            self.tempFilePath=tmpDirectory;
+                            
+                            self.shareDocument(self.tempFilePath,sender:sender)
 
+                        }
+                        
+                        
+                    }
+                    else{
+                        print("附件获取失败!");
+                    }
+            }
+            
+        }
+        
 
+        
+        
+     }
+    
+    //MARK:分享附件
+    private func shareDocument(file:String,sender:UILongPressGestureRecognizer)
+    {
+        
+        let url = NSURL(fileURLWithPath: file);
+        self.docController = UIDocumentInteractionController(URL: url)
+        
+      //  docController.UTI=""
+            
+        self.docController?.presentOptionsMenuFromRect((sender.view?.frame)!,inView:self.view, animated:true);
+
+    }
+
+  
     //MARK:email List自动布局,需和setMailFromList配合
     //viewWdith=self.view.Bounds.width
     func AutoLayoutMailListBtn(emaillistBtn:[UIEmailButton],viewWidth:CGFloat,X:CGFloat,Y:CGFloat,Width:CGFloat,Hight:CGFloat,xSpace:CGFloat,ySpace:CGFloat,FontSize:CGFloat,isBold:Bool=false,color:UIColor,isHidden:Bool=false)->CGFloat//返回右下角坐标的Y值
@@ -807,7 +901,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             (UIAlertAction) -> Void in
             
             print("带附件代码实现在此!");
-            
+            self.forwardMailOperation(true);
+        
         };
         
         let unreadAction = UIAlertAction(title: "不带附件", style: UIAlertActionStyle.Default)
@@ -815,6 +910,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             (UIAlertAction) -> Void in
             
            print("不带附件代码实现在此!");
+            self.forwardMailOperation(false);
+
             
         };
         
@@ -834,20 +931,78 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.presentViewController(forwardMenu, animated: true, completion: nil)
         
         
-//        let popVC=PaintingBrushSetting();
-//        popVC.mainViewController=self;
-//        
-//        popVC.modalPresentationStyle = UIModalPresentationStyle.Popover
-//        popVC.popoverPresentationController!.delegate = self
-//        let popOverController = popVC.popoverPresentationController
-//        popOverController!.sourceView = sender.view;
-//        popOverController!.sourceRect = sender.view!.bounds
-//        popVC.preferredContentSize=CGSizeMake(455,268);
-//        popOverController?.permittedArrowDirections = .Any
-//        self.presentViewController(popVC, animated: true, completion: nil)
-//        
+    }
+    
+    //MARK：转发邮件--带附件或不带附件
+    private func forwardMailOperation(withAttachment:Bool=true)
+    {
+        if self.message==nil
+        {
+            return;
+        }
+        //added by shiww,弹出邮件编写界面
+        let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        let popOverController = popVC.popoverPresentationController
+        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popOverController?.permittedArrowDirections = .Any
+        
+        let header=self.message.header;
+        
+        
+        
+        popVC.mailTopic="from石伟伟 转发："+header.subject;//邮件主题;
+        //把当前邮件转化为图片转发
+        //popVC.mailOrign=self.mywebView.exportViewToPng();
+        
+        //把当前邮件原文转发
+        //1.首先获得邮件HTMLBODY
+        
+        let imapsession=self.session;
+        
+        let fetchContentOp = imapsession.fetchMessageOperationWithFolder(self.folder,uid:self.message.uid,urgent:true);
+        
+        fetchContentOp.start()
+            {
+                (error:NSError?, data:NSData?)->Void in
+                if error==nil
+                {
+                    
+                    let msgPareser = MCOMessageParser(data:data);
+                    
+                    let bodyHtml=msgPareser.htmlBodyRendering();
+                    
+                    popVC.mailHtmlbodyOrigin=nil;
+                    popVC.mailHtmlbodyOrigin=bodyHtml;//邮件正文
+                    
+                    popVC.mailOriginAttachments=nil;
+                    popVC.mailOriginRelatedAttachments=nil;
+                    
+                    // 添加正文里的附加资源
+                    let inattachments = msgPareser.htmlInlineAttachments;
+                    
+                    
+                    popVC.mailOriginRelatedAttachments=inattachments() as? [MCOAttachment];
 
-
+                    
+                    if withAttachment //要带附件
+                    {
+                        
+                        let attachments=msgPareser.attachments;
+                        
+                        popVC.mailOriginAttachments=attachments() as? [MCOAttachment];
+                    }
+                    
+                    self.presentViewController(popVC, animated: true, completion: nil)
+                    
+                }
+                else
+                {
+                    print("获取邮件全文信息失败!")
+                }
+                
+                
+        }
         
     }
     

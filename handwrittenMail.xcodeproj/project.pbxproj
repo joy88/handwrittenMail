@@ -29,6 +29,7 @@
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
 		2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC41C8DD3FB006E9736 /* BaseMail.swift */; };
 		2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC61C8DD616006E9736 /* ImapMail.swift */; };
+		2F5C2A551CA98A1B0066FD12 /* forwadmailhead.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F5C2A541CA98A1B0066FD12 /* forwadmailhead.html */; };
 		2F648D6E1CA5275800044BAC /* WTReParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F648D6B1CA5275800044BAC /* WTReParser.m */; };
 		2F648D6F1CA5275800044BAC /* WTReTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F648D6D1CA5275800044BAC /* WTReTextField.m */; };
 		2F86230B1C9D06D500A86A84 /* ACAddressBookDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622E31C9D06D500A86A84 /* ACAddressBookDataSource.m */; };
@@ -158,6 +159,7 @@
 		2F508CC01C8DCD37006E9736 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
 		2F508CC41C8DD3FB006E9736 /* BaseMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMail.swift; sourceTree = "<group>"; };
 		2F508CC61C8DD616006E9736 /* ImapMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImapMail.swift; sourceTree = "<group>"; };
+		2F5C2A541CA98A1B0066FD12 /* forwadmailhead.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = forwadmailhead.html; sourceTree = "<group>"; };
 		2F648D6A1CA5275800044BAC /* WTReParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTReParser.h; sourceTree = "<group>"; };
 		2F648D6B1CA5275800044BAC /* WTReParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTReParser.m; sourceTree = "<group>"; };
 		2F648D6C1CA5275800044BAC /* WTReTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTReTextField.h; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				2F508CC61C8DD616006E9736 /* ImapMail.swift */,
 				2F16466D1CA4309800AFE9FF /* SettingViewController.swift */,
 				2F16466E1CA4309800AFE9FF /* SettingViewController.xib */,
+				2F5C2A541CA98A1B0066FD12 /* forwadmailhead.html */,
 			);
 			name = MailFunction;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 			files = (
 				2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */,
 				2F8623391C9D100300A86A84 /* Board.storyboard in Resources */,
+				2F5C2A551CA98A1B0066FD12 /* forwadmailhead.html in Resources */,
 				2F86231B1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib in Resources */,
 				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
 				2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */,
@@ -737,7 +741,7 @@
 					"-stdlib=libc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = shiweiwei.handwrittenMail;
+				PRODUCT_BUNDLE_IDENTIFIER = shiweiweia.handwrittenMail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shizx/Documents/handwrittenMail/handwrittenMail/Maincore-Bridging-Header.h";
 			};
@@ -763,7 +767,7 @@
 					"-stdlib=libc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = shiweiwei.handwrittenMail;
+				PRODUCT_BUNDLE_IDENTIFIER = shiweiweia.handwrittenMail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shizx/Documents/handwrittenMail/handwrittenMail/Maincore-Bridging-Header.h";
 			};

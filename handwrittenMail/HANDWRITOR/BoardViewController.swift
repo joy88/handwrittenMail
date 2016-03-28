@@ -71,6 +71,10 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     var mailCc=[MCOAddress]();//MARK:抄送
     var mailTopic="";//MARK:邮件主题
     var mailOrign:UIImage?;//MARK:邮件原文,转发或回复时有用
+    var mailHtmlbodyOrigin:String?//MARK:邮件HTML原文，转发或回复时有用
+    var mailOriginAttachments:[MCOAttachment]?//MARK:邮件附件，转发时有用
+    var mailOriginRelatedAttachments:[MCOAttachment]?//MARK:邮件releated附件，正文中的图片转发时有用
+
     
     @IBOutlet weak var btnInsertImg: UIButton!//MARK:插入图片
   
@@ -776,21 +780,18 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         smtpSession.username = smtpinfo.smtpusername;
         smtpSession.password = smtpinfo.smtppassword;
         
-//        smtpSession.hostname = "smtp.126.com";
-//        smtpSession.port = 465;
-//        smtpSession.username = "shiwwtest@126.com";
-//        smtpSession.password = "sww761106";
-        smtpSession.timeout=NSTimeInterval(3);
-
         smtpSession.connectionType = MCOConnectionType.TLS;
         
         let smtpOperation = smtpSession.loginOperation();
+        //发送邮件
+        self.mailSendBtn.enabled=false;
+        self.mailSendBtn.backgroundColor=UIColor.grayColor();
+
         smtpOperation.start()
         {
             (error:NSError?)->Void in
             
             if (error == nil) {
-                print("login account successed");
                 // 构建邮件体的发送内容
                 let messageBuilder = MCOMessageBuilder();
                 messageBuilder.header.from = MCOAddress(displayName: smtpinfo.nicklename, mailbox:smtpinfo.smtpusername);   // 发送人
@@ -798,8 +799,6 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 var canSendMail=true;//是否符合发邮件的条件
                 
                 let mailTo=self.mailToInputText.getEmailLists();
-//                mailTo.append(MCOAddress(displayName: "石伟伟", mailbox:"shiweiwei@supermap.com"));
-//                mailTo.append(MCOAddress(displayName: "卧龙居", mailbox:"139761106@qq.com"));
                 
                 if mailTo.count==0
                 {
@@ -810,12 +809,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 messageBuilder.header.to=mailTo;       // 收件人（多人）
                 
                 let mailCc=self.mailCcInputText.getEmailLists();
-             //   mailCc.append(MCOAddress(displayName: "石伟伟icloud", mailbox:"shiwwgis@me.com"));
-               // mailCc.append(MCOAddress(displayName: "卧龙居", mailbox:"139761106@qq.com"));
-
                 
                 messageBuilder.header.cc = mailCc;      // 抄送（多人）
-//                messageBuilder.header.bcc = @[[MCOAddress addressWithMailbox:@"444444@qq.com"]];    // 密送（多人）
                 if self.mailTopicInputText.text==""
                 {
                     canSendMail=false;
@@ -825,6 +820,10 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 if !canSendMail
                 {
                     self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
+                    //恢复发送按钮状态
+                    self.mailSendBtn.enabled=true;
+                    self.mailSendBtn.backgroundColor=UIColor.greenColor();
+
                     return;//不能发送邮件了
                 }
                 
@@ -835,13 +834,13 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 let pageLists=self.pages.getPageLists();
                 
-                var index:Int=0;
                 
                 for pageList in pageLists
                 {
-                    index=index+1;
                     
-                    let cid="cngis-\(index)";
+                    let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+                    
+                    let cid="cngis-"+uuid;
                     
                     htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
                     
@@ -857,11 +856,29 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 if self.mailOrign != nil
                 {
                     
-                    htmlBody=htmlBody+"<br/><p>以下是原邮件内容</p><br/>";
-
-                    index=index+1;
+                    var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
                     
-                    let cid="cngis-\(index)";
+                    let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+                    if path != nil
+                    {
+                        do {
+                            tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                        }
+                        catch let error as NSError {
+                            print(error.localizedDescription)
+                        }
+                        
+                        
+                    }
+                    
+                    htmlBody=htmlBody+tempHtmlbody;
+
+
+
+                    
+                    let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+                    
+                    let cid="cngis-"+uuid;
                     
                     htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
                     
@@ -872,6 +889,54 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 }
                 //老邮件添加完毕
                 
+                //老邮件，htmlbody转发
+                if self.mailHtmlbodyOrigin != nil
+                {
+                    
+                    var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+
+                      let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+                    if path != nil
+                    {
+                        do {
+                            tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                        }
+                        catch let error as NSError {
+                            print(error.localizedDescription)  
+                        }
+                        
+                        
+                    }
+                    
+                        
+                    let originBodyHtml = NSMutableString(format: "%@<br/><br/>%@",tempHtmlbody.stringByReplacingOccurrencesOfString("\n",withString:"<br/>"),self.mailHtmlbodyOrigin!);
+                    
+                    htmlBody=htmlBody+(originBodyHtml as String);
+                    
+                    //添加hmtlinline附件
+                    
+                    if self.mailOriginRelatedAttachments != nil
+                    {
+                        for attachment in self.mailOriginRelatedAttachments!
+                        {
+                            messageBuilder.addRelatedAttachment(attachment);
+                        }
+                    }
+                    
+                    //添加邮件附件
+                    if self.mailOriginAttachments != nil
+                    {
+                        for attachment in self.mailOriginAttachments!
+                        {
+                            messageBuilder.addAttachment(attachment);
+                        }
+                    }
+
+                    
+                }
+                //老邮件添加完毕
+
+                
                 
                 htmlBody=htmlBody+"</body></html>";
                 
@@ -879,9 +944,6 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 messageBuilder.htmlBody=htmlBody;
                 
-                //发送邮件
-                self.mailSendBtn.enabled=false;
-                self.mailSendBtn.backgroundColor=UIColor.grayColor();
                 
                 let rfc822Data = messageBuilder.data();
                 let sendOperation = smtpSession.sendOperationWithData(rfc822Data);
@@ -900,6 +962,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                             //存放到草稿箱中
    
                         }
+                        
                         self.mailSendBtn.enabled=true;
                         self.mailSendBtn.backgroundColor=UIColor.greenColor();
 
@@ -911,6 +974,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
             {
                 print("login account failure: %@", error);
                 
+                self.mailSendBtn.enabled=true;
+                self.mailSendBtn.backgroundColor=UIColor.greenColor();                
         }
      }
     }
@@ -1035,7 +1100,7 @@ extension ACTextArea
                 
                 if atRange != nil
                 {
-                    displayName="";
+                    displayName=tempStr;
                     email=tempStr
                     emailLists.append(MCOAddress(displayName: displayName, mailbox: email));
 
