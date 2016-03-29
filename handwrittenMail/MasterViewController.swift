@@ -407,6 +407,34 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         var threeFolders=["INBOX","已发送","草稿箱"];
         
+        let keys = Array(tempFolders.keys)
+        
+        for key in keys
+        {
+            if self.mailFolders[key] != nil
+            {
+                folderMeta=self.mailFolders[key]!;
+                if folderMeta.folderFlag.contains( MCOIMAPFolderFlag.Inbox)
+                {
+                    threeFolders[0]=folderMeta.folderName;
+                    
+                }
+                if folderMeta.folderFlag.contains(MCOIMAPFolderFlag.SentMail)
+                {
+                    threeFolders[1]=folderMeta.folderName;
+                    
+                }
+                if folderMeta.folderFlag.contains(MCOIMAPFolderFlag.Drafts)
+                {
+                    threeFolders[2]=folderMeta.folderName;
+                    
+                }
+
+
+            }
+        }
+        
+        
   
         switch index
             {

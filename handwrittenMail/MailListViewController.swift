@@ -294,7 +294,10 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             })
             }
             
- 
+         //隐藏MasterView
+            let splitViewController = UIApplication.sharedApplication().keyWindow?.rootViewController as! UISplitViewController
+            //navigationController!.parentViewController as! UISplitViewController;
+            splitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.PrimaryHidden;
         }
     }
     

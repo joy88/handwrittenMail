@@ -151,6 +151,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
      
         //关闭设备监听
         //UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
+        //加上这句，UIWebView顶部不会出现一个空白条了，找了好久才找到斛方案啊。
+        self.automaticallyAdjustsScrollViewInsets = false;
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -218,11 +221,21 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 //        var mailCcLbl=UILabel();//"抄送"按钮
         top3=top3+ySpace;
         
+        if self.mailCcBtns.count>0
+        {
+            self.mailCcLbl.hidden=false;
+
+        
         mailCcLbl.setLabel("抄送:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
 
 //        var mailCcBtns=[UIEmailButton]()//抄送人
         
         top4=self.AutoLayoutMailListBtn(self.mailCcBtns,viewWidth: bounds.width-marginSpace, X: marginSpace+ctrWidth+xSpace, Y: top3, Width: ctrWidth, Hight: ctrHight, xSpace: xSpace, ySpace: ySpace, FontSize: 16, color: blue);
+        }
+        else{
+            self.mailCcLbl.hidden=true;
+            top4=top3;
+        }
 
         //画一条线
 //        var lineLbl=UILabel();//灰色分割线
@@ -261,7 +274,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         if (self.message != nil) && (self.message.attachments().count>0)
         {
-            attachLbl.setLabel("附件:", x: marginSpace, y: top7, width: ctrWidth, height: ctrHight, fonSize: 19, isBold: true, color: red);
+            attachLbl.setLabel("附件:", x: marginSpace, y: top7, width: ctrWidth, height: ctrHight, fonSize: 19, isBold: true, color: black);
             
             self.view.addSubview(attachLbl);
             

@@ -29,15 +29,18 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    
+
+    [self setAutoresizesSubviews:YES];
     if(self) {
         _webView = [[UIWebView alloc] initWithFrame:[self bounds]];
-        [_webView setAutoresizingMask:(UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth)];
+ //       [_webView setAutoresizingMask:(UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth)];
         [_webView setDelegate:self];
           _webView.scalesPageToFit=YES;//支持手势缩放
          _webView.multipleTouchEnabled=YES;//支持手势缩放
         _webView.userInteractionEnabled=YES;//支持交互
-//        [self addSubview:_webView];
+        _webView.backgroundColor=[UIColor blueColor];
+        //_webView.automaticallyAdjustsScrollViewInsets = NO
+        [self addSubview:_webView];
     }
     
     return self;
@@ -69,16 +72,19 @@
     return _webView;
 }
 //added end
-
+-  (void) layoutSubviews
+{
+    _webView.frame =CGRectMake(0,0,self.bounds.size.width,self.bounds.size.height);//added by shiww
+ }
 //added by shiww
 - (void) _refresh
 {
-    _webView.frame =self.bounds;//added by shiww
+ /*   _webView.frame =self.bounds;//added by shiww
     
     if (self.subviews.count==0)
     {
         [self addSubview:_webView];
-    }
+    }*/
     
 //    NSLog(@"%@",_webView.frame);
 

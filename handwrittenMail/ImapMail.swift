@@ -67,12 +67,23 @@ class ImapMail : BaseMail {
     {
         var mailFolders:MAILFOLDERS=["INBOX":mailFolderMeta(),"已发送":mailFolderMeta(),"草稿箱":mailFolderMeta()];
         
-        if !self.isCanBeConnected
-        {
-//            return mailFolders;
-        }
         
         let imapSession=self.mailconnection as! MCOIMAPSession;
+        
+        //连接时输出日志
+        
+        imapSession.connectionLogger =
+            {
+                
+                (connectionID, type, data)->Void in
+                
+                if data != nil
+                {
+                    let strtemp=NSString(data: data, encoding:NSUTF8StringEncoding);
+                    
+                    print(strtemp);
+                }
+        }
         
         let imapFetchFolderOp = imapSession.fetchAllFoldersOperation();
         
@@ -88,32 +99,32 @@ class ImapMail : BaseMail {
                     mailFolders.removeAll();
                     
                     //O_C 代码 转换folder名为中文名,否则乱码
-//                    static void testMUTF7(void)
-//                    {
-//                        int failure = 0;
-//                        int success = 0;
-//                        const char * mutf7string = "~peter/mail/&U,BTFw-/&ZeVnLIqe-";
-//                        IMAPNamespace * ns = IMAPNamespace::namespaceWithPrefix(MCSTR(""), '/');
-//                        Array * result = ns->componentsFromPath(String::stringWithUTF8Characters(mutf7string));
-//                        if (strcmp(MCUTF8(result), "[~peter,mail,台北,日本語]") != 0) {
-//                            failure ++;
-//                        }
-//                        else {
-//                            success ++;
-//                        }
-//                        if (failure > 0) {
-//                            printf("testMUTF7 ok: %i succeeded, %i failed\n", success, failure);
-//                            global_failure ++;
-//                            return;
-//                        }
-//                        printf("testMUTF7 ok: %i succeeded\n", success);
-//                        global_success ++;
-//                    }
-                      //完毕
+                    //                    static void testMUTF7(void)
+                    //                    {
+                    //                        int failure = 0;
+                    //                        int success = 0;
+                    //                        const char * mutf7string = "~peter/mail/&U,BTFw-/&ZeVnLIqe-";
+                    //                        IMAPNamespace * ns = IMAPNamespace::namespaceWithPrefix(MCSTR(""), '/');
+                    //                        Array * result = ns->componentsFromPath(String::stringWithUTF8Characters(mutf7string));
+                    //                        if (strcmp(MCUTF8(result), "[~peter,mail,台北,日本語]") != 0) {
+                    //                            failure ++;
+                    //                        }
+                    //                        else {
+                    //                            success ++;
+                    //                        }
+                    //                        if (failure > 0) {
+                    //                            printf("testMUTF7 ok: %i succeeded, %i failed\n", success, failure);
+                    //                            global_failure ++;
+                    //                            return;
+                    //                        }
+                    //                        printf("testMUTF7 ok: %i succeeded\n", success);
+                    //                        global_success ++;
+                    //                    }
+                    //完毕
                     
                     //folder支持中文时会有到
                     let ns = MCOIMAPNamespace(prefix: "", delimiter: 47);//47="/"
-
+                    
                     
                     for folder in folders!
                     {
@@ -121,84 +132,105 @@ class ImapMail : BaseMail {
                         //文件夹名称
                         //不能直接用tmpImapFolder.path!转换一下,否则folder不支持中文
                         let tmpstr=ns.componentsFromPath(tmpImapFolder.path);
-                       
+                        
                         
                         assert(tmpstr != nil)
                         
- 
-
+                        
+                        
                         
                         let folderName=tmpstr[0] as! String
                         
-                        
+                        print("foldername=\(folderName)");
+                
                         //获取邮箱目录中邮件数量信息
                         var mailCount:Int32=0;
                         
-
+                        
                         let imapFetchMailCountOp = imapSession.folderInfoOperation(tmpImapFolder.path);
                         
-//                        print(tmpImapFolder.path);
+                        //                        print(tmpImapFolder.path);
                         
                         imapFetchMailCountOp.start()
                             {
                                 (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
+                                
+                                var folderMeta=mailFolderMeta();
+                                
+                                
+                                folderMeta.folderName=folderName;
+                                
+                                folderMeta.folderFlag = tmpImapFolder.flags
+                                
+                                folderMeta.mailCount=0;
                                 
                                 if error == nil
                                 {
                                     
                                     mailCount=(info?.messageCount)!;
                                     
-                                    var folderMeta=mailFolderMeta();
-
-                                    
-                                    folderMeta.folderName=folderName;
-                                    
-                                    folderMeta.folderFlag = tmpImapFolder.flags
-                                    
                                     folderMeta.mailCount=mailCount;
 
+                                    
                                     //mail 数量
-                                   // print("foldername=\(folderName)");
+                                     print("foldername's msg count=\(mailCount)");
                                     
-                                    mailFolders.updateValue(folderMeta,forKey: folderName);
-                                    
-                                    self.delegate!.RefreshMailFolderData(mailFolders);
                                     
                                 }
                                 else
                                 {
-                                   print("get mail count of \(folderName) fail,\(error!)")
+                                    print("get mail count of \(folderName) fail,\(error!)")
                                 }
-                            }
+                                
+                                mailFolders.updateValue(folderMeta,forKey: folderName);
+                                
+                                self.delegate!.RefreshMailFolderData(mailFolders);
+
+                                
+                        }
                         
-
-
+                        
+                        
                     }
                     
-                  //  print("Mail Folder's count=\(mailFolders.count)");
-
-                    
+                    print("Mail Folder's count=\(mailFolders.count)");
                     
                 }
                 else
                 {
                     print("get mail folders failure: %@\n", error);
- 
+                    
                 }
                 
-            }
-        
-
+        }
         
         return mailFolders;
     }
     //MARK:获取邮件列表
     override func getMailList(folder:String,delegate:RefreshMailListDataDelegate,upFresh:Bool)
     {
-        var folderName=folder;//"INBOX";
+        var folderName=folder;
+        //var folderName="INBOX";
+
 
         
         let imapSession=self.mailconnection as! MCOIMAPSession;
+        imapSession.timeout=NSTimeInterval(15);
+ //       imapSession.allowsFolderConcurrentAccessEnabled=true;
+        //后台日志
+        imapSession.connectionLogger =
+            {
+                
+                (connectionID, type, data)->Void in
+                
+                if data != nil
+                {
+                    let strtemp=NSString(data: data, encoding:NSUTF8StringEncoding);
+                    
+                    print(strtemp);
+                }
+        }
+
         
         
         folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
@@ -238,6 +270,7 @@ class ImapMail : BaseMail {
             {
                 (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
                 
+               
                 if error == nil
                 {
                     messagecount = (info?.messageCount)!;
@@ -267,12 +300,6 @@ class ImapMail : BaseMail {
                             
                         }
                         
-         //               print("numberOfMsgLoad=\(numberOfMsgLoad),messagecount=\(messagecount)");
-                    
-//                        if (messagecount<numberOfMsgLoad)
-//                        {
-//                            numberOfMsgLoad=messagecount;
-//                        }
                         
                         
                         msgLoadStart=messagecount-numberOfMsgLoad;
@@ -307,9 +334,14 @@ class ImapMail : BaseMail {
                         return;
                     }
 
+                    //新浪邮箱有点问题，好象在检索时是从0开始的,只能先这么处理一下了
+                    if imapSession.hostname.containsString("sina.com")
+                    {
+                       // numberOfMsgLoad=numberOfMsgLoad-1;
+                        
+                    }
                     
-                    
-                    let numbers = MCOIndexSet(range: MCORangeMake(UInt64(msgLoadStart+1), UInt64(numberOfMsgLoad)));
+                    let numbers = MCOIndexSet(range: MCORangeMake(UInt64(msgLoadStart+1), UInt64(numberOfMsgLoad-1)));
                     
                     
                     let imapMessagesFetchOp = imapSession.fetchMessagesByNumberOperationWithFolder(folderName,
