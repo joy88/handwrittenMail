@@ -13,7 +13,8 @@
 @end
 
 @implementation MCOMessageView {
-    UIWebView * _webView;
+    
+     UIWebView * _webView;
     NSString * _folder;
     MCOAbstractMessage * _message;
     __weak id <MCOMessageViewDelegate> _delegate;
@@ -38,10 +39,11 @@
           _webView.scalesPageToFit=YES;//支持手势缩放
          _webView.multipleTouchEnabled=YES;//支持手势缩放
         _webView.userInteractionEnabled=YES;//支持交互
-        _webView.backgroundColor=[UIColor blueColor];
+        //_webView.backgroundColor=[UIColor blueColor];
         //_webView.automaticallyAdjustsScrollViewInsets = NO
         [self addSubview:_webView];
-    }
+        
+       }
     
     return self;
 }
@@ -488,6 +490,30 @@
     [[self delegate] MCOMessageView:self fetchDataForPartWithUniqueID:partUniqueID downloadedFinished:^(NSError * error) {
         // do nothing
     }];
-}
+
+  }
+
+//added by shiww
+/*
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSString* const kTouchJavaScriptString=
+    @"document.ontouchstart=function(event){\
+    x=event.targetTouches[0].clientX;\
+    y=event.targetTouches[0].clientY;\
+    document.location=\"myweb:touch:start:\"+x+\":\"+y;};\
+    document.ontouchmove=function(event){\
+    x=event.targetTouches[0].clientX;\
+    y=event.targetTouches[0].clientY;\
+    document.location=\"myweb:touch:move:\"+x+\":\"+y;};\
+    document.ontouchcancel=function(event){\
+    document.location=\"myweb:touch:cancel\";};\
+    document.ontouchend=function(event){\
+    document.location=\"myweb:touch:end\";};";
+    
+    [self.webView stringByEvaluatingJavaScriptFromString:kTouchJavaScriptString];
+ 
+}*/
+
+
 
 @end
