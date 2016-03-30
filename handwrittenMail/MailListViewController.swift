@@ -10,6 +10,8 @@ import UIKit
 
 class MailListViewController: UITableViewController,RefreshMailListDataDelegate {
     
+    private var bottomView:UIView?;//全选删除时的底部按钮container
+    
     var mail:BaseMail!;
 
     var mailList=[MCOIMAPMessage]();
@@ -104,72 +106,73 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //MARK:增加事件
     func rightBarButtonItemClicked()
     {
-        //MARK:---功能尚未完成------
+        //---还有很多bug
         //0-切换编辑状态
         self.tableView.editing = !self.tableView.editing
         
         //1-允许多选
 
         self.tableView.allowsMultipleSelectionDuringEditing = true;
-        /*这也是一种方式
-        //3.加底部状态信息
-        let leftbutton = UIBarButtonItem(title: "全选", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
-        let rightbutton = UIBarButtonItem(title: "删除", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
-
-        
-        
-        let items=[leftbutton,rightbutton];
-        //必须加上topViewController，否则不管用
-        self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
-        */
-        
-        self.navigationController?.setToolbarHidden(!(self.navigationController!.toolbar.hidden)
+        //2-隐藏导航窗口状态栏
+          self.navigationController?.setToolbarHidden(!(self.navigationController!.toolbar.hidden)
 , animated:false)
+        //3-显示bottomView
+        if self.bottomView==nil
+        {
+            self.setDeleteButtons();
+        }
+        assert(self.bottomView != nil)
         
+        self.bottomView!.hidden = !self.tableView.editing//!self.bottomView!.hidden
+        
+        
+    }
+    
+    //MARK:设置全选删除邮件列表时的container
+    //没有判断是否存在，全部新建
+    private func setDeleteButtons()
+    {
+    
         let height=self.navigationController!.toolbar.bounds.height;
         let width:CGFloat=90;
-        
-  
-        //
-        //2.先设置底部按钮--全选
-        
-        let wholeView=self.view.superview!;
-        
-        print(wholeView.frame.size);
-        
-  
-        
-        let bottomView = UIView(frame: CGRectMake(0, wholeView.frame.size.height-height,wholeView.frame.size.width, height));
-        bottomView.backgroundColor=UIColor.lightGrayColor();
-        wholeView.addSubview(bottomView);
-        wholeView.bringSubviewToFront(bottomView)
-        
-        let selectedBtn = UIButton(type:UIButtonType.System);
-        selectedBtn.setTitle("全选",forState:UIControlState.Normal);
-        selectedBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
-        selectedBtn.frame = CGRectMake(0,0, width, height);
-        selectedBtn.addTarget(self,action:#selector(MailListViewController.selectAllMail),forControlEvents:.TouchUpInside);//全选
-        
-        bottomView.addSubview(selectedBtn);
-        
-        
-        //1.先设置底部按钮--删除
-        let deleteBtn = UIButton(type:UIButtonType.System);
-        deleteBtn.setTitle("删除",forState:UIControlState.Normal);
-        deleteBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
-        deleteBtn.backgroundColor=UIColor.redColor()
-        
-        deleteBtn.frame = CGRectMake(bottomView.frame.size.width-width,0, width, height);
-        
-        deleteBtn.addTarget(self,action:#selector(MailListViewController.deleteSelectedMails),forControlEvents:.TouchUpInside);//全选
-        
-     
-        bottomView.addSubview(deleteBtn);
-
-
     
-        
-        
+    //
+    //2.先设置底部按钮--全选
+    
+    let wholeView=self.view.superview!;
+    
+    print(wholeView.frame.size);
+    
+    
+    
+    self.bottomView = UIView(frame: CGRectMake(0, wholeView.frame.size.height-height,wholeView.frame.size.width, height));
+    bottomView!.backgroundColor=UIColor.lightGrayColor();
+    wholeView.addSubview(bottomView!);
+        bottomView!.hidden=true;
+    wholeView.bringSubviewToFront(bottomView!)
+    
+    let selectedBtn = UIButton(type:UIButtonType.System);
+    selectedBtn.setTitle("全选",forState:UIControlState.Normal);
+    selectedBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
+    selectedBtn.frame = CGRectMake(0,0, width, height);
+    selectedBtn.addTarget(self,action:#selector(MailListViewController.selectAllMail),forControlEvents:.TouchUpInside);//全选
+    
+    bottomView!.addSubview(selectedBtn);
+    
+    
+    //1.先设置底部按钮--删除
+    let deleteBtn = UIButton(type:UIButtonType.System);
+    deleteBtn.setTitle("删除",forState:UIControlState.Normal);
+    deleteBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
+    deleteBtn.backgroundColor=UIColor.redColor()
+    
+    deleteBtn.frame = CGRectMake(bottomView!.frame.size.width-width,0, width, height);
+    
+    deleteBtn.addTarget(self,action:#selector(MailListViewController.deleteSelectedMails),forControlEvents:.TouchUpInside);//全选
+    
+    
+    bottomView!.addSubview(deleteBtn);
+    
     }
     
     //MARK:选择所有邮件
@@ -182,6 +185,17 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     func deleteSelectedMails()
     {
         //删除选择的邮件
+        let allSelected=self.tableView.indexPathsForSelectedRows;
+        
+        if allSelected?.count<=0//什么也没选
+        {
+            return;
+        }
+        for eachSel in allSelected!
+        {
+            self.delCurrentMsg(eachSel);//单个删除的方法不科学，可以批量提交
+        }
+        self.rightBarButtonItemClicked();//关闭编辑状态
     }
     
     //设置tableview是否可编辑
@@ -425,6 +439,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         self.setupStatus("邮件列表刚刚更新");
 
+        return;
         
         //默认选中第一个
         if(self.mailList.count<=0)
