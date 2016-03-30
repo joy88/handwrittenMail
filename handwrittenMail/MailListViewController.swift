@@ -88,25 +88,135 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         setupRefresh();//下拉刷新,上拉加载
         
-        self.navigationItem.title="Inbox"
-  
+        self.navigationItem.title="INBOX"
+        
+        self.tableView.editing = false;//默认tableview的editing 是不开启的
+        
     }
     
     //MARK:加右边按钮
     func setupRightBarButtonItem()
     {
-        let rightButtonItem = UIBarButtonItem(title: "刷新", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.rightBarButtonItemClicked))
+        let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.rightBarButtonItemClicked))
         self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
     //MARK:增加事件
     func rightBarButtonItemClicked()
     {
-        self.setupStatus("正在加载邮件列表");
-        self.mail.getMailList("$SAMEFOLDER",delegate:self,upFresh:true)
+        //MARK:---功能尚未完成------
+        //0-切换编辑状态
+        self.tableView.editing = !self.tableView.editing
+        
+        //1-允许多选
+
+        self.tableView.allowsMultipleSelectionDuringEditing = true;
+        /*这也是一种方式
+        //3.加底部状态信息
+        let leftbutton = UIBarButtonItem(title: "全选", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+        let rightbutton = UIBarButtonItem(title: "删除", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+
+        
+        
+        let items=[leftbutton,rightbutton];
+        //必须加上topViewController，否则不管用
+        self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
+        */
+        
+        self.navigationController?.setToolbarHidden(!(self.navigationController!.toolbar.hidden)
+, animated:false)
+        
+        let height=self.navigationController!.toolbar.bounds.height;
+        let width:CGFloat=90;
+        
+  
+        //
+        //2.先设置底部按钮--全选
+        
+        let wholeView=self.view.superview!;
+        
+        print(wholeView.frame.size);
+        
+  
+        
+        let bottomView = UIView(frame: CGRectMake(0, wholeView.frame.size.height-height,wholeView.frame.size.width, height));
+        bottomView.backgroundColor=UIColor.lightGrayColor();
+        wholeView.addSubview(bottomView);
+        wholeView.bringSubviewToFront(bottomView)
+        
+        let selectedBtn = UIButton(type:UIButtonType.System);
+        selectedBtn.setTitle("全选",forState:UIControlState.Normal);
+        selectedBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
+        selectedBtn.frame = CGRectMake(0,0, width, height);
+        selectedBtn.addTarget(self,action:#selector(MailListViewController.selectAllMail),forControlEvents:.TouchUpInside);//全选
+        
+        bottomView.addSubview(selectedBtn);
+        
+        
+        //1.先设置底部按钮--删除
+        let deleteBtn = UIButton(type:UIButtonType.System);
+        deleteBtn.setTitle("删除",forState:UIControlState.Normal);
+        deleteBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
+        deleteBtn.backgroundColor=UIColor.redColor()
+        
+        deleteBtn.frame = CGRectMake(bottomView.frame.size.width-width,0, width, height);
+        
+        deleteBtn.addTarget(self,action:#selector(MailListViewController.deleteSelectedMails),forControlEvents:.TouchUpInside);//全选
+        
+     
+        bottomView.addSubview(deleteBtn);
+
+
+    
+        
+        
     }
     
+    //MARK:选择所有邮件
+    func selectAllMail()
+    {
+      //选择所有邮件
+        
+    }
+    //MARK:delete选择的邮件
+    func deleteSelectedMails()
+    {
+        //删除选择的邮件
+    }
     
+    //设置tableview是否可编辑
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        return true
+    }
+    
+    //选择编辑的方式,按照选择的方式对表进行处理
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+   
+    }
+    
+    //选择你要对表进行处理的方式  默认是删除方式
+    
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle
+    {
+        return (UITableViewCellEditingStyle.Delete)
+    }
+    
+    //选中时将选中行的在self.dataArray 中的数据添加到删除数组self.deleteArr中
+
+ /*   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        print("row = %d",indexPath.row)
+    }*/
+    
+    //取消选中时将选中行的在self.dataArray 中的数据从删除数组self.deleteArr中删除
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        print("row = %d",indexPath.row)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -262,6 +372,11 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        if self.tableView.editing==true
+        {
+           //正在编辑
+            return;
+        }
   
         if indexPath.row >= 0
         {
@@ -366,9 +481,6 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     }
     
     
-    //左滑和右滑操作
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    }
     //左滑操作
     override func tableView(tableView: UITableView,
                             editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?{
@@ -467,6 +579,9 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         let draftFolder = imapSession.defaultNamespace.pathForComponents(["草稿箱"]);
         //这里判断是不是“已删除”和“草稿箱”两个文件夹，如果不是那么使用copyMessage来复制邮件到“已删除”
         
+        self.mailList.removeAtIndex(indexPath.row);
+        self.tableView.reloadData();
+
         
         if (folderName != deleteFolder) && (folderName != draftFolder)
         {
@@ -519,9 +634,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
                         (error:NSError?) in
                         
                         if error==nil{
-//                            print("real delete succeeded!");
-                            self.mailList.removeAtIndex(indexPath.row);
-                            self.tableView.reloadData();
+                            print("real delete succeeded!");
                             
                         }
                         else{

@@ -72,7 +72,7 @@ class ImapMail : BaseMail {
         
         //连接时输出日志
         
-        imapSession.connectionLogger =
+/*        imapSession.connectionLogger =
             {
                 
                 (connectionID, type, data)->Void in
@@ -83,7 +83,7 @@ class ImapMail : BaseMail {
                     
                     print(strtemp);
                 }
-        }
+        }*/
         
         let imapFetchFolderOp = imapSession.fetchAllFoldersOperation();
         
@@ -218,7 +218,7 @@ class ImapMail : BaseMail {
         imapSession.timeout=NSTimeInterval(15);
  //       imapSession.allowsFolderConcurrentAccessEnabled=true;
         //后台日志
-        imapSession.connectionLogger =
+/*        imapSession.connectionLogger =
             {
                 
                 (connectionID, type, data)->Void in
@@ -229,7 +229,7 @@ class ImapMail : BaseMail {
                     
                     print(strtemp);
                 }
-        }
+        }*/
 
         
         

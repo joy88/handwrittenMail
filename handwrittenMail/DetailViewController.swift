@@ -19,7 +19,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     
     private var mailFromLbl=UILabel()//MARK:邮件正文"发件人"标签
     private var mailFromBtn=UIEmailButton()//MARK:邮件正文发件人显示按钮
-    private var infoHideBtn=UIButton()//MARK:邮件正文"隐藏"或"显示"按钮
+//    private var infoHideBtn=UIButton()//MARK:邮件正文"隐藏"或"显示"按钮
     
     private var mailToLbl=UILabel()//MARK:邮件正文"收件人"标签
     private var mailToBtns=[UIEmailButton]();//MARK:邮件正文收件人
@@ -113,9 +113,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
 //        var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
         //show or hide mainto and maincc
-        infoHideBtn.addTarget(self,action: #selector(DetailViewController.hideMailToCC(_:)),forControlEvents: UIControlEvents.TouchUpInside)
+/*        infoHideBtn.addTarget(self,action: #selector(DetailViewController.hideMailToCC(_:)),forControlEvents: UIControlEvents.TouchUpInside)
 
-        self.view.addSubview(infoHideBtn)
+        self.view.addSubview(infoHideBtn)*/
 
 //
 //        var mailToLbl=UILabel()//"收件人"标签
@@ -139,7 +139,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 //        var mailDateLbl=UILabel()//邮件收到时间
         self.view.addSubview(mailDateLbl)
         
-        self.AutoLayoutView(infoHideBtn.selected);
+//        self.AutoLayoutView(infoHideBtn.selected);
+        self.AutoLayoutView(true);
 
         
         //监测设备的旋转
@@ -195,13 +196,13 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         mailFromBtn.setEmailTitle(self.mailSender, x: (marginSpace+ctrWidth+xSpace), y: top1, width: ctrWidth, height: ctrHight, fonSize: 17, isBold: true, color: blue);
         
 //        var infoHideBtn=UIButton()//"隐藏"或"显示"按钮
-        infoHideBtn.selected=isHide;
+/*        infoHideBtn.selected=isHide;
         
         infoHideBtn.setTitle("显示", forState:.Selected);
         infoHideBtn.setTitle("隐藏", forState: .Normal);
         infoHideBtn.frame=CGRectMake(bounds.width-ctrWidth-2*marginSpace,top1,ctrWidth,ctrHight)
         infoHideBtn.setTitleColor(blue, forState: .Normal);//不加上这句,看不到,可以字体是白色的原因吧
-        
+        */
 //        print(infoHideBtn.frame);
 //        
 //        var mailToLbl=UILabel()//"收件人"标签
@@ -387,7 +388,17 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             let tmpBtn=UIEmailButton();
             tmpBtn.tag=index;
             
-            let fileSize=Double(attachment.decodedSize())/(1024*1024);
+            var fileSize:Double=0.0;
+            
+            if attachment.encoding == MCOEncoding.EncodingBase64
+            {
+                fileSize=Double(attachment.decodedSize())/(1024*1024);
+            }
+            else
+            {
+                fileSize=Double(attachment.size)/(1024*1024);
+                
+            }
             
             var strFileSize=String(format: "%.2f", fileSize)
             
