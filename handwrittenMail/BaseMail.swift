@@ -58,28 +58,26 @@ class mailLoginInfo
     var nicklename:String="stone"//发信时用的呢称
     
 }
-//邮件目录
-typealias MAILFOLDERS = Dictionary<String,mailFolderMeta>;//文件夹名称，邮件数量
-
-struct mailFolderMeta
+//MARK:邮件目录类定义
+class MAILFOLDER
 {
-    var folderName:String="Loading...";//文件夹名称
-    var mailCount:Int32=0;//已读邮件数量
-    //未读邮件数量
-    var unreadMailCount:Int32=0;
-    //文件夹标志
-    var folderFlag=MCOIMAPFolderFlag.None;
+    var folderNameAlias:String="Loading...";//文件夹名称
+    var folderInfo=MCOIMAPFolder();//文件夾源数据
+    var messageCount="";//邮件数量
+
 }
+
 //刷新邮件目录信息中数据
 protocol RefreshMailDataDelegate
 {
-    func RefreshMailFolderData(objData:MAILFOLDERS);
+    func RefreshMailFolderData(objData:[MAILFOLDER]);//更新邮件目录
+    func RefreshMailFolderMsgCount(mailFolder:MCOIMAPFolder,msgCount:Int);//更新目录下的邮件数量
 }
 
 //刷新邮件列表信息
 protocol RefreshMailListDataDelegate
 {
-    func RefreshMailListData(objData:[MCOIMAPMessage]);
+    func RefreshMailListData(objData:[MCOIMAPMessage],upFresh:Bool);
 }
 
 //刷新邮件列表信息
@@ -95,7 +93,7 @@ protocol RefreshMailDelegate
 
 protocol MailOperation {
     //获取邮件目录
-    func getMailFolder()->MAILFOLDERS;
+    func getMailFolder();
     //获取邮件列表
     func getMailList(folder:String,delegate:RefreshMailListDataDelegate,upFresh:Bool);
     //获取邮件信息
@@ -107,6 +105,9 @@ class BaseMail : NSObject, MailOperation {
     var mailconnection:NSObject?;
     //MARK:邮件是否可以连接
     var isCanBeConnected:Bool=false;
+    
+    var deleteFolder="已删除";
+    var draftFolder="草稿箱";
     
     var delegate:RefreshMailDataDelegate?;
     
@@ -122,9 +123,8 @@ class BaseMail : NSObject, MailOperation {
         self.mailconnection=nil;//NSObject();
     }
     //MARK:获取邮件目录
-    func getMailFolder()->MAILFOLDERS
+    func getMailFolder()
     {
-        return MAILFOLDERS();
     }
     //MARK:获取邮件列表
     func getMailList(folder:String,delegate:RefreshMailListDataDelegate,upFresh:Bool)

@@ -41,7 +41,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
     
     
-    var mailSender=MCOAddress(displayName: "石伟伟", mailbox: "Chinagis001@126.com")!;//MARK:发件人地址
+    var mailSender=MCOAddress(displayName: "", mailbox: "s@s.com")!;//MARK:发件人地址
     private var mailToLists=[MCOAddress]();//MARK:收件人地址列表
     private var mailCcLists=[MCOAddress]();//MARK:抄送人地址列表
     var mailSubject="邮件主题";
@@ -51,7 +51,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.navigationItem.leftBarButtonItem?.title="Inbox"
+        self.navigationItem.leftBarButtonItem?.title="INBOX"
         //1.右边第一个按钮
         //编写新邮件
         let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:#selector(DetailViewController.newMail(_:)))
@@ -96,7 +96,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 //        var webView=UIWebView()//邮件正文
         
          self.mywebView=self.messageView;
-        self.messageView.setHtmlContent("<html><head><title>Hello</title></head><body><h1>邮件正在加载中......</h1><ul><li>123</li><li>321</li><li>1234567</li></ul></body></html>")
+        self.messageView.setHtmlContent("<html><head><title>Hello</title></head><body><h1>邮件正在加载中......</h1></body></html>")
  
 //        self.mywebView.prefetchIMAPAttachmentsEnabled=true;
 

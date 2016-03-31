@@ -17,7 +17,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     //邮箱登录信息
     var mailloginInfo=mailLoginInfo();
     //邮箱文件夹在    
-    var mailFolders=MAILFOLDERS();
+    var mailFolders=[MAILFOLDER]();
     
 //    private var mailList:[String]?
     private  var mailContent: [String]?
@@ -37,7 +37,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
             dispatch_after(popTime, dispatch_get_main_queue(), {
                 
-                self.mailFolders=self.mail.getMailFolder();
+                self.mail.getMailFolder();
                 
                 self.tableView.headerEndRefreshing()
             })
@@ -54,7 +54,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
             dispatch_after(popTime, dispatch_get_main_queue(), {
                 
-                self.mailFolders=self.mail.getMailFolder();
+                self.mail.getMailFolder();
                 
                 self.tableView.footerEndRefreshing()
                 
@@ -94,13 +94,13 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         //3.加底部状态信息
         let statusbutton = UIBarButtonItem(title: "刚刚更新", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
-        statusbutton.width=0;//调左边距的
+        let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
         
         
-        let items=[statusbutton];
+        let items=[flexButton,statusbutton,flexButton];
         //必须加上topViewController，否则不管用
-        self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
         
+        self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
         
         //self.navigationController?.toolbar.tintColor=UIColor.redColor();
         
@@ -154,13 +154,13 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
                 self.mail.isCanBeConnected=true;
                 //获取文件夾信息
                 
-                self.mailFolders=self.mail.getMailFolder();
+                self.mail.getMailFolder();
                 
                 //启动时加载或切换账号时加载inbox邮件
                 self.navigationController?.pushViewController(self.maillistViewController!, animated: true);
                 
                 
-                self.mail.getMailList("inbox", delegate: self.maillistViewController!,upFresh: true);
+                self.mail.getMailList("INBOX", delegate: self.maillistViewController!,upFresh: true);
                 
             }
             else
@@ -253,13 +253,13 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             
         }
         
-        let folderMeta=getIndexFolder(index);
+        let folderMeta=self.mailFolders[index];
         
-        cell.textLabel!.text = folderMeta.folderName
+        cell.textLabel!.text = folderMeta.folderNameAlias
         //目录中邮件的数量
-        cell.detailTextLabel!.text = "\(folderMeta.mailCount)";
+        cell.detailTextLabel!.text = folderMeta.messageCount ;
         
-        folderFlag=folderMeta.folderFlag;
+        folderFlag=folderMeta.folderInfo.flags;
         
  //       private var listImg=["inbox","flag","trash","newmail","folder","sendbox","spam"];
 
@@ -319,23 +319,29 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         if indexPath.row >= 0
         {
             
+            var foldnameAlias="INBOX";
             var foldname="INBOX";
+
             
             
             if indexPath.section==0
             {
-                foldname=self.getIndexFolder(indexPath.row).folderName;
+                foldnameAlias=self.mailFolders[indexPath.row].folderNameAlias;
+                foldname=self.mailFolders[indexPath.row].folderInfo.path;
+
             }
             else
             {
-                foldname=self.getIndexFolder(indexPath.row+3).folderName;
+                foldnameAlias=self.mailFolders[indexPath.row+3].folderNameAlias;
+                foldname=self.mailFolders[indexPath.row+3].folderInfo.path;
+
             }
             
             
             //推出mail list view
             self.navigationController?.pushViewController(maillistViewController!, animated: true);
            
-            maillistViewController!.navigationItem.title=foldname;//显示导航栏标题
+            maillistViewController!.navigationItem.title=foldnameAlias;//显示导航栏标题
             
    /*         let parController=AppDelegate.getMainWindow().rootViewController;
             
@@ -383,8 +389,8 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
           return "";
     }
     
-    
-  func RefreshMailFolderData(objData:MAILFOLDERS)
+  //MARK:刷新邮件目录
+  func RefreshMailFolderData(objData:[MAILFOLDER])
   {
     self.mailFolders=objData;
     
@@ -397,7 +403,32 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     self.setupStatus("邮件列表刚刚更新");
 
     }
-    
+    //MARK:更新邮件目录的邮件数量
+    func RefreshMailFolderMsgCount(mailFolder:MCOIMAPFolder,msgCount:Int)
+    {
+        var index:Int=0;
+        for tempfolder in self.mailFolders
+        {
+            let foldername=tempfolder.folderInfo.path;
+            if foldername == nil
+            {
+                return;
+            }
+            
+            let folderforupdate=mailFolder.path;
+            if foldername == folderforupdate
+            {
+                mailFolders[index].messageCount="\(msgCount)";
+                self.tableView.reloadData();
+                break;
+                
+            }
+            index=index+1;
+        }
+        
+    }
+
+/*
     private  func getIndexFolder(index:Int)->mailFolderMeta
     {
         //        assert(index<self.count);
@@ -406,6 +437,16 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         var tempFolders=self.mailFolders;
         
         var threeFolders=["INBOX","已发送","草稿箱"];
+        
+        let imapsession = self.mail.mailconnection as! MCOIMAPSession;
+       
+        //处理QQ邮箱,邮箱文件夾中没有FLAG信息
+        if imapsession.hostname.containsString("qq.com")
+        {
+            threeFolders=["INBOX","Sent Messages","Drafts"];
+            
+        }
+
         
         let keys = Array(tempFolders.keys)
         
@@ -467,7 +508,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         return folderMeta;
         
-    }
+    }*/
     
     //MARK:邮件设置
     func setupMail(sender:AnyObject)
@@ -486,7 +527,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     //MARK:设置底部状态栏信息
     func setupStatus(info:String)
     {
-        let statusbar=self.navigationController?.topViewController!.toolbarItems![0];
+        let statusbar=self.navigationController?.topViewController!.toolbarItems![1];
         statusbar?.title=info;
     }
 

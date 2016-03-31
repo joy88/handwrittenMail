@@ -32,58 +32,58 @@ class ImapMail : BaseMail {
         imapSession.connectionType = maillogininfo.connectionType;
         
         /*
+         
+         let imapOperation = imapSession.checkAccountOperation();
+         
+         let semaphore = dispatch_semaphore_create(0)
+         
+         
+         imapOperation.start(){
+         (error:NSError?)->Void in
+         
+         
+         if (error == nil) {
+         print("login account successed!");
+         self.isCanBeConnected=true;
+         // 在这里获取邮件，获取文件夹信息
+         //[self loadIMAPFolder];
+         
+         }
+         else
+         {
+         print("login account failure: %@\n", error);
+         self.isCanBeConnected=false;
+         }
+         dispatch_semaphore_signal(semaphore);
+         
+         };
+         
+         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);*/
         
-        let imapOperation = imapSession.checkAccountOperation();
-     
-     let semaphore = dispatch_semaphore_create(0)
-
         
-        imapOperation.start(){
-            (error:NSError?)->Void in
-            
-
-        if (error == nil) {
-            print("login account successed!");
-            self.isCanBeConnected=true;
-            // 在这里获取邮件，获取文件夹信息
-            //[self loadIMAPFolder];
-
-        }
-        else
-        {
-            print("login account failure: %@\n", error);
-            self.isCanBeConnected=false;
-        }
-      dispatch_semaphore_signal(semaphore);
-       
-        };
-
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);*/
- 
- 
     }
     //MARK:获取邮件目录
-    override func getMailFolder()->MAILFOLDERS
+    override func getMailFolder()
     {
-        var mailFolders:MAILFOLDERS=["INBOX":mailFolderMeta(),"已发送":mailFolderMeta(),"草稿箱":mailFolderMeta()];
+        var mailFolders=[MAILFOLDER]();
         
         
         let imapSession=self.mailconnection as! MCOIMAPSession;
         
         //连接时输出日志
         
-/*        imapSession.connectionLogger =
-            {
-                
-                (connectionID, type, data)->Void in
-                
-                if data != nil
-                {
-                    let strtemp=NSString(data: data, encoding:NSUTF8StringEncoding);
-                    
-                    print(strtemp);
-                }
-        }*/
+        /*        imapSession.connectionLogger =
+         {
+         
+         (connectionID, type, data)->Void in
+         
+         if data != nil
+         {
+         let strtemp=NSString(data: data, encoding:NSUTF8StringEncoding);
+         
+         print(strtemp);
+         }
+         }*/
         
         let imapFetchFolderOp = imapSession.fetchAllFoldersOperation();
         
@@ -125,7 +125,7 @@ class ImapMail : BaseMail {
                     //folder支持中文时会有到
                     let ns = MCOIMAPNamespace(prefix: "", delimiter: 47);//47="/"
                     
-                    
+                    //先构建MailFolders
                     for folder in folders!
                     {
                         let tmpImapFolder=folder as! MCOIMAPFolder;
@@ -138,42 +138,69 @@ class ImapMail : BaseMail {
                         
                         
                         
-                        
                         let folderName=tmpstr[0] as! String
                         
-                        print("foldername=\(folderName)");
-                
+ 
+                        
+                        print("foldername=\(folderName),\(tmpImapFolder.flags)");
+                        
+                        
+                        let tempMailFolder=MAILFOLDER();
+                        
+                        tempMailFolder.folderNameAlias=folderName;
+                        tempMailFolder.folderInfo=tmpImapFolder;
+                        tempMailFolder.messageCount="";
+                        
+                        mailFolders.append(tempMailFolder);
+                        
+                        
+                    }
+                    
+                    
+                    //先更新目录,邮件数量为0
+                    self.delegate?.RefreshMailFolderData(self.reAssignMailFolder(                     mailFolders));
+                    
+                    //开始更新每个目录下的邮件数量
+                    for folder in folders!
+                    {
+                        let tmpImapFolder=folder as! MCOIMAPFolder;
                         //获取邮箱目录中邮件数量信息
                         var mailCount:Int32=0;
+                        
+                        //文件夹名称
+                        //不能直接用tmpImapFolder.path!转换一下,否则folder不支持中文
+                        
+                        let tmpstr=ns.componentsFromPath(tmpImapFolder.path);
+                        
+                        
+                        assert(tmpstr != nil)
+                        
+                        
+                        
+                        
+                        let folderName=tmpstr[0] as! String//调式用
                         
                         
                         let imapFetchMailCountOp = imapSession.folderInfoOperation(tmpImapFolder.path);
                         
-                        //                        print(tmpImapFolder.path);
                         
                         imapFetchMailCountOp.start()
                             {
                                 (error:NSError?,info:MCOIMAPFolderInfo?)->Void in
                                 
-                                var folderMeta=mailFolderMeta();
-                                
-                                
-                                folderMeta.folderName=folderName;
-                                
-                                folderMeta.folderFlag = tmpImapFolder.flags
-                                
-                                folderMeta.mailCount=0;
                                 
                                 if error == nil
                                 {
                                     
                                     mailCount=(info?.messageCount)!;
                                     
-                                    folderMeta.mailCount=mailCount;
-
+                                    //更新邮件数量
+                                    self.delegate?.RefreshMailFolderMsgCount(tmpImapFolder, msgCount: Int(mailCount))
+                                    
+                                    
                                     
                                     //mail 数量
-                                     print("foldername's msg count=\(mailCount)");
+                                    print("\(folderName)'s msg count=\(mailCount)");
                                     
                                     
                                 }
@@ -182,11 +209,7 @@ class ImapMail : BaseMail {
                                     print("get mail count of \(folderName) fail,\(error!)")
                                 }
                                 
-                                mailFolders.updateValue(folderMeta,forKey: folderName);
-                                
-                                self.delegate!.RefreshMailFolderData(mailFolders);
-
-                                
+   
                         }
                         
                         
@@ -204,13 +227,11 @@ class ImapMail : BaseMail {
                 
         }
         
-        return mailFolders;
     }
     //MARK:获取邮件列表
     override func getMailList(folder:String,delegate:RefreshMailListDataDelegate,upFresh:Bool)
     {
         var folderName=folder;
-        //var folderName="INBOX";
 
 
         
@@ -233,7 +254,7 @@ class ImapMail : BaseMail {
 
         
         
-        folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
+ //       folderName=imapSession.defaultNamespace.pathForComponents([folderName]);
         
         if folder=="$SAMEFOLDER"
         {
@@ -281,7 +302,7 @@ class ImapMail : BaseMail {
                         
                         self.messageTotalList.removeAll();
                         
-                        delegate.RefreshMailListData(self.messageTotalList);
+                        delegate.RefreshMailListData(self.messageTotalList,upFresh:upFresh);
 
                         return;
                     }
@@ -374,7 +395,7 @@ class ImapMail : BaseMail {
                             
  //                           print("maillistcount=\("self.messageTotalList.count")");
                             
-                            delegate.RefreshMailListData(self.messageTotalList);
+                            delegate.RefreshMailListData(self.messageTotalList,upFresh: upFresh);
                             
                             
                     }
@@ -395,6 +416,106 @@ class ImapMail : BaseMail {
         
      
      }
+    
+    private func reAssignMailFolder(mailFolders:[MAILFOLDER])->[MAILFOLDER]
+    {
+        
+        var resultfolders=[MAILFOLDER(),MAILFOLDER(),MAILFOLDER()];
+
+        //1.先处理成合适的中文名
+        for mailfolder in mailFolders
+        {
+            var folderName=mailfolder.folderNameAlias;
+            
+            var folderUperName=folderName.uppercaseString;
+            
+            let tmpImapFolder=mailfolder.folderInfo;
+            
+            if tmpImapFolder.flags.contains(.Inbox)
+            {
+                folderName="收件箱";
+            }
+            else
+            if folderUperName.containsString("INBOX")// || folderUperName.containsString("收件")
+            {
+                folderName="收件箱";
+            }
+            
+            
+            if tmpImapFolder.flags.contains(.SentMail)
+            {
+                folderName="已发送";
+            }
+            else
+            if folderUperName.containsString("SENT MESSAGES") &&                (resultfolders[1].folderInfo.path == nil)
+
+            {
+                folderName="已发送";
+            }
+            
+            
+            if tmpImapFolder.flags.contains(.Drafts)
+            {
+                folderName="草稿箱";
+            }
+            else
+            if folderUperName.containsString("DRAFT") || folderUperName.containsString("草稿")
+            {
+                folderName="草稿箱";
+            }
+            
+            
+            
+            if tmpImapFolder.flags.contains(.Spam)
+            {
+                folderName="垃圾邮件";
+            }
+            else
+            if folderUperName.containsString("SPAM") || folderUperName.containsString("JUNK")
+            {
+                folderName="垃圾邮件";
+            }
+            
+            
+            if tmpImapFolder.flags.contains(.Trash)
+            {
+                folderName="废纸篓";
+            }
+            else            
+            if folderUperName.containsString("DELETE")
+            {
+                folderName="废纸篓";
+            }
+            
+            mailfolder.folderNameAlias=folderName;
+            
+            //2.把收件箱\已发送和草稿箱提到前三位
+
+            switch folderName {
+            case "收件箱":
+                resultfolders[0]=mailfolder;
+            case "已发送":
+                resultfolders[1]=mailfolder;
+            case "草稿箱":
+                resultfolders[2]=mailfolder;
+                self.draftFolder=mailfolder.folderInfo.path;//删除邮件时有用
+            default:
+                resultfolders.append(mailfolder);
+                if folderName == "废纸篓"
+                {
+                    self.deleteFolder=mailfolder.folderInfo.path;//删除邮件时有用  
+                }
+
+            }
+            
+            print(mailfolder.folderNameAlias+","+mailfolder.folderInfo.path);
+          
+            
+        }
+        
+        return resultfolders;
+        
+    }
  
     
 }

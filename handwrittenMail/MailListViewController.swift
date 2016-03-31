@@ -10,7 +10,6 @@ import UIKit
 
 class MailListViewController: UITableViewController,RefreshMailListDataDelegate {
     
-    private var bottomView:UIView?;//全选删除时的底部按钮container
     
     var mail:BaseMail!;
 
@@ -74,10 +73,10 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         //3.加底部状态信息
         let statusbutton = UIBarButtonItem(title: "刚刚更新", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
-        statusbutton.width=0;//调左边距的(self.navigationController?.toolbar.bounds.width)!;
+        let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
         
         
-        let items=[statusbutton];
+        let items=[flexButton,statusbutton,flexButton];
         //必须加上topViewController，否则不管用
         self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
         
@@ -99,31 +98,39 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //MARK:加右边按钮
     func setupRightBarButtonItem()
     {
-        let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.rightBarButtonItemClicked))
+        let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.deleteMultiMails))
         self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
-    //MARK:增加事件
-    func rightBarButtonItemClicked()
+    //MARK:多选删除邮件
+    func deleteMultiMails()
     {
-        //---还有很多bug
+        
+        //1-允许多选
+        
+        self.tableView.allowsMultipleSelectionDuringEditing = !self.tableView.allowsMultipleSelectionDuringEditing;
+        
+
         //0-切换编辑状态
         self.tableView.editing = !self.tableView.editing
         
-        //1-允许多选
-
-        self.tableView.allowsMultipleSelectionDuringEditing = true;
-        //2-隐藏导航窗口状态栏
-          self.navigationController?.setToolbarHidden(!(self.navigationController!.toolbar.hidden)
-, animated:false)
-        //3-显示bottomView
-        if self.bottomView==nil
+          //2--加上全选和删除按钮
+        if self.tableView.editing
         {
-            self.setDeleteButtons();
+            setDeleteButtons();
         }
-        assert(self.bottomView != nil)
-        
-        self.bottomView!.hidden = !self.tableView.editing//!self.bottomView!.hidden
+        else
+        {
+            //3.加底部状态信息
+            let statusbutton = UIBarButtonItem(title: "刚刚更新", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+            let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
+
+    
+            let items=[flexButton,statusbutton,flexButton];
+            //必须加上topViewController，否则不管用
+            self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
+            
+        }
         
         
     }
@@ -132,6 +139,17 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //没有判断是否存在，全部新建
     private func setDeleteButtons()
     {
+        //3.加底部状态信息
+        let selectButton = UIBarButtonItem(title: "全选", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.selectAllMail))
+        let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
+        let deleteButton =  UIBarButtonItem(title: "删除", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.deleteSelectedMails));
+       
+        
+        let items=[selectButton,flexButton,deleteButton];
+        //必须加上topViewController，否则不管用
+        self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
+        
+        /*
     
         let height=self.navigationController!.toolbar.bounds.height;
         let width:CGFloat=90;
@@ -139,7 +157,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //
     //2.先设置底部按钮--全选
     
-    let wholeView=self.view.superview!;
+        let wholeView=self.view;//.superview!;
     
     print(wholeView.frame.size);
     
@@ -151,7 +169,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         bottomView!.hidden=true;
     wholeView.bringSubviewToFront(bottomView!)
     
-    let selectedBtn = UIButton(type:UIButtonType.System);
+    selectedBtn = UIButton(type:UIButtonType.System);
     selectedBtn.setTitle("全选",forState:UIControlState.Normal);
     selectedBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
     selectedBtn.frame = CGRectMake(0,0, width, height);
@@ -161,7 +179,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
     
     //1.先设置底部按钮--删除
-    let deleteBtn = UIButton(type:UIButtonType.System);
+    deleteBtn = UIButton(type:UIButtonType.System);
     deleteBtn.setTitle("删除",forState:UIControlState.Normal);
     deleteBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
     deleteBtn.backgroundColor=UIColor.redColor()
@@ -171,7 +189,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     deleteBtn.addTarget(self,action:#selector(MailListViewController.deleteSelectedMails),forControlEvents:.TouchUpInside);//全选
     
     
-    bottomView!.addSubview(deleteBtn);
+    bottomView!.addSubview(deleteBtn);*/
     
     }
     
@@ -179,6 +197,14 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     func selectAllMail()
     {
       //选择所有邮件
+        let Rows = self.tableView.indexPathsForVisibleRows!;
+        
+        for index in Rows
+        {
+        
+        self.tableView.selectRowAtIndexPath(index, animated: true, scrollPosition: UITableViewScrollPosition.None)
+        }
+    
         
     }
     //MARK:delete选择的邮件
@@ -186,16 +212,23 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     {
         //删除选择的邮件
         let allSelected=self.tableView.indexPathsForSelectedRows;
+        if allSelected != nil
+        {
+            allSelected?.sort({ (a, b) -> Bool in
+                a.row>b.row
+            })
+        self.delCurrentMsgs(allSelected!);
         
-        if allSelected?.count<=0//什么也没选
-        {
-            return;
+//        if allSelected?.count<=0//什么也没选
+//        {
+//            return;
+//        }
+//        for eachSel in allSelected!
+//        {
+//            self.delCurrentMsg(eachSel);//单个删除的方法不科学，可以批量提交
+//        }
+        self.deleteMultiMails();//关闭编辑状态
         }
-        for eachSel in allSelected!
-        {
-            self.delCurrentMsg(eachSel);//单个删除的方法不科学，可以批量提交
-        }
-        self.rightBarButtonItemClicked();//关闭编辑状态
     }
     
     //设置tableview是否可编辑
@@ -399,7 +432,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             
             self.mail.getMail(self.mailList[indexPath.row], delegateMail: detailViewController!)
             
-//            detailViewController!.navigationItem.leftBarButtonItem?.title=self.navigationItem.title!;
+ //           detailViewController!.navigationItem.leftBarButtonItem?.title="Shiweiwei";
 //            print(detailViewController!.navigationItem.leftBarButtonItem?.title);
 
             
@@ -431,7 +464,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     }
     
     //MARK:刷新邮件列表
-    func RefreshMailListData(objData:[MCOIMAPMessage])
+    func RefreshMailListData(objData:[MCOIMAPMessage],upFresh:Bool)
     {
         self.mailList=objData;
         let tableview=self.view as! UITableView;
@@ -439,7 +472,10 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         self.setupStatus("邮件列表刚刚更新");
 
-        return;
+        if !upFresh //只有下拉时才刷新
+        {
+          return;
+        }
         
         //默认选中第一个
         if(self.mailList.count<=0)
@@ -470,8 +506,11 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //MARK:设置底部状态栏信息
     func setupStatus(info:String)
     {
-        let statusbar=self.navigationController?.topViewController!.toolbarItems![0];
+        if !self.tableView.editing
+        {
+            let statusbar=self.navigationController?.topViewController! .toolbarItems![1];
         statusbar?.title=info;
+        }
     }
     
     //Mark:设置消息为已读/未读
@@ -509,7 +548,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
                 //删除邮件
                 (UIAlertAction) -> Void in
                 
-                self.delCurrentMsg(indexPath);
+                self.delCurrentMsgs([indexPath]);
 
                 
             }
@@ -578,74 +617,88 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         return [shareAction,unreadAction]
     }
     
-    //MARK:删除当前邮件
-    private func  delCurrentMsg(indexPath: NSIndexPath)
+    //MARK:批量删除邮件
+    private func  delCurrentMsgs(indexPaths: [NSIndexPath])
     {
-        if indexPath.row < 0
+        if indexPaths.count <= 0
         {
             return;
         }
         
-        let index=indexPath.row;
         
         let imapSession=self.mail.mailconnection as! MCOIMAPSession;
         let folderName = self.mail.mailFolderName;//imapSession.defaultNamespace.pathForComponents([self.mail.m]);
-        let deleteFolder = imapSession.defaultNamespace.pathForComponents(["已删除"]);
-        let draftFolder = imapSession.defaultNamespace.pathForComponents(["草稿箱"]);
-        //这里判断是不是“已删除”和“草稿箱”两个文件夹，如果不是那么使用copyMessage来复制邮件到“已删除”
         
-        self.mailList.removeAtIndex(indexPath.row);
+        
+          let deleteFolder = self.mail.deleteFolder //imapSession.defaultNamespace.pathForComponents(["已删除"]);
+        
+        var draftFolder = self.mail.draftFolder//imapSession.defaultNamespace.pathForComponents(["草稿箱"]);
+        
+        //这里判断是不是“已删除”和“草稿箱”两个文件夹，如果不是那么使用copyMessage来复制邮件到“已删除”
+        let uids=MCOIndexSet();
+        //0--先把要删除的UID保存下来
+        for indexPath in indexPaths
+        {
+            let index=indexPath.row;
+            uids.addIndex(UInt64(self.mailList[index].uid))
+        }
+        //1--再删除列表
+
+        var i=indexPaths.count;
+        
+        while(i>0)
+        {
+            let index=indexPaths[i-1].row;
+            print(index);
+            self.mailList.removeAtIndex(index);
+            i=i-1;
+        }
+        //2--刷新
         self.tableView.reloadData();
 
         
+        
         if (folderName != deleteFolder) && (folderName != draftFolder)
         {
-            let op = imapSession.copyMessagesOperationWithFolder(folderName,uids:MCOIndexSet(index:UInt64(self.mailList[index].uid)),destFolder:deleteFolder);
+            let op = imapSession.copyMessagesOperationWithFolder(folderName,uids:uids,destFolder:deleteFolder);
             
             op.start()
                 {
                     (error:NSError?,uidMapping:[NSObject : AnyObject]?)->Void in
                     if error==nil
                     {
-                
-                        self.unturnedDelete(self.mailList[index].uid,indexPath: indexPath)
+                        
+                        self.unturnedDeleteMails(uids)
                     }
-                
+                    
             }
             
         }
         else
         {
-            self.unturnedDelete(self.mailList[index].uid,indexPath: indexPath);
+            self.unturnedDeleteMails(uids);
         }
         
     }
     
-    
-    //MARK:真正地删除邮件,而不是复制到"已删除"目录中
-    private func unturnedDelete(uid:UInt32,indexPath: NSIndexPath)
+    //MARK:真正地批量删除邮件,而不是复制到"已删除"目录中
+    private func unturnedDeleteMails(uids:MCOIndexSet)
     {
-        if indexPath.row < 0
-        {
-            return;
-        }
-        
-        let index=indexPath.row;
         
         let imapSession=self.mail.mailconnection as! MCOIMAPSession;
         let folderName = self.mail.mailFolderName;//imapSession.defaultNamespace.pathForComponents([self.mail.m]);
         //先添加删除flags
-        let op2 = imapSession.storeFlagsOperationWithFolder(folderName,            uids:MCOIndexSet(index:UInt64(self.mailList[index].uid)),
-            kind:MCOIMAPStoreFlagsRequestKind.Set,
-            flags:MCOMessageFlag.Deleted);
+        let op2 = imapSession.storeFlagsOperationWithFolder(folderName,            uids:uids,
+                                                            kind:MCOIMAPStoreFlagsRequestKind.Set,
+                                                            flags:MCOMessageFlag.Deleted);
         
         op2.start()
-        {
-            (error:NSError?) in
-            if error==nil{
-                let deleteOp = imapSession.expungeOperation(folderName);
-                
-                deleteOp.start(){
+            {
+                (error:NSError?) in
+                if error==nil{
+                    let deleteOp = imapSession.expungeOperation(folderName);
+                    
+                    deleteOp.start(){
                         (error:NSError?) in
                         
                         if error==nil{
@@ -654,14 +707,17 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
                         }
                         else{
                             print("real delete failed!");
-
+                            
                         }
+                    }
                 }
-            }
         }
         
     }
 
+
+    
+ 
     //MARK:设置当前邮件为未读或已读
     private func setcurrentMsgRead(indexPath: NSIndexPath,readed:Bool)
     {
@@ -697,6 +753,13 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
     }
     
+    
+    override func viewWillDisappear(animated: Bool) {
+         if self.tableView.editing
+         {
+            self.deleteMultiMails()
+        }
+    }
     
     
 }
