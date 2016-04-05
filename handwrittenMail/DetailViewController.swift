@@ -842,6 +842,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
             print("普通邮件代码实现在此!");
             
+            self.newTextMail();
+            
+            
+            
         };
         
         
@@ -861,6 +865,23 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         
  
+    }
+    
+    //MARK:非手写邮件
+    func newTextMail()
+    {
+        //added by shiww,弹出手写邮件编写界面
+        let popVC = TextMailComposerViewController();
+        
+  
+        
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        let popOverController = popVC.popoverPresentationController
+        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popOverController?.permittedArrowDirections = .Any
+        self.presentViewController(popVC, animated: true, completion: nil)
+
+        
     }
     
     //MARK:全部回复邮件

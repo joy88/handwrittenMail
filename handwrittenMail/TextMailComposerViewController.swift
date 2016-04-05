@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import RichEditorView
 
-class TextMailComposerViewController: UIViewController {
+class TextMailComposerViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    
+    lazy var toolbar: RichEditorToolbar = {
+        let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
+        toolbar.options = RichEditorOptions.all()
+        return toolbar
+    }()
+
     
     var mailTo=[MCOAddress]();//MARK:收件人
     var mailCc=[MCOAddress]();//MARK:抄送
@@ -18,7 +26,7 @@ class TextMailComposerViewController: UIViewController {
     var mailOriginAttachments:[MCOAttachment]?//MARK:邮件附件，转发时有用
     var mailOriginRelatedAttachments:[MCOAttachment]?//MARK:邮件releated附件，正文中的图片转发时有用
     
-    private var mailComposerView:UIView=UIView();//收件人都录入窗口
+    private var mailHeaderView:UIView=UIView();//收件人都录入窗口
     private var mailToLbl:UILabel=UILabel();//收件人地址标签
     var mailToInputText=ACTextArea();//收件人地址录入窗口
     private var mailSendBtn=UIButton();//发送按钮
@@ -27,13 +35,43 @@ class TextMailComposerViewController: UIViewController {
     private var mailCancelBtn=UIButton();//关闭按钮
     private var mailTopicLbl=UILabel();//邮件主题标签
     var mailTopicInputText=UITextField();//邮件主题录入窗口;
+    var mailComposerView=RichEditorView();//邮件内容录入窗口
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Do any additional setup after loading the view.
-    }
+        
+        self.view.backgroundColor=UIColor.whiteColor();
+        self.AutoLayoutMailComposerView(0, startY: 0, frameWidth: 820)
+        
+
+        
+        
+        // Do any additional setup after loading the view, typically from a nib.
+        mailComposerView.delegate = self
+        mailComposerView.inputAccessoryView = toolbar
+        
+        toolbar.delegate = self
+        toolbar.editor = mailComposerView
+        toolbar.options=[
+            RichEditorOptions.Clear,
+            RichEditorOptions.Undo, RichEditorOptions.Redo, RichEditorOptions.Bold, RichEditorOptions.Italic,
+            RichEditorOptions.Strike, RichEditorOptions.Underline,
+            RichEditorOptions.TextColor, RichEditorOptions.TextBackgroundColor,
+            RichEditorOptions.Header(1), RichEditorOptions.Header(2), RichEditorOptions.Header(3), RichEditorOptions.Header(4), RichEditorOptions.Header(5),RichEditorOptions.Header(6),
+            RichEditorOptions.Indent, RichEditorOptions.Outdent, RichEditorOptions.OrderedList, RichEditorOptions.UnorderedList,
+            RichEditorOptions.AlignLeft, RichEditorOptions.AlignCenter, RichEditorOptions.AlignRight, RichEditorOptions.Image
+        ]
+        
+        mailComposerView.setPlaceholderText("在此输入邮件正文")
+        mailComposerView.setTextColor(UIColor.blueColor());
+        mailComposerView.scrollEnabled=true;
+        mailComposerView.clipsToBounds=true;
+        
+      }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -65,19 +103,19 @@ class TextMailComposerViewController: UIViewController {
         //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
         
         
-        self.mailComposerView.addSubview(mailToLbl);
-        self.mailComposerView.addSubview(mailToInputText);
+        self.mailHeaderView.addSubview(mailToLbl);
+        self.mailHeaderView.addSubview(mailToInputText);
         
-        self.mailComposerView.addSubview(mailSendBtn);
+        self.mailHeaderView.addSubview(mailSendBtn);
         
-        self.mailComposerView.addSubview(mailCcLbl);
+        self.mailHeaderView.addSubview(mailCcLbl);
         
-        self.mailComposerView.addSubview(mailCcInputText);
+        self.mailHeaderView.addSubview(mailCcInputText);
         
-        self.mailComposerView.addSubview(mailCancelBtn);
-        self.mailComposerView.addSubview(mailTopicLbl);
+        self.mailHeaderView.addSubview(mailCancelBtn);
+        self.mailHeaderView.addSubview(mailTopicLbl);
         
-        self.mailComposerView.addSubview(mailTopicInputText);
+        self.mailHeaderView.addSubview(mailTopicInputText);
         
         
         let xSpace:CGFloat=10;//水平方向间隔
@@ -92,14 +130,15 @@ class TextMailComposerViewController: UIViewController {
         let red=UIColor.redColor();
         let white=UIColor.whiteColor();
         let blue=UIColor.blueColor();
+        let gray=UIColor.lightGrayColor();
         
-        var top1,top2,top3,top4:CGFloat;
+        var top1,top2,top3,top4,top5:CGFloat;
         
         
         top1=ySpace;
         
         //        private var mailToLbl:UILabel=UILabel();//收件人地址标签
-        mailToLbl.setLabel("收件人:", x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: black)
+        mailToLbl.setLabel("收件人:", x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: gray)
         //        var mailToInputText=ACTextArea();//收件人地址录入窗口
         mailToInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top1, width: frameWidth-ctrWidth*2-4*xSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
         
@@ -122,7 +161,7 @@ class TextMailComposerViewController: UIViewController {
         //        private var mailCcLbl=UILabel();//抄送人地址标签
         top2=top1+ctrHight*3+ySpace
         
-        mailCcLbl.setLabel("抄送:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
+        mailCcLbl.setLabel("抄送:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
         
         //        var mailCcInputText=ACTextArea();//抄送人地址录入窗口
         mailCcInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top2, width: frameWidth-ctrWidth*2-2*xSpace-2*marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
@@ -144,7 +183,7 @@ class TextMailComposerViewController: UIViewController {
         //        private var mailTopicLbl=UILabel();//邮件主题标签
         top3=top2+ySpace+ctrHight*3;
         
-        mailTopicLbl.setLabel("主题:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
+        mailTopicLbl.setLabel("主题:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
         
         
         //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
@@ -158,20 +197,391 @@ class TextMailComposerViewController: UIViewController {
         
         top4=top3+ySpace+ctrHight;
         
-        self.mailComposerView.frame=CGRectMake(startX,startY,frameWidth, top4);
+        self.mailHeaderView.frame=CGRectMake(startX,startY,frameWidth, top4);
         
-        mailComposerView.layer.borderWidth = 1;
-        mailComposerView.layer.borderColor = blue.CGColor;
+/*        mailHeaderView.layer.borderWidth = 1;
+        mailHeaderView.layer.borderColor = blue.CGColor;
         
-        mailComposerView.layer.cornerRadius = 8
-        mailComposerView.layer.masksToBounds=true;
+        mailHeaderView.layer.cornerRadius = 8
+        mailHeaderView.layer.masksToBounds=true;
         
-        mailComposerView.backgroundColor=white;
+        mailHeaderView.backgroundColor=white;*/
         
-        self.view.addSubview(mailComposerView);
-        mailComposerView.hidden=true;
-        
-    }
+        self.view.addSubview(mailHeaderView);
+        mailHeaderView.hidden=false;
 
+        
+        top5=top4+5;
+        
+        self.view.addSubview(self.mailComposerView);
+        
+        self.mailComposerView.frame=CGRectMake(startX+xSpace,top5,frameWidth-2*xSpace, 1093-top5-ySpace);
+        mailComposerView.setEditorBackgroundColor(blue)
+        mailComposerView.layer.borderWidth = 1;
+        mailComposerView.layer.borderColor = gray.CGColor;
+
+ 
+        mailComposerView.hidden=false;
+
+
+       
+    }
+    
+    
+    //MARK:发送邮件
+    func doSendMail(sender: UIButton)
+    {
+        //发送邮件
+        let smtpSession=MCOSMTPSession();
+        
+        let smtpinfo=self.loadMailLoginInfo();
+        smtpSession.hostname = smtpinfo.smtphostname;
+        smtpSession.port = smtpinfo.smtpport;
+        smtpSession.username = smtpinfo.smtpusername;
+        smtpSession.password = smtpinfo.smtppassword;
+        
+        smtpSession.connectionType = MCOConnectionType.TLS;
+        
+        let smtpOperation = smtpSession.loginOperation();
+        //发送邮件
+        self.mailSendBtn.enabled=false;
+        self.mailSendBtn.backgroundColor=UIColor.grayColor();
+        
+        smtpOperation.start()
+            {
+                (error:NSError?)->Void in
+                
+                if (error == nil) {
+                    // 构建邮件体的发送内容
+                    let messageBuilder = MCOMessageBuilder();
+                    messageBuilder.header.from = MCOAddress(displayName: smtpinfo.nicklename, mailbox:smtpinfo.smtpusername);   // 发送人
+                    
+                    var canSendMail=true;//是否符合发邮件的条件
+                    
+                    let mailTo=self.mailToInputText.getEmailLists();
+                    
+                    if mailTo.count==0
+                    {
+                        canSendMail=false;
+                    }
+                    
+                    
+                    messageBuilder.header.to=mailTo;       // 收件人（多人）
+                    
+                    let mailCc=self.mailCcInputText.getEmailLists();
+                    
+                    messageBuilder.header.cc = mailCc;      // 抄送（多人）
+                    if self.mailTopicInputText.text==""
+                    {
+                        canSendMail=false;
+                        
+                    }
+                    messageBuilder.header.subject = self.mailTopicInputText.text  // 邮件标题
+                    if !canSendMail
+                    {
+                        self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
+                        //恢复发送按钮状态
+                        self.mailSendBtn.enabled=true;
+                        self.mailSendBtn.backgroundColor=UIColor.greenColor();
+                        
+                        return;//不能发送邮件了
+                    }
+                    
+                    var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
+                    
+                    htmlBody=htmlBody+self.mailComposerView.getHTML();                    
+                    
+                    
+                    //如果是回复或转发邮件,则需要把老邮件附件-图片格式
+                    if self.mailOrign != nil
+                    {
+                        
+                        var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+                        
+                        let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+                        if path != nil
+                        {
+                            do {
+                                tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                            }
+                            catch let error as NSError {
+                                print(error.localizedDescription)
+                            }
+                            
+                            
+                        }
+                        
+                        htmlBody=htmlBody+tempHtmlbody;
+                        
+                        
+                        
+                        
+                        let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+                        
+                        let cid="cngis-"+uuid;
+                        
+                        htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+                        
+                        
+                        let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: "originMail.png");
+                        attachment.contentID=cid;
+                        messageBuilder.addRelatedAttachment(attachment);
+                    }
+                    //老邮件添加完毕
+                    
+                    //老邮件，htmlbody转发
+                    if self.mailHtmlbodyOrigin != nil
+                    {
+                        
+                        var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+                        
+                        let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+                        if path != nil
+                        {
+                            do {
+                                tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                            }
+                            catch let error as NSError {
+                                print(error.localizedDescription)
+                            }
+                            
+                            
+                        }
+                        
+                        
+                        let originBodyHtml = NSMutableString(format: "%@<br/><br/>%@",tempHtmlbody.stringByReplacingOccurrencesOfString("\n",withString:"<br/>"),self.mailHtmlbodyOrigin!);
+                        
+                        htmlBody=htmlBody+(originBodyHtml as String);
+                        
+                        //添加hmtlinline附件
+                        
+                        if self.mailOriginRelatedAttachments != nil
+                        {
+                            for attachment in self.mailOriginRelatedAttachments!
+                            {
+                                messageBuilder.addRelatedAttachment(attachment);
+                            }
+                        }
+                        
+                        //添加邮件附件
+                        if self.mailOriginAttachments != nil
+                        {
+                            for attachment in self.mailOriginAttachments!
+                            {
+                                messageBuilder.addAttachment(attachment);
+                            }
+                        }
+                        
+                        
+                    }
+                    //老邮件添加完毕
+                    
+                    
+                    
+                    htmlBody=htmlBody+"</body></html>";
+                    
+                    //   print("htmlBody=\(htmlBody)");
+                    
+                    messageBuilder.htmlBody=htmlBody;
+                    
+                    
+                    let rfc822Data = messageBuilder.data();
+                    let sendOperation = smtpSession.sendOperationWithData(rfc822Data);
+                    sendOperation.start()
+                        {
+                            (error:NSError?) -> Void in
+                            if error==nil
+                            {
+                                print("发送成功!");
+                                self.dismissViewControllerAnimated(true,completion: nil);
+                            }
+                            else
+                            {
+                                self.ShowNotice("提示", "发送不成功-\(error?.localizedDescription)");
+                                print("发送不成功!%@",error);
+                                //存放到草稿箱中
+                                
+                            }
+                            
+                            self.mailSendBtn.enabled=true;
+                            self.mailSendBtn.backgroundColor=UIColor.greenColor();
+                            
+                            
+                    }
+                    
+                }
+                else
+                {
+                    print("login account failure: %@", error);
+                    
+                    self.mailSendBtn.enabled=true;
+                    self.mailSendBtn.backgroundColor=UIColor.greenColor();                
+                }
+        }
+    }
+    //MARK:关闭邮件地址录入窗口
+    func doCloseMailComposer(sender: UIButton)
+    {
+        self.dismissViewControllerAnimated(true,completion: nil);
+    }
+    
 
 }
+
+//MARK:扩展,响应RichEditorToolbarDelegate
+extension TextMailComposerViewController: RichEditorToolbarDelegate {
+    
+    private func randomColor() -> UIColor {
+        let colors = [
+            UIColor.redColor(),
+            UIColor.orangeColor(),
+            UIColor.yellowColor(),
+            UIColor.greenColor(),
+            UIColor.blueColor(),
+            UIColor.purpleColor()
+        ]
+        
+        let color = colors[Int(arc4random_uniform(UInt32(colors.count)))]
+        return color
+    }
+    
+    func richEditorToolbarChangeTextColor(toolbar: RichEditorToolbar) {
+        let color = randomColor()
+        toolbar.editor?.setTextColor(color)
+    }
+    
+    func richEditorToolbarChangeBackgroundColor(toolbar: RichEditorToolbar) {
+        let color = randomColor()
+        toolbar.editor?.setTextBackgroundColor(color)
+    }
+    
+    func richEditorToolbarInsertImage(toolbar: RichEditorToolbar) {
+        //        richEditorView.insertImage("http://",alt: "test");
+        //判断设置是否支持图片库
+        if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary){
+            //初始化图片控制器
+            let picker = UIImagePickerController()
+            //设置代理
+            picker.delegate = self
+            //指定图片控制器类型
+            picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            //设置是否允许编辑
+            //            picker.allowsEditing = editSwitch.on
+            //弹出控制器，显示界面
+            self.presentViewController(picker, animated: true, completion: {
+                () -> Void in
+            })
+        }else{
+            print("读取相册错误")
+        }
+
+    }
+    
+    //选择图片成功后代理
+    func imagePickerController(picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        //查看info对象
+        //        print(info)
+        //获取选择的原图
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+//        var tmpDirectory = NSTemporaryDirectory();
+//        let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+//        tmpDirectory="file://"+tmpDirectory+"/"+uuid+".JPG";
+//        
+//        
+//        
+//        UIImageJPEGRepresentation(image, 1.0)!.writeToFile(tmpDirectory,atomically:true);
+//        
+//        let url=info[UIImagePickerControllerReferenceURL] as! NSURL;
+//        
+//        print(tmpDirectory);
+        
+        
+        
+         
+         let imageData = UIImageJPEGRepresentation(image,1);
+         
+         let imageSource = String.init(format:"data:image/jpg;base64,%@",imageData!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)));
+         
+         let srcimag=String.init(format:"<img src = \"%@\" alt=\" \" width=\"750\"/>", imageSource);
+         
+         
+         
+         //   print(srcimag)
+        
+//        self.mailComposerView.insertImage(imageSource,alt: "img");
+        self.mailComposerView.insertHtml(srcimag);
+
+         //图片控制器退出
+        picker.dismissViewControllerAnimated(true, completion: {
+            () -> Void in
+        })
+    }
+
+    
+    func richEditorToolbarInsertLink(toolbar: RichEditorToolbar) {
+        // Can only add links to selected text, so make sure there is a range selection first
+        if let hasSelection = toolbar.editor?.rangeSelectionExists() where hasSelection {
+            toolbar.editor?.insertLink("http://github.com/cjwirth/RichEditorView", title: "Github Link")
+        }
+    }
+}
+
+//MARK:响应,实现RichEditorDelegate
+extension TextMailComposerViewController: RichEditorDelegate {
+    
+    func richEditor(editor: RichEditorView, heightDidChange height: Int)
+    {
+        print("editor height=\(height),webview height=\(editor.webView.bounds)");
+    }
+    
+    func richEditor(editor: RichEditorView, contentDidChange content: String) {
+        //        if content.isEmpty {
+        //            htmlTextView.text = "HTML Preview"
+        //        } else {
+        //            htmlTextView.text = content
+        //        }
+    }
+    
+    func richEditorTookFocus(editor: RichEditorView) { }
+    
+    func richEditorLostFocus(editor: RichEditorView) { }
+    
+    func richEditorDidLoad(editor: RichEditorView) { }
+    
+    func richEditor(editor: RichEditorView, shouldInteractWithURL url: NSURL) -> Bool { return true }
+    
+    func richEditor(editor: RichEditorView, handleCustomAction content: String) { }
+    
+}
+
+//MARK:响应,RichEditorView扩展,增加InsertHtml功能
+extension RichEditorView
+{
+    private func escape(string: String) -> String {
+        let unicode = string.unicodeScalars
+        var newString = ""
+        for var i = unicode.startIndex; i < unicode.endIndex; i++ {
+            let char = unicode[i]
+            if char.value < 9 || (char.value > 9 && char.value < 32) // < 32 == special characters in ASCII, 9 == horizontal tab in ASCII
+                || char.value == 39 { // 39 == ' in ASCII
+                let escaped = char.escape(asASCII: true)
+                newString.appendContentsOf(escaped)
+            } else {
+                newString.append(char)
+            }
+        }
+        return newString
+    }
+
+    //插件HTML代码
+    public func insertHtml(html: String) {
+        runJS("RE.prepareInsert();")
+        runJS("RE.insertHTML('\(escape(html))');")
+    }
+}
+
+
+
+
