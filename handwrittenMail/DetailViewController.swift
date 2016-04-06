@@ -886,6 +886,113 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     
     //MARK:全部回复邮件
     func replyMail(sender: AnyObject) {
+        
+        let composeMenu = UIAlertController(title: nil, message: "回复邮件选项", preferredStyle: .ActionSheet)
+        
+        let handwrittenAction = UIAlertAction(title: "手写邮件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            //added by shiww,弹出手写邮件编写界面
+            self.doReplyMail(sender.tag)
+            
+        };
+        
+        let digitalmailAction = UIAlertAction(title: "普通邮件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            print("普通邮件代码实现在此!");
+            
+            self.doReplyTextMail(sender.tag)
+            
+            
+            
+            
+        };
+        
+        
+        //        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        composeMenu.addAction(handwrittenAction)
+        composeMenu.addAction(digitalmailAction)
+        
+        //        composeMenu.addAction(cancelAction)
+        
+        composeMenu.popoverPresentationController?.sourceView=sender.view;
+        
+        composeMenu.popoverPresentationController?.sourceRect=sender.view!.bounds;
+        
+        
+        self.presentViewController(composeMenu, animated: true, completion: nil)
+        
+        
+      }
+    
+    
+    //MARK:回复普通邮件
+    //MARK:非手写邮件
+    func doReplyTextMail(tag:Int)
+    {
+        if self.message==nil
+        {
+            return;
+        }
+
+        //added by shiww,弹出普通邮件编写界面
+        let popVC = TextMailComposerViewController();
+        
+        
+        
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        let popOverController = popVC.popoverPresentationController
+        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popOverController?.permittedArrowDirections = .Any
+
+        let header=self.message.header;
+        
+        //self.mailSubject=header.subject;//邮件主题
+        
+        
+        
+        var tmpmailCcLists=[MCOAddress]();
+        var tmpmailToLists=[MCOAddress]();
+        
+        if tag==1 //回复全部,else 回复发件人
+        {
+            
+            if header.to != nil
+            {
+                
+                tmpmailCcLists=header.to as! [MCOAddress];
+            }
+            
+            if header.cc != nil
+            {
+                tmpmailCcLists.appendContentsOf(
+                    header.cc as! [MCOAddress]);
+                
+            }
+        }
+        
+        tmpmailToLists.append(header.from);
+        
+        popVC.mailTopic="回复:from石伟伟"+header.subject;//邮件主题;
+        popVC.mailTo=tmpmailToLists;
+        popVC.mailCc=tmpmailCcLists;
+        popVC.mailOrign=self.mywebView.exportViewToPng();
+        
+        
+        self.presentViewController(popVC, animated: true, completion: nil)
+
+        
+    }
+    
+
+    //MARK:回复手写邮件
+    func doReplyMail(tag:Int)
+    {
+        
         if self.message==nil
         {
             return;
@@ -906,7 +1013,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         var tmpmailCcLists=[MCOAddress]();
         var tmpmailToLists=[MCOAddress]();
         
-        if sender.tag==1 //回复全部,else 回复发件人
+        if tag==1 //回复全部,else 回复发件人
         {
             
             if header.to != nil
@@ -918,7 +1025,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             if header.cc != nil
             {
                 tmpmailCcLists.appendContentsOf(
-                header.cc as! [MCOAddress]);
+                    header.cc as! [MCOAddress]);
                 
             }
         }
@@ -929,19 +1036,19 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         popVC.mailTo=tmpmailToLists;
         popVC.mailCc=tmpmailCcLists;
         popVC.mailOrign=self.mywebView.exportViewToPng();
-
+        
         
         self.presentViewController(popVC, animated: true, completion: nil)
         
+
     }
-    
     
     //MARK:转发邮件
     func forwardMail(sender: AnyObject) {
        // self.mywebView.exportViewToPng();
         let forwardMenu = UIAlertController(title: nil, message: "转发选项", preferredStyle: .ActionSheet)
         
-        let readAction = UIAlertAction(title: "带附件", style: UIAlertActionStyle.Default)
+        let forwardhandwithattachAction = UIAlertAction(title: "手写邮件-带附件", style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -950,7 +1057,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         };
         
-        let unreadAction = UIAlertAction(title: "不带附件", style: UIAlertActionStyle.Default)
+        let forwardhandnoattachAction = UIAlertAction(title: "手写邮件-不带附件", style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -960,11 +1067,35 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
         };
         
+        let forwardtextwithattachAction = UIAlertAction(title: "普通邮件-带附件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            print("带附件代码转发普通邮件年实现在此!");
+            self.forwardTextMailOperation(true);
+            
+        };
+        
+        let forwardtextnoattachAction = UIAlertAction(title: "普通邮件-不带附件", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            print("不带附件代码转发普通邮件年实现在此!");
+            self.forwardTextMailOperation(false);
+            
+            
+        };
+        
+
+        
         
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         
-        forwardMenu.addAction(readAction)
-        forwardMenu.addAction(unreadAction)
+        forwardMenu.addAction(forwardhandwithattachAction)
+        forwardMenu.addAction(forwardhandnoattachAction)
+        forwardMenu.addAction(forwardtextwithattachAction)
+        forwardMenu.addAction(forwardtextnoattachAction)
+
         
         forwardMenu.addAction(cancelAction)
         
@@ -977,6 +1108,84 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         
     }
+    
+    //MARK：转发普通邮件--带附件或不带附件
+    private func forwardTextMailOperation(withAttachment:Bool=true)
+    {
+        if self.message==nil
+        {
+            return;
+        }
+        //added by shiww,弹出邮件编写界面
+        let popVC = TextMailComposerViewController();
+        
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        let popOverController = popVC.popoverPresentationController
+        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popOverController?.permittedArrowDirections = .Any
+        
+        let header=self.message.header;
+        
+        
+        
+        popVC.mailTopic="from石伟伟 转发："+header.subject;//邮件主题;
+        //把当前邮件转化为图片转发
+        //popVC.mailOrign=self.mywebView.exportViewToPng();
+        
+        //把当前邮件原文转发
+        //1.首先获得邮件HTMLBODY
+        
+        let imapsession=self.session;
+        
+        let fetchContentOp = imapsession.fetchMessageOperationWithFolder(self.folder,uid:self.message.uid,urgent:true);
+        
+        fetchContentOp.start()
+            {
+                (error:NSError?, data:NSData?)->Void in
+                if error==nil
+                {
+                    
+                    let msgPareser = MCOMessageParser(data:data);
+                    
+                 //   let bodyHtml=msgPareser.htmlBodyRendering();
+                    let bodyHtml=msgPareser.htmlRenderingWithDelegate(nil);
+
+                    
+                    popVC.mailHtmlbodyOrigin=nil;
+                    popVC.mailHtmlbodyOrigin=bodyHtml;//邮件正文
+                    
+                    popVC.mailOriginAttachments=nil;
+                    popVC.mailOriginRelatedAttachments=nil;
+                    
+                    // 添加正文里的附加资源
+                    let inattachments = msgPareser.htmlInlineAttachments;
+                    
+                    
+                    popVC.mailOriginRelatedAttachments=inattachments() as? [MCOAttachment];
+                    
+                    
+                    if withAttachment //要带附件
+                    {
+                        
+                        let attachments=msgPareser.attachments;
+                        
+                        popVC.mailOriginAttachments=attachments() as? [MCOAttachment];
+                    }
+                    
+                    self.presentViewController(popVC, animated: true, completion: nil)
+                    
+                }
+                else
+                {
+                    print("获取邮件全文信息失败!")
+                }
+                
+                
+        }
+        
+    }
+    
+
     
     //MARK：转发邮件--带附件或不带附件
     private func forwardMailOperation(withAttachment:Bool=true)

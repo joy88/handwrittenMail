@@ -26,13 +26,13 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     var mailOriginAttachments:[MCOAttachment]?//MARK:邮件附件，转发时有用
     var mailOriginRelatedAttachments:[MCOAttachment]?//MARK:邮件releated附件，正文中的图片转发时有用
     
+    private var mailToolBar=UIToolbar();//工具条窗口
+    
     private var mailHeaderView:UIView=UIView();//收件人都录入窗口
     private var mailToLbl:UILabel=UILabel();//收件人地址标签
     var mailToInputText=ACTextArea();//收件人地址录入窗口
-    private var mailSendBtn=UIButton();//发送按钮
     private var mailCcLbl=UILabel();//抄送人地址标签
     var mailCcInputText=ACTextArea();//抄送人地址录入窗口
-    private var mailCancelBtn=UIButton();//关闭按钮
     private var mailTopicLbl=UILabel();//邮件主题标签
     var mailTopicInputText=UITextField();//邮件主题录入窗口;
     var mailComposerView=RichEditorView();//邮件内容录入窗口
@@ -45,7 +45,16 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         // Do any additional setup after loading the view.
         
         self.view.backgroundColor=UIColor.whiteColor();
-        self.AutoLayoutMailComposerView(0, startY: 0, frameWidth: 820)
+        
+        let viewWidth=self.preferredContentSize.width;
+
+        self.AutoLayoutMailComposerView(0, startY: 0, frameWidth: viewWidth)
+        
+        //加载邮件头信息
+        self.loadMailHeader();
+        //加载转发时的原邮件信息\
+        self.mailComposerView.setHTML(self.buildMessageHtmlBody())
+        
         
 
         
@@ -67,7 +76,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         ]
         
         mailComposerView.setPlaceholderText("在此输入邮件正文")
-        mailComposerView.setTextColor(UIColor.blueColor());
+        mailComposerView.setTextColor(UIColor.blackColor());
         mailComposerView.scrollEnabled=true;
         mailComposerView.clipsToBounds=true;
         
@@ -101,18 +110,17 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         //        private var mailCancelBtn=UIButton();//关闭按钮
         //        private var mailTopicLbl=UILabel();//邮件主题标签
         //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
+
         
         
         self.mailHeaderView.addSubview(mailToLbl);
         self.mailHeaderView.addSubview(mailToInputText);
         
-        self.mailHeaderView.addSubview(mailSendBtn);
         
         self.mailHeaderView.addSubview(mailCcLbl);
         
         self.mailHeaderView.addSubview(mailCcInputText);
         
-        self.mailHeaderView.addSubview(mailCancelBtn);
         self.mailHeaderView.addSubview(mailTopicLbl);
         
         self.mailHeaderView.addSubview(mailTopicInputText);
@@ -132,29 +140,37 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         let blue=UIColor.blueColor();
         let gray=UIColor.lightGrayColor();
         
-        var top1,top2,top3,top4,top5:CGFloat;
+        var top0,top1,top2,top3,top4,top5:CGFloat;
         
+//        private var mailToolBar=UIToolbar();//工具条窗口
+        self.mailHeaderView.addSubview(mailToolBar);
+        top0=ySpace;
+
         
-        top1=ySpace;
+        mailToolBar.frame=CGRectMake(0, startY,frameWidth,44);
+
+        
+        let cancelbutton = UIBarButtonItem(title: "取消", style:UIBarButtonItemStyle.Plain,target: self,action: #selector(TextMailComposerViewController.doCloseMailComposer))
+        
+        let flexButton1=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
+        let titlebutton = UIBarButtonItem(title: "新邮件", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+        
+        let flexButton2=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
+
+        let sendbutton = UIBarButtonItem(title: "发送", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(TextMailComposerViewController.doSendMail))
+
+        
+        let items=[cancelbutton,flexButton1,titlebutton,flexButton2,sendbutton];
+       
+        mailToolBar.setItems(items, animated: true)
+
+        
+        top1=top0+44+ySpace;
         
         //        private var mailToLbl:UILabel=UILabel();//收件人地址标签
         mailToLbl.setLabel("收件人:", x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: gray)
         //        var mailToInputText=ACTextArea();//收件人地址录入窗口
-        mailToInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top1, width: frameWidth-ctrWidth*2-4*xSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
-        
-        //        private var mailSendBtn=UIButton();//发送按钮
-        
-        mailSendBtn.setTitle("发送", forState:.Normal);
-        
-        mailSendBtn.frame=CGRectMake(frameWidth-ctrWidth-marginSpace,top1,ctrWidth,ctrHight*3)
-        mailSendBtn.setTitleColor(white, forState: .Normal);//不加上这句,看不到,可以字体是白色的原因吧
-        mailSendBtn.backgroundColor=green;
-        
-        mailSendBtn.layer.cornerRadius = 8
-        mailSendBtn.layer.masksToBounds=true;
-        
-        mailSendBtn.addTarget(self,action: #selector(BoardViewController.doSendMail(_:)),forControlEvents: UIControlEvents.TouchUpInside)//发送邮件
-        
+        mailToInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top1, width: frameWidth-ctrWidth-2*xSpace-marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
         
         
         
@@ -164,19 +180,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         mailCcLbl.setLabel("抄送:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
         
         //        var mailCcInputText=ACTextArea();//抄送人地址录入窗口
-        mailCcInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top2, width: frameWidth-ctrWidth*2-2*xSpace-2*marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
-        
-        //        private var mailCancelBtn=UIButton();//关闭按钮
-        mailCancelBtn.setTitle("关闭", forState:.Normal);
-        
-        mailCancelBtn.frame=CGRectMake(frameWidth-ctrWidth-marginSpace,top2,ctrWidth,ctrHight*3)
-        mailCancelBtn.setTitleColor(white, forState: .Normal);//不加上这句,看不
-        mailCancelBtn.backgroundColor=red;
-        
-        mailCancelBtn.layer.cornerRadius = 8
-        mailCancelBtn.layer.masksToBounds=true;
-        
-        mailCancelBtn.addTarget(self,action: #selector(BoardViewController.doCloseMailComposer(_:)),forControlEvents: UIControlEvents.TouchUpInside)//关闭窗口
+        mailCcInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top2, width: frameWidth-ctrWidth-2*xSpace-marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
         
         
         
@@ -188,9 +192,14 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
         mailTopicInputText.frame = CGRectMake((marginSpace+ctrWidth+xSpace), top3, frameWidth-ctrWidth-marginSpace*2-xSpace, ctrHight);
-        mailTopicInputText.backgroundColor=white;
         
-        mailTopicInputText.borderStyle=UITextBorderStyle.RoundedRect
+     //   mailTopicInputText.borderStyle=UITextBorderStyle.RoundedRect
+
+        mailTopicInputText.backgroundColor=white;
+        mailTopicInputText.layer.borderWidth = 1;
+        mailTopicInputText.layer.borderColor = gray.CGColor;
+        mailTopicInputText.layer.cornerRadius = 4
+
         
         
         //        private var mailComposerView:UIView=UIView();//收件人都录入窗口
@@ -215,8 +224,10 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         self.view.addSubview(self.mailComposerView);
         
-        self.mailComposerView.frame=CGRectMake(startX+xSpace,top5,frameWidth-2*xSpace, 1093-top5-ySpace);
-        mailComposerView.setEditorBackgroundColor(blue)
+        let viewHeight=self.preferredContentSize.height;
+        
+        self.mailComposerView.frame=CGRectMake(startX+xSpace,top5,frameWidth-2*xSpace, viewHeight-top5-ySpace);
+       // mailComposerView.setEditorBackgroundColor(blue)
         mailComposerView.layer.borderWidth = 1;
         mailComposerView.layer.borderColor = gray.CGColor;
 
@@ -229,7 +240,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     
     
     //MARK:发送邮件
-    func doSendMail(sender: UIButton)
+    func doSendMail()
     {
         //发送邮件
         let smtpSession=MCOSMTPSession();
@@ -244,8 +255,8 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         let smtpOperation = smtpSession.loginOperation();
         //发送邮件
-        self.mailSendBtn.enabled=false;
-        self.mailSendBtn.backgroundColor=UIColor.grayColor();
+//        self.mailSendBtn.enabled=false;
+//        self.mailSendBtn.backgroundColor=UIColor.grayColor();
         
         smtpOperation.start()
             {
@@ -281,8 +292,8 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     {
                         self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
                         //恢复发送按钮状态
-                        self.mailSendBtn.enabled=true;
-                        self.mailSendBtn.backgroundColor=UIColor.greenColor();
+//                        self.mailSendBtn.enabled=true;
+//                        self.mailSendBtn.backgroundColor=UIColor.greenColor();
                         
                         return;//不能发送邮件了
                     }
@@ -315,7 +326,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                         
                         
                         
-                        
+ 
                         let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
                         
                         let cid="cngis-"+uuid;
@@ -403,8 +414,8 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                                 
                             }
                             
-                            self.mailSendBtn.enabled=true;
-                            self.mailSendBtn.backgroundColor=UIColor.greenColor();
+//                            self.mailSendBtn.enabled=true;
+//                            self.mailSendBtn.backgroundColor=UIColor.greenColor();
                             
                             
                     }
@@ -414,16 +425,164 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                 {
                     print("login account failure: %@", error);
                     
-                    self.mailSendBtn.enabled=true;
-                    self.mailSendBtn.backgroundColor=UIColor.greenColor();                
+//                    self.mailSendBtn.enabled=true;
+//                    self.mailSendBtn.backgroundColor=UIColor.greenColor();                
                 }
         }
     }
     //MARK:关闭邮件地址录入窗口
-    func doCloseMailComposer(sender: UIButton)
+    func doCloseMailComposer()
     {
         self.dismissViewControllerAnimated(true,completion: nil);
     }
+    
+    
+    //MARK:回复邮件时构建邮件头信息
+    private func loadMailHeader()
+    {
+        //收件人
+        var items=[ACAddressBookElement]();
+        for mailto in self.mailTo
+        {
+            let item=ACAddressBookElement();
+            
+            item.email=mailto.mailbox;
+            item.first_name=mailto.displayName;
+            item.last_name="";
+            items.append(item)
+            
+        }
+        self.mailToInputText.loadItems(items);
+        
+        //收件人
+        items.removeAll();
+        
+        
+        for mailcc in self.mailCc
+        {
+            let item=ACAddressBookElement();
+            
+            item.email=mailcc.mailbox;
+            item.first_name=mailcc.displayName;
+            item.last_name="";
+            items.append(item)
+            
+        }
+        self.mailCcInputText.loadItems(items);
+        
+        //邮件主题
+        self.mailTopicInputText.text=self.mailTopic;
+        
+        
+    }
+    
+    
+    private func buildMessageHtmlBody()->String
+    {
+ //       return "以下是转发的邮件内容";
+        
+        let messageBuilder = MCOMessageBuilder();
+
+        var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
+        
+        htmlBody=htmlBody+self.mailComposerView.getHTML();
+        
+        
+        //如果是回复或转发邮件,则需要把老邮件附件-图片格式
+        if self.mailOrign != nil
+        {
+            
+            
+            var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+            
+            let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+            if path != nil
+            {
+                do {
+                    tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                }
+                catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+                
+                
+            }
+            
+            htmlBody=htmlBody+tempHtmlbody;
+            
+            
+            
+            
+            let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+            
+            let cid="cngis-"+uuid;
+            
+            htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+            
+            
+            let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: "originMail.png");
+            attachment.contentID=cid;
+            messageBuilder.addRelatedAttachment(attachment);
+        }
+        //老邮件添加完毕
+        
+        //老邮件，htmlbody转发
+        if self.mailHtmlbodyOrigin != nil
+        {
+            
+            var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+            
+            let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+            if path != nil
+            {
+                do {
+                    tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                }
+                catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+                
+                
+            }
+            
+            
+            let originBodyHtml = NSMutableString(format: "%@<br/><br/>%@",tempHtmlbody.stringByReplacingOccurrencesOfString("\n",withString:"<br/>"),self.mailHtmlbodyOrigin!);
+            
+            htmlBody=htmlBody+(originBodyHtml as String);
+            
+            //添加hmtlinline附件
+            
+            if self.mailOriginRelatedAttachments != nil
+            {
+                for attachment in self.mailOriginRelatedAttachments!
+                {
+                    messageBuilder.addRelatedAttachment(attachment);
+                }
+            }
+            
+            //添加邮件附件
+            if self.mailOriginAttachments != nil
+            {
+                for attachment in self.mailOriginAttachments!
+                {
+                    messageBuilder.addAttachment(attachment);
+                }
+            }
+            
+            
+        }
+        //老邮件添加完毕
+        
+        
+        
+        htmlBody=htmlBody+"</body></html>";
+        
+        return htmlBody;
+
+    
+    }
+    
+
     
 
 }
