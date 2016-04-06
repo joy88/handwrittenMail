@@ -16,11 +16,13 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         toolbar.options = RichEditorOptions.all()
         return toolbar
     }()
-
+    
+  
+    var mailContentTemplate="";//邮件正文模板
     
     var mailTo=[MCOAddress]();//MARK:收件人
     var mailCc=[MCOAddress]();//MARK:抄送
-    var mailTopic="";//MARK:邮件主题
+    var mailTopic="";//MARK:邮件主题模板
     var mailOrign:UIImage?;//MARK:邮件原文,转发或回复时有用
     var mailHtmlbodyOrigin:String?//MARK:邮件HTML原文，转发或回复时有用
     var mailOriginAttachments:[MCOAttachment]?//MARK:邮件附件，转发时有用
@@ -53,7 +55,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         //加载邮件头信息
         self.loadMailHeader();
         //加载转发时的原邮件信息\
-        self.mailComposerView.setHTML(self.buildMessageHtmlBody())
+//        self.mailComposerView.setHTML(self.buildMessageHtmlBody())
         
         
 
@@ -133,9 +135,6 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         let ctrHight:CGFloat=25;//标准控件高度
         let ctrWidth:CGFloat=60;//标准控件宽度
         
-        let black=UIColor.blackColor();
-        let green=UIColor.greenColor();
-        let red=UIColor.redColor();
         let white=UIColor.whiteColor();
         let blue=UIColor.blueColor();
         let gray=UIColor.lightGrayColor();
@@ -172,8 +171,6 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         //        var mailToInputText=ACTextArea();//收件人地址录入窗口
         mailToInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top1, width: frameWidth-ctrWidth-2*xSpace-marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
         
-        
-        
         //        private var mailCcLbl=UILabel();//抄送人地址标签
         top2=top1+ctrHight*3+ySpace
         
@@ -193,12 +190,13 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
         mailTopicInputText.frame = CGRectMake((marginSpace+ctrWidth+xSpace), top3, frameWidth-ctrWidth-marginSpace*2-xSpace, ctrHight);
         
-     //   mailTopicInputText.borderStyle=UITextBorderStyle.RoundedRect
+ //       mailTopicInputText.borderStyle=UITextBorderStyle
 
         mailTopicInputText.backgroundColor=white;
         mailTopicInputText.layer.borderWidth = 1;
         mailTopicInputText.layer.borderColor = gray.CGColor;
         mailTopicInputText.layer.cornerRadius = 4
+        mailTopicInputText.clearButtonMode = .WhileEditing;
 
         
         
@@ -227,17 +225,17 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         let viewHeight=self.preferredContentSize.height;
         
         self.mailComposerView.frame=CGRectMake(startX+xSpace,top5,frameWidth-2*xSpace, viewHeight-top5-ySpace);
-       // mailComposerView.setEditorBackgroundColor(blue)
-        mailComposerView.layer.borderWidth = 1;
-        mailComposerView.layer.borderColor = gray.CGColor;
-
+       //mailComposerView.setEditorBackgroundColor(blue)
+       mailComposerView.layer.borderWidth = 1;
+       mailComposerView.layer.borderColor = gray.CGColor;
+        
+ //      self.view.layer.frame = CGRectInset(mailComposerView.layer.frame, -10, -10);
  
         mailComposerView.hidden=false;
 
 
        
     }
-    
     
     //MARK:发送邮件
     func doSendMail()
@@ -470,12 +468,78 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         }
         self.mailCcInputText.loadItems(items);
         
-        //邮件主题
-        self.mailTopicInputText.text=self.mailTopic;
+        self.setMailHeadTemplate();//预处理邮件模板
+        self.setMailContentTemplate();
         
         
     }
     
+    //MARK:处理邮件模板
+    private func setMailContentTemplate()
+    {
+        //邮件内容模板
+        let mailCc=self.mailCcInputText.getEmailLists();
+        let mailTo=self.mailToInputText.getEmailLists();
+        //1.替换发件人
+        var strTemp="";
+        
+        for mailto in mailTo
+        {
+            strTemp=strTemp+mailto.displayName+" ";
+        }
+        
+        self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<mailto>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        //2.替换抄送人
+        strTemp="";
+        
+        for mailcc in mailCc
+        {
+            strTemp=strTemp+mailcc.displayName+" ";
+        }
+        
+        
+        if mailCc.count>0
+        {
+
+            strTemp="抄送"+strTemp;
+            
+            self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<mailcc>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+            
+        }
+        else
+        {
+            strTemp="";
+            
+            self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<mailcc>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+            
+        }
+        //3.替换发信日期
+        strTemp=NSDate().toString(format: DateFormat.Custom("YYYY-MM-dd EEEE HH:mm"));
+        
+        self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<maildate>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        self.mailComposerView.setHTML(self.mailContentTemplate);
+
+        
+    }
+
+    
+    //MARK:处理邮件模板
+    private func setMailHeadTemplate()
+    {
+       let logininfo=self.loadMailLoginInfo()
+        let mailsender=logininfo.nicklename;
+        
+        self.mailTopic=self.mailTopic.stringByReplacingOccurrencesOfString("<mailsender>", withString: mailsender, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        //邮件主题
+        self.mailTopicInputText.text=self.mailTopic;
+        
+      }
+    
+    
+
     
     private func buildMessageHtmlBody()->String
     {

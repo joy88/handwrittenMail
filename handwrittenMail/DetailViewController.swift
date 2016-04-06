@@ -14,6 +14,15 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:Open In Controller,must like this
     private var docController:UIDocumentInteractionController?
     
+    private var mailTopicNewTemplate:String="From北京超图<mailsender>,";//新建邮件时的邮件主题模板
+    private var mailTopicReplyTemplate:String="From北京超图<mailsender>的回复,";////回复邮件时的邮件主题模板
+    private var mailTopicforwardTemplate:String="From北京超图<mailsender>的转发,";////回复邮件时的邮件主题模板
+    private var mailContentTemplate="<mailto>:<br><mailcc><br>    您好:<br><br>                此致<br>敬礼<br><br><br><br>石伟伟 博士   <maildate><br> -----------------------------------------------------------------------------------------------------<br>北京超图软件股份有限公司<br>地址: 北京市朝阳区酒仙桥北路甲10号电子城IT产业园107楼6层<br>邮编: 100015       总机: 010-59896655         传真: 010-59896666    直线: 010-59896766 <br>手机: 18610219104<br>E-mail✉:shiweiwei@supermap.com<br>网站:www.supermap.com.cn<br>  -----------------------------------------------------------------------------------------------------";
+//回复邮件时的邮件主题模板
+
+
+
+    
 
     var mywebView=MCOMessageView()//MARK:邮件正文
     
@@ -840,7 +849,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         {
             (UIAlertAction) -> Void in
             
-            print("普通邮件代码实现在此!");
+          //  print("普通邮件代码实现在此!");
             
             self.newTextMail();
             
@@ -872,6 +881,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     {
         //added by shiww,弹出手写邮件编写界面
         let popVC = TextMailComposerViewController();
+        
+        popVC.mailTopic=self.mailTopicNewTemplate;//设置邮件主题模板
+        popVC.mailContentTemplate=self.mailContentTemplate;//邮件内容模板
         
   
         
@@ -977,10 +989,12 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         tmpmailToLists.append(header.from);
         
-        popVC.mailTopic="回复:from石伟伟"+header.subject;//邮件主题;
         popVC.mailTo=tmpmailToLists;
         popVC.mailCc=tmpmailCcLists;
         popVC.mailOrign=self.mywebView.exportViewToPng();
+        
+        popVC.mailTopic=self.mailTopicReplyTemplate+header.subject;//主题采用"回复"模板
+        popVC.mailContentTemplate=self.mailContentTemplate;//邮件内容模板
         
         
         self.presentViewController(popVC, animated: true, completion: nil)
@@ -1128,7 +1142,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         
         
-        popVC.mailTopic="from石伟伟 转发："+header.subject;//邮件主题;
+        popVC.mailTopic=self.mailTopicforwardTemplate+header.subject;//邮件主题模板;
+        popVC.mailContentTemplate=self.mailContentTemplate;//邮件内容模板
         //把当前邮件转化为图片转发
         //popVC.mailOrign=self.mywebView.exportViewToPng();
         
@@ -1339,6 +1354,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         let doc = NSURL(fileURLWithPath: self.tempFilePath)
         return doc;
     }
+    
+    
     
  
 }
