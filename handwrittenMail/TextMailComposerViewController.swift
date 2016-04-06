@@ -303,7 +303,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     htmlBody=htmlBody+self.mailComposerView.getHTML();                    
                     
                     
-                    //如果是回复或转发邮件,则需要把老邮件附件-图片格式
+                    //如果是以图片形式回复或转发邮件,则需要把老邮件附件-图片格式
                     if self.mailOrign != nil
                     {
                         
