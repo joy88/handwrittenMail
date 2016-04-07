@@ -499,6 +499,9 @@ class ImapMail : BaseMail {
             case "草稿箱":
                 resultfolders[2]=mailfolder;
                 self.draftFolder=mailfolder.folderInfo.path;//删除邮件时有用
+                //保存一下,新邮件时有用
+                let defaults = NSUserDefaults.standardUserDefaults();
+                defaults.setObject(self.draftFolder, forKey: "draftsbox");
             default:
                 resultfolders.append(mailfolder);
                 if folderName == "废纸篓"

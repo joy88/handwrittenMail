@@ -411,7 +411,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
             var strFileSize=String(format: "%.2f", fileSize)
             
-            strFileSize = attachment.filename+"("+strFileSize+"M)";
+            strFileSize = "\(attachment.filename)"+"("+strFileSize+"M)";
             
             let email=MCOAddress(displayName:strFileSize, mailbox: "s@s.s")//displayName中是文件名啊
         
@@ -884,6 +884,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         popVC.mailTopic=self.mailTopicNewTemplate;//设置邮件主题模板
         popVC.mailContentTemplate=self.mailContentTemplate;//邮件内容模板
+        
+        popVC.imapsession=self.session;//邮件保存到草稿箱时有用
         
   
         
