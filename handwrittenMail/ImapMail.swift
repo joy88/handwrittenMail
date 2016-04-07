@@ -427,7 +427,7 @@ class ImapMail : BaseMail {
         {
             var folderName=mailfolder.folderNameAlias;
             
-            var folderUperName=folderName.uppercaseString;
+            let folderUperName=folderName.uppercaseString;
             
             let tmpImapFolder=mailfolder.folderInfo;
             

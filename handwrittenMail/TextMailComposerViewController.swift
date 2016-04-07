@@ -38,6 +38,10 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     private var mailTopicLbl=UILabel();//邮件主题标签
     var mailTopicInputText=UITextField();//邮件主题录入窗口;
     var mailComposerView=RichEditorView();//邮件内容录入窗口
+    var Line1=UILabel();//分割线
+    var Line2=UILabel();//分割线
+    var Line3=UILabel();//分割线
+
 
 
     override func viewDidLoad() {
@@ -103,18 +107,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     //MARK:发邮件地址录入窗口自动布局
     private func AutoLayoutMailComposerView(startX:CGFloat,startY:CGFloat,frameWidth:CGFloat)
     {
-        //        private var mailComposerView:UIView=UIView();//收件人都录入窗口
-        //        private var mailToLbl:UILabel=UILabel();//收件人地址标签
-        //        var mailToInputText=ACTextArea();//收件人地址录入窗口
-        //        private var mailSendBtn=UIButton();//发送按钮
-        //        private var mailCcLbl=UILabel();//抄送人地址标签
-        //        var mailCcInputText=ACTextArea();//抄送人地址录入窗口
-        //        private var mailCancelBtn=UIButton();//关闭按钮
-        //        private var mailTopicLbl=UILabel();//邮件主题标签
-        //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
-
-        
-        
+ 
         self.mailHeaderView.addSubview(mailToLbl);
         self.mailHeaderView.addSubview(mailToInputText);
         
@@ -127,6 +120,11 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         self.mailHeaderView.addSubview(mailTopicInputText);
         
+        self.mailHeaderView.addSubview(Line1);//分割线
+        self.mailHeaderView.addSubview(Line2);//分割线
+        self.mailHeaderView.addSubview(Line3);//分割线
+
+        
         
         let xSpace:CGFloat=10;//水平方向间隔
         let ySpace:CGFloat=10;//水平方向简隔
@@ -135,7 +133,6 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         let ctrHight:CGFloat=25;//标准控件高度
         let ctrWidth:CGFloat=60;//标准控件宽度
         
-        let white=UIColor.whiteColor();
         let blue=UIColor.blueColor();
         let gray=UIColor.lightGrayColor();
         
@@ -154,6 +151,8 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         let flexButton1=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
         let titlebutton = UIBarButtonItem(title: "新邮件", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
         
+        titlebutton.tintColor=UIColor.blackColor();
+        
         let flexButton2=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
 
         let sendbutton = UIBarButtonItem(title: "发送", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(TextMailComposerViewController.doSendMail))
@@ -168,34 +167,54 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         //        private var mailToLbl:UILabel=UILabel();//收件人地址标签
         mailToLbl.setLabel("收件人:", x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: gray)
+        mailToLbl.textAlignment = .Right
+        
         //        var mailToInputText=ACTextArea();//收件人地址录入窗口
-        mailToInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top1, width: frameWidth-ctrWidth-2*xSpace-marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
+        mailToInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top1, width: frameWidth-ctrWidth-2*xSpace-marginSpace, height: ctrHight*2, fonSize: 16, isBold: true, color: blue,hasBorder: false);
+        
+
         
         //        private var mailCcLbl=UILabel();//抄送人地址标签
-        top2=top1+ctrHight*3+ySpace
+        top2=top1+ctrHight*2+ySpace
+        
+        //第一条分割线
+        Line1.text="";
+        Line1.backgroundColor=UIColor.lightGrayColor();
+        Line1.frame=CGRectMake(marginSpace, top2-ySpace+1, frameWidth-2*marginSpace, 1);
+
         
         mailCcLbl.setLabel("抄送:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
+        mailCcLbl.textAlignment = .Right
+
         
         //        var mailCcInputText=ACTextArea();//抄送人地址录入窗口
-        mailCcInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top2, width: frameWidth-ctrWidth-2*xSpace-marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
+        mailCcInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top2, width: frameWidth-ctrWidth-2*xSpace-marginSpace, height: ctrHight*2, fonSize: 17, isBold: true, color: blue,hasBorder: false);
         
         
         
         //        private var mailTopicLbl=UILabel();//邮件主题标签
-        top3=top2+ySpace+ctrHight*3;
+        top3=top2+ySpace+ctrHight*2;
+        
+        //第二条分割线
+        Line2.text="";
+        Line2.backgroundColor=UIColor.lightGrayColor();
+        Line2.frame=CGRectMake(marginSpace, top3-ySpace+1, frameWidth-2*marginSpace, 1);
+
         
         mailTopicLbl.setLabel("主题:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
+        mailTopicLbl.textAlignment = .Right
         
         
         //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
         mailTopicInputText.frame = CGRectMake((marginSpace+ctrWidth+xSpace), top3, frameWidth-ctrWidth-marginSpace*2-xSpace, ctrHight);
         
- //       mailTopicInputText.borderStyle=UITextBorderStyle
+        mailTopicInputText.borderStyle=UITextBorderStyle.None
 
-        mailTopicInputText.backgroundColor=white;
+/*        mailTopicInputText.backgroundColor=white;
         mailTopicInputText.layer.borderWidth = 1;
         mailTopicInputText.layer.borderColor = gray.CGColor;
-        mailTopicInputText.layer.cornerRadius = 4
+        mailTopicInputText.layer.cornerRadius = 4*/
+     //   mailTopicInputText.textColor=UIColor.lightGrayColor();
         mailTopicInputText.clearButtonMode = .WhileEditing;
 
         
@@ -203,6 +222,12 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         //        private var mailComposerView:UIView=UIView();//收件人都录入窗口
         
         top4=top3+ySpace+ctrHight;
+        
+        //第三条分割线
+        Line3.text="";
+        Line3.backgroundColor=UIColor.lightGrayColor();
+        Line3.frame=CGRectMake(marginSpace, top4-ySpace+1, frameWidth-2*marginSpace, 1);
+
         
         self.mailHeaderView.frame=CGRectMake(startX,startY,frameWidth, top4);
         
@@ -225,12 +250,11 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         let viewHeight=self.preferredContentSize.height;
         
         self.mailComposerView.frame=CGRectMake(startX+xSpace,top5,frameWidth-2*xSpace, viewHeight-top5-ySpace);
-       //mailComposerView.setEditorBackgroundColor(blue)
-       mailComposerView.layer.borderWidth = 1;
-       mailComposerView.layer.borderColor = gray.CGColor;
         
- //      self.view.layer.frame = CGRectInset(mailComposerView.layer.frame, -10, -10);
- 
+        /*
+       mailComposerView.layer.borderWidth = 1;
+       mailComposerView.layer.borderColor = gray.CGColor;*/
+        
         mailComposerView.hidden=false;
 
 
@@ -253,8 +277,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         let smtpOperation = smtpSession.loginOperation();
         //发送邮件
-//        self.mailSendBtn.enabled=false;
-//        self.mailSendBtn.backgroundColor=UIColor.grayColor();
+        self.setSendButtonEnable(false);
         
         smtpOperation.start()
             {
@@ -290,8 +313,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     {
                         self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
                         //恢复发送按钮状态
-//                        self.mailSendBtn.enabled=true;
-//                        self.mailSendBtn.backgroundColor=UIColor.greenColor();
+                        self.setSendButtonEnable(true);
                         
                         return;//不能发送邮件了
                     }
@@ -412,8 +434,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                                 
                             }
                             
-//                            self.mailSendBtn.enabled=true;
-//                            self.mailSendBtn.backgroundColor=UIColor.greenColor();
+                            self.setSendButtonEnable(true);
                             
                             
                     }
@@ -423,8 +444,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                 {
                     print("login account failure: %@", error);
                     
-//                    self.mailSendBtn.enabled=true;
-//                    self.mailSendBtn.backgroundColor=UIColor.greenColor();                
+                    self.setSendButtonEnable(true);
                 }
         }
     }
@@ -647,7 +667,22 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     }
     
 
-    
+    private func setSendButtonEnable(enable:Bool=true)
+    {
+        let sendBarBtnItem=self.mailToolBar.items![4];
+        
+        
+        if enable
+        {
+            sendBarBtnItem.enabled=true;
+            sendBarBtnItem.tintColor=UIColor.blueColor();
+        }
+        else
+        {
+            sendBarBtnItem.enabled=false;
+            sendBarBtnItem.tintColor=UIColor.darkGrayColor();
+        }
+    }
 
 }
 
@@ -785,7 +820,7 @@ extension RichEditorView
     private func escape(string: String) -> String {
         let unicode = string.unicodeScalars
         var newString = ""
-        for var i = unicode.startIndex; i < unicode.endIndex; i++ {
+        for var i = unicode.startIndex; i < unicode.endIndex; i = i.successor() {
             let char = unicode[i]
             if char.value < 9 || (char.value > 9 && char.value < 32) // < 32 == special characters in ASCII, 9 == horizontal tab in ASCII
                 || char.value == 39 { // 39 == ' in ASCII

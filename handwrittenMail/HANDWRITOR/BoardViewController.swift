@@ -1033,7 +1033,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
 extension ACTextArea
 {
     //MARK:代码创建UILabel
-    func setTextArea(x:CGFloat,y:CGFloat,width:CGFloat,height:CGFloat,fonSize:CGFloat,isBold:Bool,color:UIColor)
+    func setTextArea(x:CGFloat,y:CGFloat,width:CGFloat,height:CGFloat,fonSize:CGFloat,isBold:Bool,color:UIColor,hasBorder:Bool=true)
     {
         self.frame = CGRectMake(x,y,width,height);
         
@@ -1052,12 +1052,14 @@ extension ACTextArea
             self.font = UIFont.systemFontOfSize(fonSize)
             
         }
-        
-        self.layer.borderWidth = 1;
-        self.layer.borderColor = UIColor.grayColor().CGColor;
-        
-        self.layer.cornerRadius = 8
-        self.layer.masksToBounds=true;
+        if hasBorder
+        {
+            self.layer.borderWidth = 1;
+            self.layer.borderColor = UIColor.grayColor().CGColor;
+            
+            self.layer.cornerRadius = 8
+            self.layer.masksToBounds=true;
+        }
         
         //       self.loadItems(["Felipe Saint-Jean","Test User","Jack"]);
         let arr = ACAddressBookDataSource();
@@ -1086,7 +1088,7 @@ extension ACTextArea
             if item is ACAddressBookElement
             {
                 let a=item as! ACAddressBookElement;
-                displayName=a.last_name+a.first_name;
+                displayName="\(a.last_name)"+"\(a.first_name)";
                 email=a.email;
                 emailLists.append(MCOAddress(displayName: displayName, mailbox: email));
 

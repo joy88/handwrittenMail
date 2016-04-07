@@ -632,7 +632,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
           let deleteFolder = self.mail.deleteFolder //imapSession.defaultNamespace.pathForComponents(["已删除"]);
         
-        var draftFolder = self.mail.draftFolder//imapSession.defaultNamespace.pathForComponents(["草稿箱"]);
+        let draftFolder = self.mail.draftFolder//imapSession.defaultNamespace.pathForComponents(["草稿箱"]);
         
         //这里判断是不是“已删除”和“草稿箱”两个文件夹，如果不是那么使用copyMessage来复制邮件到“已删除”
         let uids=MCOIndexSet();

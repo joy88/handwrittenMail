@@ -337,10 +337,24 @@
     
     
     if (self.allow_new_element)
-        [self addItem:(id<ACAutoCompleteElement>)self.text.text];
-    self.text.text = @"";
-    [self layoutSubviews];
-    [self adjustScroll];
+    {
+        //added by shiww,检查一下地址是否为email地址
+//        NSLog(self.text.text);
+        
+        NSString *regex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+        BOOL isValid = [predicate evaluateWithObject:self.text.text];
+        
+        if (isValid)
+        {
+            [self addItem:(id<ACAutoCompleteElement>)self.text.text];
+            self.text.text = @"";
+            [self layoutSubviews];
+            [self adjustScroll];
+
+        }
+        
+    }
 }
 
 -(void)checkInItem:(id)obj{
