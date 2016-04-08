@@ -301,7 +301,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         var info = EmailInfo();
         
         info.mailId = "\(msg.uid)";
-        info.subject = msg.header.subject;
+        info.subject = "\(msg.header.subject)";
         info.name = (msg.header.from.displayName != nil) ? msg.header.from.displayName:msg.header.from.mailbox;
         //[self stringReplaceNil:(msg.header.from.displayName?msg.header.from.displayName:[self mailBox2Display:msg.header.from.mailbox])];
         info.sendTime = msg.header.receivedDate;//[self stringReplaceNil:[self dateFormatString:msg.header.receivedDate]];
@@ -427,9 +427,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
   
         if indexPath.row >= 0
         {
-  
-            
-            
+     
             self.mail.getMail(self.mailList[indexPath.row], delegateMail: detailViewController!)
             
  //           detailViewController!.navigationItem.leftBarButtonItem?.title="Shiweiwei";

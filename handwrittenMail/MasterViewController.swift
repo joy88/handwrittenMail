@@ -328,6 +328,25 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             {
                 foldnameAlias=self.mailFolders[indexPath.row].folderNameAlias;
                 foldname=self.mailFolders[indexPath.row].folderInfo.path;
+                
+                //传递变量判断是否是草稿箱或发件箱
+                if let split = self.splitViewController
+                {
+                    let controllers = split.viewControllers
+                    
+                    let detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+                    
+                    if indexPath.row==1 || indexPath.row==2
+                    {
+                        detailViewController?.isDraftsOrSendMailFolder=true;
+                    }
+                    else
+                    {
+                        detailViewController?.isDraftsOrSendMailFolder=false;
+  
+                    }
+                }
+
 
             }
             else
@@ -351,6 +370,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
             navigationController.topViewController!.navigationItem.leftBarButtonItem?.title=foldname;*/
 
 
+  
         
             self.mail.getMailList(foldname, delegate: maillistViewController!,upFresh: true);
             

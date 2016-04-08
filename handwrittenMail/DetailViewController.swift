@@ -9,8 +9,13 @@
 import UIKit
 import QuickLook
 
-class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewControllerDataSource
+class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewControllerDataSource,UIGestureRecognizerDelegate
 {
+    //MARK:点按手势，当是草稿邮或发件箱时点击进行编辑
+    private var viewTap:UITapGestureRecognizer!;
+    //MARK:允许编辑邮件，当是草稿箱或发件箱时有效
+    var isDraftsOrSendMailFolder:Bool=false;
+    
     //MARK:Open In Controller,must like this
     private var docController:UIDocumentInteractionController?
     
@@ -56,9 +61,135 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     var mailSubject="邮件主题";
     var mailDate=NSDate();//MARK:邮件日期
     
+    //MARK:手势代理
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        var result=false;
+        if isDraftsOrSendMailFolder
+        {
+            if (gestureRecognizer is UITapGestureRecognizer)
+            {
+                result=true;
+            }
+        }
+        return result;
+    }
+    
+    //MARK:响应点击事件,打开邮件编辑窗口
+    func viewTap(recognizer:UIPanGestureRecognizer)
+    {
+        if !isDraftsOrSendMailFolder //不是草稿箱
+        {
+            return;
+        }
+        if recognizer.state == .Ended
+        {
+            self.editOldMailOperation();
+        }
+    }
+    
+    
+    //MARK：编辑老邮件
+    private func editOldMailOperation()
+    {
+        if self.message==nil
+        {
+            return;
+        }
+        //added by shiww,弹出邮件编写界面
+        let popVC = TextMailComposerViewController();
+        
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        let popOverController = popVC.popoverPresentationController
+        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popOverController?.permittedArrowDirections = .Any
+        
+        
+        let header=self.message.header;
+        
+        
+        
+        popVC.mailTopic="\(header.subject)";//邮件主题;
+        
+        var tmpmailCcLists=[MCOAddress]();
+        var tmpmailToLists=[MCOAddress]();
+        
+        if header.to != nil
+        {
+            
+            tmpmailToLists=header.to as! [MCOAddress];
+        }
+        
+        if header.cc != nil
+        {
+            tmpmailCcLists=header.cc as! [MCOAddress];
+            
+        }
+        
+        
+        popVC.mailTo=tmpmailToLists;
+        popVC.mailCc=tmpmailCcLists;
+        
+        let imapsession=self.session;
+        
+        let fetchContentOp = imapsession.fetchMessageOperationWithFolder(self.folder,uid:self.message.uid,urgent:true);
+        
+        fetchContentOp.start()
+            {
+                (error:NSError?, data:NSData?)->Void in
+                if error==nil
+                {
+                    
+                    let msgPareser = MCOMessageParser(data:data);
+                    
+                    let bodyHtml=msgPareser.htmlRenderingWithDelegate(nil);
+                    
+                    popVC.mailHtmlbodyOrigin=nil;
+                    popVC.oldMailContent=bodyHtml;//原邮件内容
+                    
+                    
+                    popVC.mailOriginAttachments=nil;
+                    popVC.mailOriginRelatedAttachments=nil;
+                    
+                    // 添加正文里的附加资源
+                    let inattachments = msgPareser.htmlInlineAttachments;
+                    
+                    
+                    popVC.mailOriginRelatedAttachments=inattachments() as? [MCOAttachment];
+                    
+                    
+                    
+                    let attachments=msgPareser.attachments;
+                    
+                    popVC.mailOriginAttachments=attachments() as? [MCOAttachment];
+                    
+                    self.presentViewController(popVC, animated: true, completion: nil)
+                    
+                }
+                else
+                {
+                    print("获取邮件全文信息失败!")
+                }
+                
+                
+        }
+        
+    }
+    
+    
+
+
+    //MARK:视图初始化
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        //增加草稿邮件的点击手势
+        viewTap=UITapGestureRecognizer(target: self, action:#selector(DetailViewController.viewTap(_:)));
+        viewTap.numberOfTapsRequired=1;
+        viewTap.delegate=self;
+        self.view.addGestureRecognizer(viewTap);
+
         
         self.navigationItem.leftBarButtonItem?.title="INBOX"
         //1.右边第一个按钮
@@ -588,7 +719,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         let header=mailid.header;
 
-        self.mailSubject=header.subject;//邮件主题
+        self.mailSubject="\(header.subject)";//邮件主题
         
 
         self.mailSender = header.from//发件人
@@ -637,8 +768,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.refresh();
         
         //设置邮件状态为已读
-
         
+     
         
     }
     

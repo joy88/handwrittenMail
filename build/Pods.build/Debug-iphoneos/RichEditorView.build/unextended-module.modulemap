@@ -1,0 +1,10 @@
+framework module RichEditorView {
+  umbrella header "RichEditorView-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module RichEditorView.__Swift {
+    exclude header "RichEditorView-Swift.h"
+}

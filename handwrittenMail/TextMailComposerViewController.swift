@@ -11,6 +11,8 @@ import RichEditorView
 
 class TextMailComposerViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
+    var oldMailContent:String?;//待编辑的老邮件
+    
     lazy var toolbar: RichEditorToolbar = {
         let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
         toolbar.options = RichEditorOptions.all()
@@ -532,7 +534,15 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         messageBuilder.header.cc = mailCc;      // 抄送（多人）
 
-        messageBuilder.header.subject = self.mailTopicInputText.text  // 邮件标题
+        if self.mailTopicInputText.text != nil
+        {
+            messageBuilder.header.subject = self.mailTopicInputText.text;// 邮件标题
+        }
+        else
+        {
+            messageBuilder.header.subject = "";// 邮件标题
+
+        }
         
         var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
         
@@ -621,7 +631,31 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         }
         //老邮件添加完毕
         
-        
+        //老邮件编辑
+        if self.oldMailContent != nil
+        {
+               //添加hmtlinline附件
+            
+            if self.mailOriginRelatedAttachments != nil
+            {
+                for attachment in self.mailOriginRelatedAttachments!
+                {
+                    messageBuilder.addRelatedAttachment(attachment);
+                }
+            }
+            
+            //添加邮件附件
+            if self.mailOriginAttachments != nil
+            {
+                for attachment in self.mailOriginAttachments!
+                {
+                    messageBuilder.addAttachment(attachment);
+                }
+            }
+            
+        }
+        //编辑老邮件时邮件附件添加完毕
+
         
         htmlBody=htmlBody+"</body></html>";
         
@@ -681,8 +715,15 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         }
         self.mailCcInputText.loadItems(items);
         
-        self.setMailHeadTemplate();//预处理邮件模板
-        self.setMailContentTemplate();
+        if self.oldMailContent != nil //是待编辑的邮件
+        {
+            self.mailComposerView.setHTML(self.oldMailContent!)
+        }
+        else
+        {
+            self.setMailHeadTemplate();//预处理邮件模板
+            self.setMailContentTemplate();
+        }
         
         
     }

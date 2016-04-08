@@ -1,0 +1,13 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': '/Users/shizx/Documents/handwrittenMail/build/Debug-iphoneos/RichEditorView.framework/Modules'
+    'contents': [{
+      'type': 'file',
+      'name': 'module.modulemap',
+      'external-contents': '/Users/shizx/Documents/handwrittenMail/build/Pods.build/Debug-iphoneos/RichEditorView.build/unextended-module.modulemap',
+    }]
+  }]
+}

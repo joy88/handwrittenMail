@@ -1,0 +1,1 @@
+ const unsigned char RichEditorViewVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:RichEditorView  PROJECT:Pods-1" "\n"; const double RichEditorViewVersionNumber __attribute__ ((used)) = (double)1.;
