@@ -428,6 +428,20 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                             {
                                 print("发送成功!");
                                 self.dismissViewControllerAnimated(true,completion: nil);
+                                
+                                if self.oldMailContent != nil //表明是编辑草稿箱中的老邮件,需要删除原邮件
+                                {
+                                    let mailListViewController=self.presentingViewController?.childViewControllers[0].childViewControllers[1] as? MailListViewController;
+                                   
+                                    if mailListViewController != nil
+                                    {
+                                        let indexpaths=mailListViewController?.tableView.indexPathsForSelectedRows;
+                                        
+                                        if indexpaths != nil{
+                                        mailListViewController!.delCurrentMsgs(indexpaths!);
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
@@ -717,6 +731,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         if self.oldMailContent != nil //是待编辑的邮件
         {
+            self.mailTopicInputText.text=self.mailTopic;
             self.mailComposerView.setHTML(self.oldMailContent!)
         }
         else

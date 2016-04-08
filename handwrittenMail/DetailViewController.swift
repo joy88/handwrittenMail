@@ -99,6 +99,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //added by shiww,弹出邮件编写界面
         let popVC = TextMailComposerViewController();
         
+        popVC.imapsession=self.session;
+        
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
         popVC.preferredContentSize=CGSizeMake(820,1093);
@@ -142,7 +144,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                     
                     let msgPareser = MCOMessageParser(data:data);
                     
-                    let bodyHtml=msgPareser.htmlRenderingWithDelegate(nil);
+                    let bodyHtml=msgPareser.htmlBodyRendering();
                     
                     popVC.mailHtmlbodyOrigin=nil;
                     popVC.oldMailContent=bodyHtml;//原邮件内容
@@ -213,7 +215,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         
         //3.delete mail
-        let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: nil)
+        let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: #selector(DetailViewController.deleteCurrentMsg))
         
         let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: nil)
         
@@ -225,15 +227,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.navigationItem.rightBarButtonItems = rightItems
         
         //开始生成窗口要素
-   /*     let temp=[MCOAddress(displayName: "石伟伟1", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟2", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟3", mailbox: "Chinagis001@126.com")!,MCOAddress(displayName: "石伟伟4", mailbox: "Chinagis001@126.com")!]
-        
-        self.setMailToList(temp);//        var mailToBtns=[UIEmailButton]();//收件人
-
-        self.setMailCcList(temp);//        var mailCcBtns=[UIEmailButton]()//抄送人
-         */
- 
-        
-//        var webView=UIWebView()//邮件正文
+ //        var webView=UIWebView()//邮件正文
         
          self.mywebView=self.messageView;
         self.messageView.setHtmlContent("<html><head><title>Hello</title></head><body><h1>邮件正在加载中......</h1></body></html>")
@@ -295,6 +289,27 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //加上这句，UIWebView顶部不会出现一个空白条了，找了好久才找到斛方案啊。
         self.automaticallyAdjustsScrollViewInsets = false;
 
+    }
+    
+    //MARK:删除当前邮件
+    func deleteCurrentMsg()
+    {
+        let masterViewController=self.parentViewController?.parentViewController?.childViewControllers[0].childViewControllers[0] as? MasterViewController;
+        
+        let maillistViewController=masterViewController!.maillistViewController;
+        
+        if maillistViewController != nil
+        {
+            let indexpaths=maillistViewController?.tableView.indexPathsForSelectedRows;
+            
+            if indexpaths != nil
+            {
+                maillistViewController?.delCurrentMsgs(indexpaths!)
+            }
+           
+            
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -1487,10 +1502,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         let doc = NSURL(fileURLWithPath: self.tempFilePath)
         return doc;
     }
-    
-    
-    
- 
+   
 }
 
 //MARK:MCOMessageView的扩展,可以将webview的内容保存为图片

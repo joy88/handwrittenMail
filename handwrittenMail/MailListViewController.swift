@@ -616,7 +616,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     }
     
     //MARK:批量删除邮件
-    private func  delCurrentMsgs(indexPaths: [NSIndexPath])
+    func  delCurrentMsgs(indexPaths: [NSIndexPath])
     {
         if indexPaths.count <= 0
         {
@@ -653,6 +653,18 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         }
         //2--刷新
         self.tableView.reloadData();
+        
+        if self.tableView.numberOfRowsInSection(0)>=0
+        {
+            let selectedIndex:Int = 0;
+            
+            let selectedIndexPath = NSIndexPath(forRow:selectedIndex,inSection:0);
+            
+            self.tableView.selectRowAtIndexPath(selectedIndexPath,animated:false,scrollPosition:UITableViewScrollPosition.None);
+            
+            //加上这一句,才会触发点击事件
+            self.tableView.delegate!.tableView!(self.tableView,didSelectRowAtIndexPath:selectedIndexPath);
+        }
 
         
         
