@@ -84,20 +84,27 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         }
         if recognizer.state == .Ended
         {
+            if self.mywebView.webView.loading
+            {
+                self.ShowNotice("警告", "请页面加载完毕后再进行编辑操作!");
+                return;
+            }
             self.editOldMailOperation();
         }
     }
     
     
-    //MARK：编辑老邮件
+    //MARK:编辑老邮件
     private func editOldMailOperation()
     {
         if self.message==nil
         {
             return;
         }
-        //added by shiww,弹出邮件编写界面
+        //added by shiww,弹出邮件编写界面,代码仅供测试
         let popVC = TextMailComposerViewController();
+        
+        
         
         popVC.imapsession=self.session;
         
@@ -132,6 +139,31 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         popVC.mailTo=tmpmailToLists;
         popVC.mailCc=tmpmailCcLists;
         
+        if self.message.attachments().count==0
+        {
+            
+            
+            popVC.mailHtmlbodyOrigin=nil;
+            
+            //直接取已加载的HTML代码
+            let lJs = "document.documentElement.innerHTML";
+            let webHtml = self.mywebView.webView.stringByEvaluatingJavaScriptFromString(lJs);
+           
+            popVC.oldMailContent=webHtml!;
+            
+            popVC.mailOriginAttachments=nil;
+            popVC.mailOriginRelatedAttachments=nil;
+            popVC.mailOrign=nil;
+            
+ 
+            self.presentViewController(popVC, animated: true, completion: nil)
+
+            return;
+        }
+        
+        //如果有附件的情况下,还是需要重新从网络上获取附件信息
+        
+        
         let imapsession=self.session;
         
         let fetchContentOp = imapsession.fetchMessageOperationWithFolder(self.folder,uid:self.message.uid,urgent:true);
@@ -144,24 +176,57 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                     
                     let msgPareser = MCOMessageParser(data:data);
                     
-                    let bodyHtml=msgPareser.htmlBodyRendering();
+                   // let bodyHtml=msgPareser.htmlBodyRendering();
                     
                     popVC.mailHtmlbodyOrigin=nil;
-                    popVC.oldMailContent=bodyHtml;//原邮件内容
+                    
+                    //直接取已加载的HTML代码
+                    let lJs = "document.documentElement.innerHTML";
+                    let webHtml = self.mywebView.webView.stringByEvaluatingJavaScriptFromString(lJs);
+                    
+//                    print(webHtml)
+                    //调试运行时都会丢失缓存文件,正常不会这样!
+                    /*
+                    let js="document.getElementsByTagName(\"img\")[0].src;"
+                    let filetemp = self.mywebView.webView.stringByEvaluatingJavaScriptFromString(js);
+                    
+                    var strTemp:String=filetemp!
+                    
+                    strTemp = (strTemp as NSString).substringFromIndex(7);
+                    
+                    print(strTemp)
+                    
+                    
+                    
+                    if NSFileManager.defaultManager().fileExistsAtPath(strTemp)
+                    {
+                        print("file exist!")
+                    }
+                    else
+                    {
+                        print("file don't exist")
+                    }*/
+                    
+                    popVC.oldMailContent=webHtml!;
+
+//                    popVC.oldMailContent=bodyHtml;//原邮件内容
                     
                     
                     popVC.mailOriginAttachments=nil;
                     popVC.mailOriginRelatedAttachments=nil;
                     
                     // 添加正文里的附加资源
+                    /*不需要了,直接加载webview中的HTML
                     let inattachments = msgPareser.htmlInlineAttachments;
                     
                     
                     popVC.mailOriginRelatedAttachments=inattachments() as? [MCOAttachment];
-                    
-                    
+ 
+                             */
+ 
                     
                     let attachments=msgPareser.attachments;
+ 
                     
                     popVC.mailOriginAttachments=attachments() as? [MCOAttachment];
                     
@@ -294,6 +359,13 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:删除当前邮件
     func deleteCurrentMsg()
     {
+/*        let lJs = "document.documentElement.innerHTML";
+        let webHtml = self.mywebView.webView.stringByEvaluatingJavaScriptFromString(lJs);
+        
+        print(webHtml);*/
+        
+        return;
+        
         let masterViewController=self.parentViewController?.parentViewController?.childViewControllers[0].childViewControllers[0] as? MasterViewController;
         
         let maillistViewController=masterViewController!.maillistViewController;
@@ -1438,7 +1510,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         let filename=attachment.filename//sender.mailAddress.displayName;
 
-        var tmpDirectory = NSTemporaryDirectory();
+        var tmpDirectory = NSHomeDirectory() + "/Library/Caches"
+;
         tmpDirectory=tmpDirectory+"/"+filename;
         
         let isDownloaded=NSFileManager.defaultManager().fileExistsAtPath(tmpDirectory);//判断一下是否已经下载

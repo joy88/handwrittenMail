@@ -288,7 +288,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                 
                 if (error == nil) {
                     // 构建邮件体的发送内容
-                    let messageBuilder = MCOMessageBuilder();
+                    var messageBuilder = MCOMessageBuilder();
                     messageBuilder.header.from = MCOAddress(displayName: smtpinfo.nicklename, mailbox:smtpinfo.smtpusername);   // 发送人
                     
                     var canSendMail=true;//是否符合发邮件的条件
@@ -323,8 +323,11 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     
                     var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
                     
-                    htmlBody=htmlBody+self.mailComposerView.getHTML();                    
+                    htmlBody=htmlBody+self.mailComposerView.getHTML();
                     
+                    //需要处理一下HTML中添加的图片
+                    TextMailComposerViewController.wrapLocalImgHtml(self.mailComposerView.webView, webHtml: &htmlBody, messageBuilder: &messageBuilder)
+                    //处理完毕
                     
                     //如果是以图片形式回复或转发邮件,则需要把老邮件附件-图片格式
                     if self.mailOrign != nil
@@ -416,6 +419,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     
                     //   print("htmlBody=\(htmlBody)");
                     
+                   
                     messageBuilder.htmlBody=htmlBody;
                     
                     
@@ -447,7 +451,6 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                             {
                                 self.ShowNotice("提示", "发送不成功-\(error?.localizedDescription)");
                                 print("发送不成功!%@",error);
-                                //存放到草稿箱中
                                 
                             }
                             
@@ -464,6 +467,32 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     self.setSendButtonEnable(true);
                 }
         }
+    }
+    
+    //MARK:处理本地HTML中插入的图片
+    static func wrapLocalImgHtml(webView:UIWebView,inout webHtml:String,inout messageBuilder:MCOMessageBuilder)
+    {
+        let imgSrcs=TextMailComposerViewController.getHtmlImages(webView);
+        
+//        print(imgSrcs);
+        
+       
+        for imgsrc in imgSrcs
+        {
+            let result=TextMailComposerViewController.replaceHtmlImgForCID(&webHtml, fileImgSrc: imgsrc)
+            
+//            print(result[0]);
+//            print(result[1])
+            
+            let attachment=MCOAttachment(contentsOfFile:result[0]);
+            attachment.contentID=result[1];
+            messageBuilder.addRelatedAttachment(attachment);
+            
+        }
+        
+  //      print(webHtml);
+        
+
     }
     //MARK:关闭邮件地址录入窗口
     func doCloseMailComposer(sender:UIBarButtonItem)
@@ -932,6 +961,49 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
             sendBarBtnItem.tintColor=UIColor.darkGrayColor();
         }
     }
+    
+    //MARK:得到一个webview中的IMG标签,并返回包含file://标签的字符串(实际上为本地的图片地址),最多得到10个,why,因为笨
+    static func  getHtmlImages(webview:UIWebView)->[String]
+    {
+        var imgSrcs=[String]();
+        for i in 0...9
+        {
+            let js="document.getElementsByTagName(\"img\")[\(i)].src;"
+            let webHtml = webview.stringByEvaluatingJavaScriptFromString(js);
+            
+            if webHtml != nil
+            {
+                if webHtml!.containsString("file:///")//不是本地IMG文件不返回
+                {
+                    imgSrcs.append(webHtml!)
+                }
+            }
+            
+        }
+        
+        return imgSrcs;
+        
+    }
+    
+    //MARK:替换本地fileImgSrc为CID并返回,[0]=filename,[1]=uuid
+    static func  replaceHtmlImgForCID(inout webHTML:String,fileImgSrc:String)->[String]
+    {
+        var result=["filename","uuid"];
+        
+        let uuid="cngis-"+NSUUID().UUIDString;
+        
+        let cid="cid:"+uuid;
+        
+        webHTML=webHTML.stringByReplacingOccurrencesOfString(fileImgSrc, withString: cid, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        result[0]=(fileImgSrc as NSString).substringFromIndex(7);
+        
+        result[1]=uuid;
+        
+        return result;
+        
+    }
+
 
 }
 
@@ -991,22 +1063,37 @@ extension TextMailComposerViewController: RichEditorToolbarDelegate {
         //        print(info)
         //获取选择的原图
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        //不能放到临时目录下,再次启动时会被删除,好象只能放到Documents,建个子目录也不行
+        let imagePath = NSHomeDirectory() + "/Library/Caches"
         
-//        var tmpDirectory = NSTemporaryDirectory();
-//        let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
-//        tmpDirectory="file://"+tmpDirectory+"/"+uuid+".JPG";
-//        
-//        
-//        
-//        UIImageJPEGRepresentation(image, 1.0)!.writeToFile(tmpDirectory,atomically:true);
-//        
-//        let url=info[UIImagePickerControllerReferenceURL] as! NSURL;
-//        
-//        print(tmpDirectory);
+        let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+        
+        var imageUrl=imagePath+"/"+uuid+".JPG";
         
         
         
-         
+        UIImageJPEGRepresentation(image, 1.0)!.writeToFile(imageUrl,atomically:true);
+        
+        
+        
+        imageUrl="file://"+imageUrl;
+        
+ //       print(imageUrl);
+        
+        
+        
+        let srcimag=String.init(format:"<img src = \"%@\" alt=\" \" width=\"750\"/>", imageUrl);
+        
+        
+        
+        
+        self.mailComposerView.insertHtml(srcimag);
+        
+
+        
+        
+ /*
+         //采用编码内嵌的方式,导致占用大量的内存空间,舍弃
          let imageData = UIImageJPEGRepresentation(image,1);
          
          let imageSource = String.init(format:"data:image/jpg;base64,%@",imageData!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)));
@@ -1019,6 +1106,7 @@ extension TextMailComposerViewController: RichEditorToolbarDelegate {
         
 //        self.mailComposerView.insertImage(imageSource,alt: "img");
         self.mailComposerView.insertHtml(srcimag);
+ */
 
          //图片控制器退出
         picker.dismissViewControllerAnimated(true, completion: {
@@ -1040,7 +1128,7 @@ extension TextMailComposerViewController: RichEditorDelegate {
     
     func richEditor(editor: RichEditorView, heightDidChange height: Int)
     {
-        print("editor height=\(height),webview height=\(editor.webView.bounds)");
+//        print("editor height=\(height),webview height=\(editor.webView.bounds)");
     }
     
     func richEditor(editor: RichEditorView, contentDidChange content: String) {
@@ -1088,6 +1176,8 @@ extension RichEditorView
         runJS("RE.insertHTML('\(escape(html))');")
     }
 }
+
+
 
 
 
