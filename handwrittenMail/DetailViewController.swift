@@ -1054,7 +1054,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             (UIAlertAction) -> Void in
             
             //added by shiww,弹出手写邮件编写界面
-            let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as UIViewController
+            let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController;
+            
+            popVC.imapsession=self.session;//保存到草稿箱时要用
+
             popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             let popOverController = popVC.popoverPresentationController
             popVC.preferredContentSize=CGSizeMake(820,1093);
@@ -1173,7 +1176,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         //added by shiww,弹出普通邮件编写界面
         let popVC = TextMailComposerViewController();
-        
+        popVC.imapsession=self.session;//邮件保存到草稿箱时有用
+
         
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -1233,6 +1237,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         }
         //added by shiww,弹出邮件编写界面
         let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController
+
+        popVC.imapsession=self.session;//保存到草稿箱时要用
+
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
         popVC.preferredContentSize=CGSizeMake(820,1093);
@@ -1352,6 +1359,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         }
         //added by shiww,弹出邮件编写界面
         let popVC = TextMailComposerViewController();
+        popVC.imapsession=self.session;//邮件保存到草稿箱时有用
+
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
@@ -1431,6 +1440,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         }
         //added by shiww,弹出邮件编写界面
         let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController
+        
+        popVC.imapsession=self.session;//保存到草稿箱时要用
+        
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
         popVC.preferredContentSize=CGSizeMake(820,1093);

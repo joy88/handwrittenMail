@@ -74,6 +74,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     var mailHtmlbodyOrigin:String?//MARK:邮件HTML原文，转发或回复时有用
     var mailOriginAttachments:[MCOAttachment]?//MARK:邮件附件，转发时有用
     var mailOriginRelatedAttachments:[MCOAttachment]?//MARK:邮件releated附件，正文中的图片转发时有用
+    
+    var imapsession:MCOIMAPSession?//imap session,保存到草稿箱时用
+
 
     
     @IBOutlet weak var btnInsertImg: UIButton!//MARK:插入图片
@@ -764,7 +767,43 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     
     //MARK:关闭窗口
     @IBAction func viewExit(sender: UIButton) {
-        self.dismissViewControllerAnimated(true,completion:nil);
+        
+        let composeCloseMenu = UIAlertController(title: nil, message: "选项", preferredStyle: .ActionSheet)
+        
+        let deleteDraftAction = UIAlertAction(title: "删除草稿", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            self.dismissViewControllerAnimated(true,completion: nil);
+            
+        };
+        
+        let storeDraftAction = UIAlertAction(title: "存储草稿", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            //  print("存储草稿代码实现在此!");
+            
+            self.storeMessageToDrafts();
+            
+            
+            
+        };
+        
+        
+        //        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        composeCloseMenu.addAction(deleteDraftAction)
+        composeCloseMenu.addAction(storeDraftAction)
+        
+        
+        composeCloseMenu.popoverPresentationController?.sourceView = sender;
+
+        composeCloseMenu.popoverPresentationController?.sourceRect=sender.bounds;
+        
+        
+        self.presentViewController(composeCloseMenu, animated: true, completion: nil)
+  
     }
     
     
@@ -883,7 +922,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
                     
                     
-                    let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: "originMail.png");
+                    let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: cid+".png");
                     attachment.contentID=cid;
                     messageBuilder.addRelatedAttachment(attachment);
                 }
@@ -979,6 +1018,185 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         }
      }
     }
+    
+    //MARK:将未发出的邮件保存到草稿箱
+    private func storeMessageToDrafts()
+    {
+        if self.imapsession==nil{
+            return;
+        }
+        let defaults = NSUserDefaults.standardUserDefaults();
+        
+        let tmpdraftsfolder=defaults.stringForKey("draftsbox");
+        
+        if tmpdraftsfolder==nil{
+            return;
+        }
+        
+        let draftsfolder=tmpdraftsfolder!;
+        
+        // 构建邮件体的发送内容
+        let smtpinfo=self.loadMailLoginInfo();
+        
+        let messageBuilder = MCOMessageBuilder();
+        messageBuilder.header.from = MCOAddress(displayName: smtpinfo.nicklename, mailbox:smtpinfo.smtpusername);   // 发送人
+        
+        
+        let mailTo=self.mailToInputText.getEmailLists();
+        
+        messageBuilder.header.to=mailTo;       // 收件人（多人）
+        
+        let mailCc=self.mailCcInputText.getEmailLists();
+        
+        messageBuilder.header.cc = mailCc;      // 抄送（多人）
+        
+        if self.mailTopicInputText.text != nil
+        {
+            messageBuilder.header.subject = self.mailTopicInputText.text;// 邮件标题
+        }
+        else
+        {
+            messageBuilder.header.subject = "";// 邮件标题
+            
+        }
+        
+        
+        var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
+        
+        
+        self.saveCurrentPages(UIButton());//保存一下当前手写信息
+        
+        let pageLists=self.pages.getPageLists();
+        
+        
+        for pageList in pageLists
+        {
+            
+            let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+            
+            let cid="cngis-"+uuid;
+            
+            htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+            
+            
+            let attachment=MCOAttachment(contentsOfFile:pageList);
+            attachment.contentID=cid;
+            messageBuilder.addRelatedAttachment(attachment);
+            
+            
+        }
+        
+        //如果是回复或转发邮件,则需要把老邮件附件-图片格式
+        if self.mailOrign != nil
+        {
+            
+            var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+            
+            let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+            if path != nil
+            {
+                do {
+                    tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                }
+                catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+                
+                
+            }
+            
+            htmlBody=htmlBody+tempHtmlbody;
+            
+            
+            
+            
+            let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
+            
+            let cid="cngis-"+uuid;
+            
+            htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+            
+            
+            let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: cid+".png");
+            attachment.contentID=cid;
+            messageBuilder.addRelatedAttachment(attachment);
+        }
+        //老邮件添加完毕
+        
+        //老邮件，htmlbody转发
+        if self.mailHtmlbodyOrigin != nil
+        {
+            
+            var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+            
+            let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
+            if path != nil
+            {
+                do {
+                    tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
+                }
+                catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+                
+                
+            }
+            
+            
+            let originBodyHtml = NSMutableString(format: "%@<br/><br/>%@",tempHtmlbody.stringByReplacingOccurrencesOfString("\n",withString:"<br/>"),self.mailHtmlbodyOrigin!);
+            
+            htmlBody=htmlBody+(originBodyHtml as String);
+            
+            //添加hmtlinline附件
+            
+            if self.mailOriginRelatedAttachments != nil
+            {
+                for attachment in self.mailOriginRelatedAttachments!
+                {
+                    messageBuilder.addRelatedAttachment(attachment);
+                }
+            }
+            
+            //添加邮件附件
+            if self.mailOriginAttachments != nil
+            {
+                for attachment in self.mailOriginAttachments!
+                {
+                    messageBuilder.addAttachment(attachment);
+                }
+            }
+            
+            
+        }
+        //老邮件添加完毕
+        
+        
+        
+        htmlBody=htmlBody+"</body></html>";
+        
+        //   print("htmlBody=\(htmlBody)");
+        
+        messageBuilder.htmlBody=htmlBody;
+        
+        
+        let rfc822Data = messageBuilder.data();
+        
+        
+        let op = self.imapsession!.appendMessageOperationWithFolder(draftsfolder,messageData:rfc822Data,flags:MCOMessageFlag.Draft);
+        op.start { (error:NSError?, createdUID:UInt32) in
+            if error==nil{
+                print("保存到草稿箱成功!");
+                self.dismissViewControllerAnimated(true,completion: nil);
+            }
+            else
+            {
+                print("保存到草稿箱失败!");
+            }
+            
+        }
+        
+    }
+
     //MARK:关闭邮件地址录入窗口
     func doCloseMailComposer(sender: UIButton)
     {
