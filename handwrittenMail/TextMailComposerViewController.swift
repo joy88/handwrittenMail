@@ -280,7 +280,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         smtpSession.connectionType = MCOConnectionType.TLS;
         
         //连接时输出日志
-        
+  /*
                 smtpSession.connectionLogger =
          {
          
@@ -292,7 +292,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
          
          print(strtemp);
          }
-         }
+         }*/
         
 
         

@@ -105,13 +105,14 @@
          [info addPhone:phone2];
          }*/
         
-        ACAddressBookElement *el = [[ACAddressBookElement alloc] init];
         
         //获取email
         for (int k = 0; k < person.emailAddresses.count; k ++)
         {
             CNLabeledValue *email = [person.emailAddresses objectAtIndex:k];
             NSString *value = email.value;
+            
+            ACAddressBookElement *el = [[ACAddressBookElement alloc] init];
             
             el.first_name = firstName;
             el.last_name = lastName ;
@@ -122,12 +123,16 @@
             if(resultFN || resultLN || resultEmail)
             {
                 [filtered addObject:el];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (update) update(filtered);
+                });
+
             }
             
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (update) update(filtered);
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            if (update) update(filtered);
+//        });
         
         
     }

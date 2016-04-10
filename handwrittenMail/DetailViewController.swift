@@ -78,6 +78,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:响应点击事件,打开邮件编辑窗口
     func viewTap(recognizer:UIPanGestureRecognizer)
     {
+        if self.message == nil{
+            return;
+        }
         if !isDraftsOrSendMailFolder //不是草稿箱
         {
             return;
@@ -283,7 +286,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //3.delete mail
         let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: #selector(DetailViewController.beginDeleteCurrentMsg(_:)))
         
-        let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: nil)
+        let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
         
         
         
@@ -340,7 +343,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.view.addSubview(mailDateLbl)
         
 //        self.AutoLayoutView(infoHideBtn.selected);
-        self.AutoLayoutView(true);
+//        self.AutoLayoutView(true);
+        
+        self.clearAll();
 
         
         //监测设备的旋转
@@ -858,6 +863,25 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //        self.presentViewController(viewController, animated: true, completion:nil)
         button.selected = !button.selected;
         self.AutoLayoutView(button.selected)
+    }
+    
+    //MARK:清空DetailView的内容
+    func clearAll()
+    {
+        var navHeight:CGFloat=0;
+        
+        if let navCtrFrame=self.navigationController?.navigationBar.frame
+        {
+            navHeight=navCtrFrame.origin.y+navCtrFrame.height;
+        }
+        
+        let bounds=self.view.bounds;
+        self.mywebView.frame=CGRectMake(0,navHeight,bounds.width,bounds.height-navHeight);
+        
+        self.view.bringSubviewToFront(mywebView)
+        
+        self.message=nil;
+        self.mywebView.webView.loadHTMLString("<div><br></div><div><br></div><div><br></div><h1 style=\"text-align: center;\">当前没有选择邮件</h1>", baseURL: nil);
     }
     
     //MARK:刷新邮件内容--1
