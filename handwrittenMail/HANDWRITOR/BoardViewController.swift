@@ -7,66 +7,11 @@
 //
 
 import UIKit
-//MARK:- 在Controller里扩展一个消息提示框
-extension UIViewController//实现一个提示框
-{
-    func ShowNotice(caption:String,_ message:String)//显示一个可以自动消失的消息提示框,by shiww//必须用支持国际化的字符串
-    {
-        let intelCaption=BaseFunction.getIntenetString(caption);
-        let intelMessage=BaseFunction.getIntenetString(message);
-        
-        let alertController = UIAlertController(title: intelCaption,
-            message: intelMessage, preferredStyle: UIAlertControllerStyle.Alert)
-        
-        self.presentViewController(alertController, animated: true)
-            {
-                let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:#selector(UIViewController.removeIt(_:)), userInfo:alertController, repeats:false);
-        }
-    }
-    
 
-    func removeIt(sender:NSTimer)    {
-        let alertVC=sender.userInfo as! UIAlertController;
-        
-        //设置动画效果，动画时间长度 1 秒。
-        UIView.animateWithDuration(1, animations:
-            {()-> Void in
-                alertVC.view.alpha = 0.0
-            },
-            completion:{
-                (finished:Bool) -> Void in
-                alertVC.dismissViewControllerAnimated(true,completion:nil);
-        })
-    }
-    
-    
-}
-//MARK:- NSUserDefaults中扩展UIColor存储
-
-//必须做一个扩展,否则UIColor存不进去
-extension NSUserDefaults {
-    
-    func colorForKey(key: String) -> UIColor? {
-        var color: UIColor?
-        if let colorData = dataForKey(key) {
-            color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
-        }
-        return color
-    }
-    
-    func setColor(color: UIColor?, forKey key: String) {
-        var colorData: NSData?
-        if let color = color {
-            colorData = NSKeyedArchiver.archivedDataWithRootObject(color)
-        }
-        setObject(colorData, forKey: key)
-    }
-    
-}
-//MARK:- ViewController定义
+//MARK:- BoardViewController定义
 
 class BoardViewController: UIViewController,UIPopoverPresentationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
-    
+   
     var mailTo=[MCOAddress]();//MARK:收件人
     var mailCc=[MCOAddress]();//MARK:抄送
     var mailTopic="";//MARK:邮件主题
@@ -321,6 +266,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         AutoLayoutMailComposerView(10,startY:60,frameWidth:self.board.bounds.width-20);
         
         self.loadMailHeader();//回复邮件时加载邮件头信息
+        self.setMailHeadTemplate();//处理邮件模板信息
         
         //划动手势支持,added by shiww
         //上划关闭工具条
@@ -770,7 +716,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         let composeCloseMenu = UIAlertController(title: nil, message: "选项", preferredStyle: .ActionSheet)
         
-        let deleteDraftAction = UIAlertAction(title: "删除草稿", style: UIAlertActionStyle.Default)
+        let deleteDraftAction = UIAlertAction(title: "放弃", style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1242,6 +1188,20 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
 
         
     }
+    
+    //MARK:处理邮件头模板
+    private func setMailHeadTemplate()
+    {
+        let logininfo=self.loadMailLoginInfo()
+        let mailsender=logininfo.nicklename;
+        
+        self.mailTopic=self.mailTopic.stringByReplacingOccurrencesOfString("#mailsender#", withString: mailsender, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        //邮件主题
+        self.mailTopicInputText.text=self.mailTopic;
+        
+    }
+
 
 
 }
@@ -1336,6 +1296,62 @@ extension ACTextArea
 }
 
 
+//MARK:- 在Controller里扩展一个消息提示框
+extension UIViewController//实现一个提示框
+{
+    func ShowNotice(caption:String,_ message:String)//显示一个可以自动消失的消息提示框,by shiww//必须用支持国际化的字符串
+    {
+        let intelCaption=BaseFunction.getIntenetString(caption);
+        let intelMessage=BaseFunction.getIntenetString(message);
+        
+        let alertController = UIAlertController(title: intelCaption,
+                                                message: intelMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        self.presentViewController(alertController, animated: true)
+        {
+            let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:#selector(UIViewController.removeIt(_:)), userInfo:alertController, repeats:false);
+        }
+    }
+    
+    
+    func removeIt(sender:NSTimer)    {
+        let alertVC=sender.userInfo as! UIAlertController;
+        
+        //设置动画效果，动画时间长度 1 秒。
+        UIView.animateWithDuration(1, animations:
+            {()-> Void in
+                alertVC.view.alpha = 0.0
+            },
+                                   completion:{
+                                    (finished:Bool) -> Void in
+                                    alertVC.dismissViewControllerAnimated(true,completion:nil);
+        })
+    }
+    
+    
+}
+//MARK:- NSUserDefaults中扩展UIColor存储
+
+//必须做一个扩展,否则UIColor存不进去
+extension NSUserDefaults {
+    
+    func colorForKey(key: String) -> UIColor? {
+        var color: UIColor?
+        if let colorData = dataForKey(key) {
+            color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
+        }
+        return color
+    }
+    
+    func setColor(color: UIColor?, forKey key: String) {
+        var colorData: NSData?
+        if let color = color {
+            colorData = NSKeyedArchiver.archivedDataWithRootObject(color)
+        }
+        setObject(colorData, forKey: key)
+    }
+    
+}
 
 
 

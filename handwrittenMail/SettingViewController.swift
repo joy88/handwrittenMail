@@ -28,6 +28,21 @@ class SettingViewController: UIViewController {
     @IBOutlet weak var imapHost: WTReTextField!
     @IBOutlet weak var imapPassword: WTReTextField!
     @IBOutlet weak var imapUser: WTReTextField!
+    
+    //MARK:设置邮件模板
+    @IBAction func setMailTemplate(sender: AnyObject) {
+        //added by shiww,弹出邮件模板设置界面
+        let popVC = SetMailTemplateViewController();
+        
+       
+        popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        popVC.preferredContentSize=popVC.view.frame.size;
+        
+        self.presentViewController(popVC, animated: true,completion: nil)
+
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

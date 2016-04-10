@@ -11,6 +11,7 @@ import RichEditorView
 
 class TextMailComposerViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
+    var detailViewController:DetailViewController?;//父窗口
     var oldMailContent:String?;//待编辑的老邮件
     
     lazy var toolbar: RichEditorToolbar = {
@@ -278,6 +279,23 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
         smtpSession.connectionType = MCOConnectionType.TLS;
         
+        //连接时输出日志
+        
+                smtpSession.connectionLogger =
+         {
+         
+         (connectionID, type, data)->Void in
+         
+         if data != nil
+         {
+         let strtemp=NSString(data: data, encoding:NSUTF8StringEncoding);
+         
+         print(strtemp);
+         }
+         }
+        
+
+        
         let smtpOperation = smtpSession.loginOperation();
         //发送邮件
         self.setSendButtonEnable(false);
@@ -435,15 +453,9 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                                 
                                 if self.oldMailContent != nil //表明是编辑草稿箱中的老邮件,需要删除原邮件
                                 {
-                                    let mailListViewController=self.presentingViewController?.childViewControllers[0].childViewControllers[1] as? MailListViewController;
-                                   
-                                    if mailListViewController != nil
+                                    if self.detailViewController != nil
                                     {
-                                        let indexpaths=mailListViewController?.tableView.indexPathsForSelectedRows;
-                                        
-                                        if indexpaths != nil{
-                                        mailListViewController!.delCurrentMsgs(indexpaths!);
-                                        }
+                                        self.detailViewController?.deleteCurrentMsg();
                                     }
                                 }
                             }
@@ -499,7 +511,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     {
         let composeCloseMenu = UIAlertController(title: nil, message: "选项", preferredStyle: .ActionSheet)
         
-        let deleteDraftAction = UIAlertAction(title: "删除草稿", style: UIAlertActionStyle.Default)
+        let deleteDraftAction = UIAlertAction(title: "放弃", style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -772,7 +784,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         
     }
     
-    //MARK:处理邮件模板
+    //MARK:处理邮件内容模板
     private func setMailContentTemplate()
     {
         //邮件内容模板
@@ -786,7 +798,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
             strTemp=strTemp+mailto.displayName+" ";
         }
         
-        self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<mailto>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("#mailto#", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
         
         //2.替换抄送人
         strTemp="";
@@ -802,20 +814,20 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
 
             strTemp="抄送"+strTemp;
             
-            self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<mailcc>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+            self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("#mailcc#", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
             
         }
         else
         {
-            strTemp="";
+            strTemp="无";
             
-            self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<mailcc>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+            self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("#mailcc#", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
             
         }
         //3.替换发信日期
         strTemp=NSDate().toString(format: DateFormat.Custom("YYYY-MM-dd EEEE HH:mm"));
         
-        self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("<maildate>", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        self.mailContentTemplate=self.mailContentTemplate.stringByReplacingOccurrencesOfString("#maildate#", withString: strTemp, options: NSStringCompareOptions.LiteralSearch, range: nil)
         
         self.mailComposerView.setHTML(self.mailContentTemplate);
 
@@ -823,13 +835,13 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     }
 
     
-    //MARK:处理邮件模板
+    //MARK:处理邮件头模板
     private func setMailHeadTemplate()
     {
        let logininfo=self.loadMailLoginInfo()
         let mailsender=logininfo.nicklename;
         
-        self.mailTopic=self.mailTopic.stringByReplacingOccurrencesOfString("<mailsender>", withString: mailsender, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        self.mailTopic=self.mailTopic.stringByReplacingOccurrencesOfString("#mailsender#", withString: mailsender, options: NSStringCompareOptions.LiteralSearch, range: nil)
         
         //邮件主题
         self.mailTopicInputText.text=self.mailTopic;
@@ -1017,7 +1029,8 @@ extension TextMailComposerViewController: RichEditorToolbarDelegate {
             UIColor.yellowColor(),
             UIColor.greenColor(),
             UIColor.blueColor(),
-            UIColor.purpleColor()
+            UIColor.purpleColor(),
+            UIColor.blackColor()
         ]
         
         let color = colors[Int(arc4random_uniform(UInt32(colors.count)))]

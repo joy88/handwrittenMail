@@ -35,7 +35,7 @@
                             <size key="contentOffset" width="0.0" height="1"/>
                         </segment>
                         <segment title="Gmail"/>
-                        <segment title="Yahho"/>
+                        <segment title="Yahoo"/>
                     </segments>
                 </segmentedControl>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户名:" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hDe-kM-7N5">
@@ -97,13 +97,13 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="www.www.www" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="lJi-XR-K0j" userLabel="imapaddressText" customClass="WTReTextField">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="imap." borderStyle="roundedRect" placeholder="www.www.www" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="lJi-XR-K0j" userLabel="imapaddressText" customClass="WTReTextField">
                     <rect key="frame" x="126" y="186" width="201" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="444" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="Ar3-VQ-wpS" userLabel="imapportText" customClass="WTReTextField">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="993" borderStyle="roundedRect" placeholder="993" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="Ar3-VQ-wpS" userLabel="imapportText" customClass="WTReTextField">
                     <rect key="frame" x="401" y="186" width="69" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -149,20 +149,20 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="www.www.www" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="FaG-vU-D5Q" userLabel="smtpaddressText" customClass="WTReTextField">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="smtp." borderStyle="roundedRect" placeholder="www.www.www" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="FaG-vU-D5Q" userLabel="smtpaddressText" customClass="WTReTextField">
                     <rect key="frame" x="127" y="371" width="201" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="444" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="zpe-sI-veS" userLabel="smtpportText" customClass="WTReTextField">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="465" borderStyle="roundedRect" placeholder="465" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="zpe-sI-veS" userLabel="smtpportText" customClass="WTReTextField">
                     <rect key="frame" x="402" y="371" width="69" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QBC-k8-eYs" userLabel="okBtn">
-                    <rect key="frame" x="43" y="440" width="138" height="30"/>
+                    <rect key="frame" x="43" y="440" width="92" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.40000000000000002" green="0.80000000000000004" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="确定">
@@ -173,7 +173,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DgV-wL-55q" userLabel="cancelBtn">
-                    <rect key="frame" x="240" y="440" width="82" height="30"/>
+                    <rect key="frame" x="179" y="440" width="82" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="退出系统">
@@ -223,7 +223,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kGB-Lz-PYq" userLabel="cancelBtn">
-                    <rect key="frame" x="368" y="440" width="102" height="30"/>
+                    <rect key="frame" x="278" y="440" width="89" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="取消">
@@ -250,6 +250,17 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                 </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VFP-r5-khS" userLabel="okBtn">
+                    <rect key="frame" x="394" y="440" width="85" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.40000000000000002" green="0.80000000000000004" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="邮件模板">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="setMailTemplate:" destination="-1" eventType="touchUpInside" id="nDm-ce-e4E"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedStatusBarMetrics"/>

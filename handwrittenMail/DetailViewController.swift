@@ -19,10 +19,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:Open In Controller,must like this
     private var docController:UIDocumentInteractionController?
     
-    private var mailTopicNewTemplate:String="From北京超图<mailsender>,";//新建邮件时的邮件主题模板
-    private var mailTopicReplyTemplate:String="From北京超图<mailsender>的回复,";////回复邮件时的邮件主题模板
-    private var mailTopicforwardTemplate:String="From北京超图<mailsender>的转发,";////回复邮件时的邮件主题模板
-    private var mailContentTemplate="<mailto>:<br><mailcc><br>    您好:<br><br>                此致<br>敬礼<br><br><br><br>石伟伟 博士   <maildate><br> -----------------------------------------------------------------------------------------------------<br>北京超图软件股份有限公司<br>地址: 北京市朝阳区酒仙桥北路甲10号电子城IT产业园107楼6层<br>邮编: 100015       总机: 010-59896655         传真: 010-59896666    直线: 010-59896766 <br>手机: 18610219104<br>E-mail✉:shiweiwei@supermap.com<br>网站:www.supermap.com.cn<br>  -----------------------------------------------------------------------------------------------------";
+    private var mailTopicNewTemplate:String="From<mailsender>,";//新建邮件时的邮件主题模板
+    private var mailTopicReplyTemplate:String="From<mailsender>的回复,";////回复邮件时的邮件主题模板
+    private var mailTopicforwardTemplate:String="From<mailsender>的转发,";////回复邮件时的邮件主题模板
+    private var mailContentTemplate="<mailto>:<br>";
 //回复邮件时的邮件主题模板
 
 
@@ -105,6 +105,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         let popVC = TextMailComposerViewController();
         
         
+        popVC.detailViewController=self;
         
         popVC.imapsession=self.session;
         
@@ -280,7 +281,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         
         //3.delete mail
-        let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: #selector(DetailViewController.deleteCurrentMsg))
+        let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: #selector(DetailViewController.beginDeleteCurrentMsg(_:)))
         
         let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: nil)
         
@@ -353,18 +354,58 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
         //加上这句，UIWebView顶部不会出现一个空白条了，找了好久才找到斛方案啊。
         self.automaticallyAdjustsScrollViewInsets = false;
+        //加载邮件模板
+        self.loadMailTemplate();
+        
 
     }
+    //MARK:加载邮件模板
+    private func loadMailTemplate()
+    {
+        let mailTemplates=SetMailTemplateViewController.getMailTemplate();
+        self.mailTopicNewTemplate=mailTemplates[0];
+        self.mailTopicReplyTemplate=mailTemplates[1];
+        self.mailTopicforwardTemplate=mailTemplates[2];
+        self.mailContentTemplate=mailTemplates[3];
+
+        
+    }
     
+    //MARK:开始删除当前邮件
+    func beginDeleteCurrentMsg(sender: AnyObject)
+    {
+        let deleteMenu = UIAlertController(title: nil, message: "确认要删除当前邮件?", preferredStyle: .ActionSheet)
+        
+        let deleteAction = UIAlertAction(title: "确认删除", style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            self.deleteCurrentMsg()
+            
+            
+        };
+        
+        let refuseAction = UIAlertAction(title: "取消删除", style: UIAlertActionStyle.Default,handler: nil)
+        
+        deleteMenu.addAction(deleteAction)
+        deleteMenu.addAction(refuseAction)
+        
+        
+        deleteMenu.popoverPresentationController?.sourceView=sender.view;
+        
+        deleteMenu.popoverPresentationController?.sourceRect=sender.view!.bounds;
+        
+        
+        self.presentViewController(deleteMenu, animated: true, completion: nil)
+        
+        
+        
+    }
+    
+
     //MARK:删除当前邮件
     func deleteCurrentMsg()
     {
-/*        let lJs = "document.documentElement.innerHTML";
-        let webHtml = self.mywebView.webView.stringByEvaluatingJavaScriptFromString(lJs);
-        
-        print(webHtml);*/
-        
-        return;
         
         let masterViewController=self.parentViewController?.parentViewController?.childViewControllers[0].childViewControllers[0] as? MasterViewController;
         
@@ -372,11 +413,18 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         if maillistViewController != nil
         {
-            let indexpaths=maillistViewController?.tableView.indexPathsForSelectedRows;
+//            let indexpaths=maillistViewController?.tableView.indexPathsForSelectedRows;
             
-            if indexpaths != nil
+            let mailList=maillistViewController?.mailList;
+            let msg=self.mywebView.message as! MCOIMAPMessage;
+            let indexpath=mailList?.indexOf(msg)
+            
+            
+            if indexpath != nil
             {
-                maillistViewController?.delCurrentMsgs(indexpaths!)
+                let tmppath=NSIndexPath(forRow:indexpath!,inSection:0);
+                print(tmppath.row);
+                maillistViewController?.delCurrentMsgs([tmppath])
             }
            
             
@@ -780,11 +828,25 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:响应email地址点击事件
     func emailClicked(button: UIEmailButton)
     {
-//        let mainStoryboard = UIStoryboard(name:"Main", bundle:nil)
-//        let viewController = mainStoryboard.instantiateInitialViewController()! as UIViewController
-//        
-//        self.presentViewController(viewController, animated: true, completion:nil)
-        print(button.mailAddress.mailbox)
+        let showEmailAddressMenu = UIAlertController(title: nil, message: "邮件地址信息", preferredStyle: .ActionSheet)
+        
+        let mailDisaplayName="\(button.mailAddress.displayName)";
+        let mailAddress=button.mailAddress.mailbox;
+        
+        let dispalyNameAction = UIAlertAction(title: mailDisaplayName, style: UIAlertActionStyle.Default,handler: nil)
+        
+         let mailBoxAction = UIAlertAction(title:mailAddress, style: UIAlertActionStyle.Default,handler: nil)
+        
+        showEmailAddressMenu.addAction(dispalyNameAction)
+        showEmailAddressMenu.addAction(mailBoxAction)
+        
+        
+        showEmailAddressMenu.popoverPresentationController?.sourceView=button;
+        
+        showEmailAddressMenu.popoverPresentationController?.sourceRect=button.bounds;
+        
+        
+        self.presentViewController(showEmailAddressMenu, animated: true, completion: nil)
     }
     
     //MARK:show or hide mailto and maincc
@@ -1056,6 +1118,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             //added by shiww,弹出手写邮件编写界面
             let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController;
             
+            popVC.mailTopic=self.mailTopicNewTemplate;//设置邮件主题模板
+
+            
             popVC.imapsession=self.session;//保存到草稿箱时要用
 
             popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -1239,6 +1304,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController
 
         popVC.imapsession=self.session;//保存到草稿箱时要用
+        
+
 
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
@@ -1248,7 +1315,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         let header=self.message.header;
         
         //self.mailSubject=header.subject;//邮件主题
-        
+        popVC.mailTopic=self.mailTopicReplyTemplate+header.subject;//主题采用"回复"模板
+
         
         
         var tmpmailCcLists=[MCOAddress]();
@@ -1273,7 +1341,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         tmpmailToLists.append(header.from);
         
-        popVC.mailTopic="回复:from石伟伟"+header.subject;//邮件主题;
+        //popVC.mailTopic="回复:from石伟伟"+header.subject;//邮件主题;
         popVC.mailTo=tmpmailToLists;
         popVC.mailCc=tmpmailCcLists;
         popVC.mailOrign=self.mywebView.exportViewToPng();
@@ -1452,7 +1520,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         
         
-        popVC.mailTopic="from石伟伟 转发："+header.subject;//邮件主题;
+        popVC.mailTopic=self.mailTopicforwardTemplate+header.subject;//邮件主题模板;
         //把当前邮件转化为图片转发
         //popVC.mailOrign=self.mywebView.exportViewToPng();
         

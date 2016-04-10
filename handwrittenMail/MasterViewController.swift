@@ -420,7 +420,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
 //    }
     self.tableView.reloadData();
     
-    self.setupStatus("邮件列表刚刚更新");
+    self.setupStatus("邮件目录刚刚更新");
 
     }
     //MARK:更新邮件目录的邮件数量
