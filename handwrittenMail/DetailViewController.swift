@@ -114,7 +114,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
-        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popVC.preferredContentSize = CGSize(width: 750,height: 1000);
         popOverController?.permittedArrowDirections = .Any
         
         
@@ -1149,7 +1149,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
             popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             let popOverController = popVC.popoverPresentationController
-            popVC.preferredContentSize=CGSizeMake(820,1093);
+            popVC.preferredContentSize = CGSize(width: 750,height: 1000);
             popOverController?.permittedArrowDirections = .Any
             self.presentViewController(popVC, animated: true, completion: nil)
             
@@ -1201,7 +1201,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
-        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popVC.preferredContentSize=CGSizeMake(750,1000);
         popOverController?.permittedArrowDirections = .Any
         self.presentViewController(popVC, animated: true, completion: nil)
 
@@ -1271,7 +1271,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
-        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popVC.preferredContentSize=CGSizeMake(750,1000);
         popOverController?.permittedArrowDirections = .Any
 
         let header=self.message.header;
@@ -1333,7 +1333,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
-        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popVC.preferredContentSize=CGSizeMake(750,1000);
         popOverController?.permittedArrowDirections = .Any
         
         let header=self.message.header;
@@ -1456,7 +1456,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
-        popVC.preferredContentSize=CGSizeMake(820,1093);
+        popVC.preferredContentSize=CGSizeMake(750,1000);
         popOverController?.permittedArrowDirections = .Any
         
         let header=self.message.header;
@@ -1537,7 +1537,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         let popOverController = popVC.popoverPresentationController
-        popVC.preferredContentSize=CGSizeMake(820,1093);
+        
+        popVC.preferredContentSize = CGSize(width: 750,height: 1000);
+        
         popOverController?.permittedArrowDirections = .Any
         
         let header=self.message.header;

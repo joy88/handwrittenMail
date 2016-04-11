@@ -10,50 +10,50 @@
             <objects>
                 <viewController storyboardIdentifier="BoardViewController" id="vXZ-lx-hvc" customClass="BoardViewController" customModule="handwrittenMail" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="820" height="1093"/>
+                        <rect key="frame" x="0.0" y="0.0" width="750" height="1000"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="2gF-xK-2QE" customClass="Board" customModule="handwrittenMail" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="820" height="1093"/>
+                                <rect key="frame" x="0.0" y="0.0" width="750" height="1000"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="x5V-gv-tpy">
-                                <rect key="frame" x="0.0" y="0.0" width="1366" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="750" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" tag="1" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lbO-9d-WdJ" userLabel="btnPenLine">
-                                        <rect key="frame" x="71" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="38" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="penline"/>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BHy-4I-VgJ" userLabel="btnPenDashLine">
-                                        <rect key="frame" x="109" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="76" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="pendashline"/>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nsL-pL-CkJ" userLabel="btnPenBox">
-                                        <rect key="frame" x="147" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="114" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="penbox"/>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8Un-tU-jlo" userLabel="btnPenCircle">
-                                        <rect key="frame" x="185" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="152" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="pencircle"/>
                                     </button>
                                     <button opaque="NO" tag="5" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cbh-xT-ehq" userLabel="btnPenHighLight">
-                                        <rect key="frame" x="223" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="190" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="penhighlight"/>
                                     </button>
                                     <button opaque="NO" tag="6" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7Ao-8D-s6H" userLabel="btnPenEraser">
-                                        <rect key="frame" x="261" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="228" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="peneraser"/>
                                     </button>
                                     <button opaque="NO" tag="6" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="c43-tA-Rhw" userLabel="btnClearAll">
-                                        <rect key="frame" x="337" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="304" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="clear"/>
                                         <connections>
@@ -61,7 +61,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="6" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ndg-g6-Crt" userLabel="btnPrevPage">
-                                        <rect key="frame" x="455" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="422" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="prevpage"/>
                                         <connections>
@@ -69,7 +69,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RAg-lt-0vH" userLabel="labPages">
-                                        <rect key="frame" x="493" y="10" width="57" height="30"/>
+                                        <rect key="frame" x="460" y="10" width="57" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <state key="normal" title="1/2">
@@ -77,7 +77,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="D6b-pM-B9R" userLabel="btnSaveToFile">
-                                        <rect key="frame" x="637" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="604" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="save"/>
                                         <connections>
@@ -85,7 +85,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aV2-YT-SlK" userLabel="btnSaveToAlbum">
-                                        <rect key="frame" x="604" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="571" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" image="savetoalbum"/>
@@ -94,7 +94,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MG3-Ms-HKC" userLabel="btnSetBkground">
-                                        <rect key="frame" x="670" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="637" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" image="bkground"/>
@@ -103,7 +103,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="T1D-Ym-O9K" userLabel="undobtn">
-                                        <rect key="frame" x="377" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="344" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="undobtn"/>
                                         <state key="normal" image="Undo"/>
@@ -112,7 +112,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eBZ-Yn-ahF" userLabel="redobtn">
-                                        <rect key="frame" x="415" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="382" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="Redo"/>
                                         <connections>
@@ -120,20 +120,20 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QOy-aO-VKV" userLabel="btnPencil">
-                                        <rect key="frame" x="33" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="0.0" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="97A0937B-AA7C-42EF-ACDB-CC34BCAE2CE6"/>
+                                        <state key="normal" image="ACE4DA94-6B67-4790-AEE3-02795B95DA4C"/>
                                         <connections>
                                             <action selector="doPenSwitch:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="dOU-pl-sTk"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="7" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3rj-T9-Ktw" userLabel="btnInsertImg">
-                                        <rect key="frame" x="299" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="266" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="insertimg"/>
                                     </button>
                                     <button opaque="NO" tag="9999" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rWv-c2-zCC" userLabel="btnNextPage">
-                                        <rect key="frame" x="557" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="524" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="nextpage"/>
                                         <connections>
@@ -141,7 +141,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3Aj-v8-P6F" userLabel="btnUploadEvernote">
-                                        <rect key="frame" x="716" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="678" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="evernote"/>
                                         <connections>
@@ -149,7 +149,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="I0d-iY-5d7" userLabel="btnExit">
-                                        <rect key="frame" x="763" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="716" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="exit"/>
                                         <connections>
@@ -166,9 +166,8 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="820" height="1093"/>
+                    <size key="freeformSize" width="750" height="1000"/>
                     <connections>
                         <outlet property="board" destination="2gF-xK-2QE" id="Bcw-GJ-2nV"/>
                         <outlet property="btnInsertImg" destination="3rj-T9-Ktw" id="3QU-FI-X4C"/>
@@ -189,7 +188,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="97A0937B-AA7C-42EF-ACDB-CC34BCAE2CE6" width="44" height="44">
+        <image name="ACE4DA94-6B67-4790-AEE3-02795B95DA4C" width="44" height="44">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

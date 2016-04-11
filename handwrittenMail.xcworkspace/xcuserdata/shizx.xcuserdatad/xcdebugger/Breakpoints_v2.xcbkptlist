@@ -385,38 +385,6 @@
             endingLineNumber = "836"
             landmarkName = "emailClicked(_:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed&gt; of handwrittenMail.DetailViewController.emailClicked (handwrittenMail.UIEmailButton) -&gt; ()"
-                  moduleName = "handwrittenMail"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/DetailViewController.swift"
-                  timestampString = "481975458.618221"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "838"
-                  endingLineNumber = "838"
-                  offsetFromSymbolStart = "212">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[0] = Owned To Guaranteed&gt; of handwrittenMail.DetailViewController.emailClicked (handwrittenMail.UIEmailButton) -&gt; ()"
-                  moduleName = "handwrittenMail"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/DetailViewController.swift"
-                  timestampString = "481975458.618347"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "838"
-                  endingLineNumber = "838"
-                  offsetFromSymbolStart = "220">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -433,38 +401,6 @@
             endingLineNumber = "539"
             landmarkName = "setupMail(_:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[0] = Dead and Owned To Guaranteed&gt; of handwrittenMail.MasterViewController.setupMail (Swift.AnyObject) -&gt; ()"
-                  moduleName = "handwrittenMail"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/MasterViewController.swift"
-                  timestampString = "481975458.618936"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "539"
-                  endingLineNumber = "539"
-                  offsetFromSymbolStart = "72">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[0] = Dead and Owned To Guaranteed&gt; of handwrittenMail.MasterViewController.setupMail (Swift.AnyObject) -&gt; ()"
-                  moduleName = "handwrittenMail"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/MasterViewController.swift"
-                  timestampString = "481975458.619055"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "539"
-                  endingLineNumber = "539"
-                  offsetFromSymbolStart = "96">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
