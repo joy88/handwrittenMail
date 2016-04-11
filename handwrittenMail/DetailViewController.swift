@@ -262,7 +262,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.view.addGestureRecognizer(viewTap);
 
         
-        self.navigationItem.leftBarButtonItem?.title="INBOX"
+        self.navigationItem.leftBarButtonItem?.title="邮箱"
+        self.navigationItem.title="收件箱"
         //1.右边第一个按钮
         //编写新邮件
         let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:#selector(DetailViewController.newMail(_:)))

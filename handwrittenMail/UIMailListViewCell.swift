@@ -14,6 +14,9 @@ class UIMailListViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         mailSubjectLbl.lineBreakMode=NSLineBreakMode.ByTruncatingTail
+        mailFromLbl.lineBreakMode=NSLineBreakMode.ByTruncatingTail
+        
+
     }
     @IBOutlet weak var mailSubjectLbl: UILabel!
 

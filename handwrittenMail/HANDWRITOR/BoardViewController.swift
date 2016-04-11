@@ -23,6 +23,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     var imapsession:MCOIMAPSession?//imap session,保存到草稿箱时用
 
 
+    @IBOutlet weak var btnExit: UIButton!//关闭窗口按钮
     
     @IBOutlet weak var btnInsertImg: UIButton!//MARK:插入图片
   
@@ -769,8 +770,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         let smtpOperation = smtpSession.loginOperation();
         //发送邮件
-        self.mailSendBtn.enabled=false;
-        self.mailSendBtn.backgroundColor=UIColor.grayColor();
+        self.setSendButtonEnable(false);
 
         smtpOperation.start()
         {
@@ -806,9 +806,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 {
                     self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
                     //恢复发送按钮状态
-                    self.mailSendBtn.enabled=true;
-                    self.mailSendBtn.backgroundColor=UIColor.greenColor();
-
+                    self.setSendButtonEnable(true);
                     return;//不能发送邮件了
                 }
                 
@@ -948,8 +946,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
    
                         }
                         
-                        self.mailSendBtn.enabled=true;
-                        self.mailSendBtn.backgroundColor=UIColor.greenColor();
+                        self.setSendButtonEnable(true);
 
 
                 }
@@ -959,8 +956,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
             {
                 print("login account failure: %@", error);
                 
-                self.mailSendBtn.enabled=true;
-                self.mailSendBtn.backgroundColor=UIColor.greenColor();                
+                self.setSendButtonEnable(true);
         }
      }
     }
@@ -1201,6 +1197,31 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         self.mailTopicInputText.text=self.mailTopic;
         
     }
+    
+    private func setSendButtonEnable(enable:Bool=true)
+    {
+        let sendBarBtnItem=self.mailSendBtn;
+        let cancelBtnItem=self.btnExit;
+        
+        
+        if enable
+        {
+            sendBarBtnItem.enabled=true;
+            sendBarBtnItem.tintColor=UIColor.greenColor();
+            
+            cancelBtnItem.enabled=true;
+            
+        }
+        else
+        {
+            sendBarBtnItem.enabled=false;
+            sendBarBtnItem.backgroundColor=UIColor.darkGrayColor();
+            
+            cancelBtnItem.enabled=false;
+            
+        }
+    }
+
 
 
 

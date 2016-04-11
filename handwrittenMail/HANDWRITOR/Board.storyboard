@@ -122,7 +122,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QOy-aO-VKV" userLabel="btnPencil">
                                         <rect key="frame" x="0.0" y="10" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="ACE4DA94-6B67-4790-AEE3-02795B95DA4C"/>
+                                        <state key="normal" image="575BA1FA-2D0C-4A0A-A3A2-2945592EED4F"/>
                                         <connections>
                                             <action selector="doPenSwitch:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="dOU-pl-sTk"/>
                                         </connections>
@@ -170,6 +170,7 @@
                     <size key="freeformSize" width="750" height="1000"/>
                     <connections>
                         <outlet property="board" destination="2gF-xK-2QE" id="Bcw-GJ-2nV"/>
+                        <outlet property="btnExit" destination="I0d-iY-5d7" id="xdZ-Yi-iyh"/>
                         <outlet property="btnInsertImg" destination="3rj-T9-Ktw" id="3QU-FI-X4C"/>
                         <outlet property="btnPenBox" destination="nsL-pL-CkJ" id="lRs-zC-h6b"/>
                         <outlet property="btnPenCircle" destination="8Un-tU-jlo" id="XP4-po-Q0l"/>
@@ -188,7 +189,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ACE4DA94-6B67-4790-AEE3-02795B95DA4C" width="44" height="44">
+        <image name="575BA1FA-2D0C-4A0A-A3A2-2945592EED4F" width="44" height="44">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

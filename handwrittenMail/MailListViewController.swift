@@ -89,7 +89,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         setupRefresh();//下拉刷新,上拉加载
         
-        self.navigationItem.title="INBOX"
+        self.navigationItem.title="收件箱"
         
         self.tableView.editing = false;//默认tableview的editing 是不开启的
         
@@ -285,6 +285,8 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+//        print(tableView.frame.width);
         
         let identifier="maillist";
 

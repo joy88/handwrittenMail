@@ -335,7 +335,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
                     let controllers = split.viewControllers
                     
                     let detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-                    
+                      
                     if indexPath.row==1 || indexPath.row==2
                     {
                         detailViewController?.isDraftsOrSendMailFolder=true;
@@ -355,6 +355,12 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
                 foldname=self.mailFolders[indexPath.row+3].folderInfo.path;
 
             }
+            
+            let controllers = self.splitViewController!.viewControllers
+            
+            let detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+            
+            detailViewController!.navigationItem.title=foldnameAlias;
             
             
             //推出mail list view
@@ -448,88 +454,6 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
     }
 
-/*
-    private  func getIndexFolder(index:Int)->mailFolderMeta
-    {
-        //        assert(index<self.count);
-        var folderMeta=mailFolderMeta();
-        
-        var tempFolders=self.mailFolders;
-        
-        var threeFolders=["INBOX","已发送","草稿箱"];
-        
-        let imapsession = self.mail.mailconnection as! MCOIMAPSession;
-       
-        //处理QQ邮箱,邮箱文件夾中没有FLAG信息
-        if imapsession.hostname.containsString("qq.com")
-        {
-            threeFolders=["INBOX","Sent Messages","Drafts"];
-            
-        }
-
-        
-        let keys = Array(tempFolders.keys)
-        
-        for key in keys
-        {
-            if self.mailFolders[key] != nil
-            {
-                folderMeta=self.mailFolders[key]!;
-                if folderMeta.folderFlag.contains( MCOIMAPFolderFlag.Inbox)
-                {
-                    threeFolders[0]=folderMeta.folderName;
-                    
-                }
-                if folderMeta.folderFlag.contains(MCOIMAPFolderFlag.SentMail)
-                {
-                    threeFolders[1]=folderMeta.folderName;
-                    
-                }
-                if folderMeta.folderFlag.contains(MCOIMAPFolderFlag.Drafts)
-                {
-                    threeFolders[2]=folderMeta.folderName;
-                    
-                }
-
-
-            }
-        }
-        
-        
-  
-        switch index
-            {
-                case 0,1,2:
-                    if self.mailFolders[threeFolders[index]] != nil
-                    {
-                        folderMeta=self.mailFolders[threeFolders[index]]!;
-                    }
-   
-        default:
-           
-            tempFolders.removeValueForKey(threeFolders[0])
-            tempFolders.removeValueForKey(threeFolders[1])
-            tempFolders.removeValueForKey(threeFolders[2])
-
-            
-            let keys = Array(tempFolders.keys).sort(){$0 > $1};
-        
-            
-            let tempValue = keys[index-3];
-
-
-            if self.mailFolders[tempValue] != nil
-            {
-                folderMeta=self.mailFolders[tempValue]!;
-            }
-            
-           
-        }
-        
-        return folderMeta;
-        
-    }*/
-    
     //MARK:邮件设置
     func setupMail(sender:AnyObject)
     {

@@ -99,7 +99,7 @@ class SetMailTemplateViewController: UIViewController {
     
     static func getMailTemplate()->[String]
     {
-        var strResult=["from#mainsender#,","from#mailsender#的回复-","from#mailsender#的转发-","Hi"];
+        var strResult=["from#mailsender#,","from#mailsender#的回复-","from#mailsender#的转发-","Hi"];
         /// 1、利用NSUserDefaults存储数据
         let defaults = NSUserDefaults.standardUserDefaults();
         //  2、加载数据

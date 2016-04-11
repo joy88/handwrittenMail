@@ -960,17 +960,26 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     private func setSendButtonEnable(enable:Bool=true)
     {
         let sendBarBtnItem=self.mailToolBar.items![4];
+        let cancelBtnItem=self.mailToolBar.items![0];
         
         
         if enable
         {
             sendBarBtnItem.enabled=true;
             sendBarBtnItem.tintColor=UIColor.blueColor();
+            
+            cancelBtnItem.enabled=true;
+            cancelBtnItem.tintColor=UIColor.blueColor();
+
         }
         else
         {
             sendBarBtnItem.enabled=false;
             sendBarBtnItem.tintColor=UIColor.darkGrayColor();
+            
+            cancelBtnItem.enabled=false;
+            cancelBtnItem.tintColor=UIColor.darkGrayColor();
+
         }
     }
     
