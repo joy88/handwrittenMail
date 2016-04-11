@@ -257,7 +257,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         // Do any additional setup after loading the view, typically from a nib.
         //增加草稿邮件的点击手势
         viewTap=UITapGestureRecognizer(target: self, action:#selector(DetailViewController.viewTap(_:)));
-        viewTap.numberOfTapsRequired=1;
+        viewTap.numberOfTapsRequired=2;
         viewTap.delegate=self;
         self.view.addGestureRecognizer(viewTap);
 

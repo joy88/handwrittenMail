@@ -22,7 +22,7 @@
     MCOIMAPMessage * _message;
     NSMutableDictionary * _callbacks;
     NSString * _folder;
-    NSArray * attachments;//added by shiww,附件
+   // NSArray * attachments;//added by shiww,附件
 }
 
 @property (nonatomic, copy) NSString * folder;

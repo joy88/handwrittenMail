@@ -106,7 +106,7 @@
             
             //把附件信息保存下来,供显示用,by shiww
            //attachments = [[NSMutableArray alloc] initWithArray:msg.attachments];
-            attachments=msg.attachments;
+//            attachments=msg.attachments;
             //added ok
             
             [_messageView setDelegate:self];

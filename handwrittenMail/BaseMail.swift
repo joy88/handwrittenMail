@@ -77,7 +77,10 @@ protocol RefreshMailDataDelegate
 //刷新邮件列表信息
 protocol RefreshMailListDataDelegate
 {
+    //刷新邮件列表
     func RefreshMailListData(objData:[MCOIMAPMessage],upFresh:Bool);
+    //更新邮件列表状态
+    func setupStatus(status:String);
 }
 
 //刷新邮件列表信息
