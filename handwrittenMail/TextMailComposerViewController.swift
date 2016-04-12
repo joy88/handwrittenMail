@@ -443,6 +443,23 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     
                     let rfc822Data = messageBuilder.data();
                     let sendOperation = smtpSession.sendOperationWithData(rfc822Data);
+                    
+                    //监测一下邮件发送的进度
+                    
+                    sendOperation.progress =
+                        {
+                            (nowValue:UInt32,totalValue:UInt32)->Void in
+                            
+//                    print("nowvalue=\(nowValue),totalValue=\(totalValue)");//,percent=\(nowValue*100/totalValue)");
+                            
+                            if totalValue != 0
+                            {
+                                let wndTitle=String(format: "正在发送邮件,已完成%2d%%",nowValue*100/totalValue);
+                                self.setWindowTitle(wndTitle)
+                            }
+                    };
+                    
+
                     sendOperation.start()
                         {
                             (error:NSError?) -> Void in
@@ -463,6 +480,8 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                             {
                                 self.ShowNotice("提示", "发送不成功-\(error?.localizedDescription)");
                                 print("发送不成功!%@",error);
+                                self.setWindowTitle("新邮件");
+
                                 
                             }
                             
@@ -480,6 +499,16 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                 }
         }
     }
+    
+    //MARK:设置邮件发送进度显示
+    private func setWindowTitle(sendmailProgress:String)
+    {
+        let titleWnd=self.mailToolBar.items![2];
+        
+        titleWnd.title=sendmailProgress;
+    }
+    
+
     
     //MARK:处理本地HTML中插入的图片
     static func wrapLocalImgHtml(webView:UIWebView,inout webHtml:String,inout messageBuilder:MCOMessageBuilder)
@@ -1104,7 +1133,13 @@ extension TextMailComposerViewController: RichEditorToolbarDelegate {
         
         
         
-        let srcimag=String.init(format:"<img src = \"%@\" alt=\" \" width=\"750\"/>", imageUrl);
+        var srcimag=String.init(format:"<img src = \"%@\" alt=\" Picture\" width=\"750\"/>", imageUrl);
+        
+        //如果宽度不到750，则不设宽度
+        if image.size.width<750
+        {
+          srcimag=String.init(format:"<img src = \"%@\" alt=\"Picture\"/>", imageUrl);
+        }
         
         
         

@@ -649,6 +649,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         mailSendBtn.frame=CGRectMake(frameWidth-ctrWidth-marginSpace,top1,ctrWidth,ctrHight*3)
         mailSendBtn.setTitleColor(white, forState: .Normal);//不加上这句,看不到,可以字体是白色的原因吧
         mailSendBtn.backgroundColor=green;
+        mailSendBtn.titleLabel?.lineBreakMode = .ByWordWrapping;
         
         mailSendBtn.layer.cornerRadius = 8
         mailSendBtn.layer.masksToBounds=true;
@@ -930,6 +931,22 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 
                 let rfc822Data = messageBuilder.data();
                 let sendOperation = smtpSession.sendOperationWithData(rfc822Data);
+                //监测一下邮件发送的进度
+                
+                sendOperation.progress =
+                    {
+                        (nowValue:UInt32,totalValue:UInt32)->Void in
+                        
+//                print("nowvalue=\(nowValue),totalValue=\(totalValue)");//,percent=\(nowValue*100/totalValue)");
+                        
+                        if totalValue != 0
+                        {
+                            let wndTitle=String(format: "发送中\n  %2d%%",nowValue*100/totalValue);
+                            self.setWindowTitle(wndTitle)
+                        }
+                };
+                
+
                 sendOperation.start()
                     {
                         (error:NSError?) -> Void in
@@ -943,10 +960,11 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                             self.ShowNotice("提示", "发送不成功-\(error?.localizedDescription)");
                             print("发送不成功!%@",error);
                             //存放到草稿箱中
+                            self.setSendButtonEnable(true);
+                            self.setWindowTitle("发送");
    
                         }
                         
-                        self.setSendButtonEnable(true);
 
 
                 }
@@ -959,6 +977,12 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 self.setSendButtonEnable(true);
         }
      }
+    }
+    
+    //MARK:显示邮件发送进度信息
+    private func setWindowTitle(wndTitle:String)
+    {
+        self.mailSendBtn.setTitle(wndTitle, forState:.Normal);
     }
     
     //MARK:将未发出的邮件保存到草稿箱
@@ -1207,7 +1231,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         if enable
         {
             sendBarBtnItem.enabled=true;
-            sendBarBtnItem.tintColor=UIColor.greenColor();
+            sendBarBtnItem.backgroundColor=UIColor.greenColor();
             
             cancelBtnItem.enabled=true;
             
@@ -1215,7 +1239,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         else
         {
             sendBarBtnItem.enabled=false;
-            sendBarBtnItem.backgroundColor=UIColor.darkGrayColor();
+            sendBarBtnItem.backgroundColor=UIColor.lightGrayColor();
             
             cancelBtnItem.enabled=false;
             

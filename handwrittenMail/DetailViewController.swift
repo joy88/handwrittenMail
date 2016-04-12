@@ -714,6 +714,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             return;
         }
         
+        
         let index=sender.view!.tag;
         
         let attachment=self.message.attachments()[index];
@@ -727,7 +728,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         let filename=attachment.filename//sender.mailAddress.displayName;
         
-        var tmpDirectory = NSTemporaryDirectory();
+        var tmpDirectory = NSHomeDirectory() + "/Library/Caches"
+        
         tmpDirectory=tmpDirectory+"/"+filename;
         
         let isDownloaded=NSFileManager.defaultManager().fileExistsAtPath(tmpDirectory);//判断一下是否已经下载
@@ -746,6 +748,24 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
             let op = imapsession.fetchMessageAttachmentOperationWithFolder(self.folder,uid:self.message.uid,partID:msgpart.partID,encoding:msgpart.encoding,urgent:false);
             
+            //监测一下附件下载的进度
+            let attachmentBtn=sender.view as! UIEmailButton;
+            
+            let oldBtnTitle=attachmentBtn.titleForState(.Normal);
+            
+            op.progress =
+                {
+                    (nowValue:UInt32,totalValue:UInt32)->Void in
+
+                    //                    print("nowvalue=\(nowValue),totalValue=\(totalValue)");//,percent=\(nowValue*100/totalValue)");
+                    if totalValue != 0
+                    {
+                        let btnTitle=String(format: "正在下载,已完成%2d%%",nowValue*100/totalValue);
+                        attachmentBtn.setTitle(btnTitle, forState: .Normal)
+                    }
+            };
+            
+
             op.start()
                 {
                     (error:NSError?,data:NSData?)->Void in
@@ -756,6 +776,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                             attachData.writeToFile(tmpDirectory,atomically:true);
                             self.tempFilePath=tmpDirectory;
                             
+                            attachmentBtn.setTitle(oldBtnTitle, forState: .Normal)
+                            
                             self.shareDocument(self.tempFilePath,sender:sender)
 
                         }
@@ -764,6 +786,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                     }
                     else{
                         print("附件获取失败!");
+                        attachmentBtn.setTitle(oldBtnTitle, forState: .Normal)
                     }
             }
             
@@ -1605,7 +1628,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:点击下载和预览附件
     func previewAttach(sender: UIEmailButton)
     {
+        sender.enabled=false;//避免多次点击
+        
         let index=sender.tag;
+        
         let attachment=self.message.attachments()[index];
         
         if !(attachment is MCOIMAPPart)//paser出来的可以直接保存
@@ -1630,7 +1656,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
             ql.dataSource  = self;
             
-            self.presentViewController(ql, animated: true, completion: nil)
+            self.presentViewController(ql, animated: true)
+            {
+                sender.enabled=true;//又可以点击了
+            }
         }
         else//未下载
         {
@@ -1641,6 +1670,22 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             let imapsession=self.session;
   
             let op = imapsession.fetchMessageAttachmentOperationWithFolder(self.folder,uid:self.message.uid,partID:msgpart.partID,encoding:msgpart.encoding,urgent:false);
+            
+            //监测一下附件下载的进度
+            let oldBtnTitle=sender.titleForState(.Normal);
+            
+            op.progress =
+                {
+                    (nowValue:UInt32,totalValue:UInt32)->Void in
+                    
+//                    print("nowvalue=\(nowValue),totalValue=\(totalValue)");//,percent=\(nowValue*100/totalValue)");
+                    if totalValue != 0
+                    {
+                        let btnTitle=String(format: "正在下载,已完成%2d%%",nowValue*100/totalValue);
+                        sender.setTitle(btnTitle, forState: .Normal)
+                    }
+            };
+            
             
             op.start()
                 {
@@ -1655,7 +1700,12 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                             
                             ql.dataSource  = self;
                             
-                            self.presentViewController(ql, animated: true, completion: nil)
+                            self.presentViewController(ql, animated: true)
+                            {
+                                sender.enabled=true;//又可以点击了
+                                sender.setTitle(oldBtnTitle, forState: .Normal)
+
+                            }
                             
 
                         }
@@ -1664,6 +1714,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                     }
                     else{
                         print("附件获取失败!");
+                        sender.enabled=true;//又可以点击了
+                        sender.setTitle(oldBtnTitle, forState: .Normal)
                     }
             }
             

@@ -283,6 +283,7 @@ class UIEmailButton:UIButton
         
         self.frame = CGRectMake(x,y,newwidth,height);
         
+        
         return newwidth;
         
     }
