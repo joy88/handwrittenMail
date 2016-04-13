@@ -505,7 +505,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     func setBackgroundColor(image:UIImage)
     {
         //added by shiww,to support retina
-        let bounds=CGRect(x: 0,y: 0,width: 820,height: 1093);//self.view.bounds,不知道为什么,必须设置为固定大小,否则会得到屏幕大小
+        let bounds=CGRect(x: 0,y: 0,width: self.preferredContentSize.width,height: self.preferredContentSize.height);//self.view.bounds,不知道为什么,必须设置为固定大小,否则会得到屏幕大小
+        
         UIGraphicsBeginImageContextWithOptions(bounds.size,false,0);
         image.drawInRect(bounds);
 //        print(bounds);
