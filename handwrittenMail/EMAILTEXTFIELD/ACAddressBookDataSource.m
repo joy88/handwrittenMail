@@ -68,19 +68,19 @@
     
     NSPredicate *predicate = nil;
     //提取电话，email、日期、URL 数据
-    NSArray *contacts = [stroe unifiedContactsMatchingPredicate:predicate keysToFetch:
+    NSArray *mycontacts = [stroe unifiedContactsMatchingPredicate:predicate keysToFetch:
                          @[CNContactGivenNameKey,CNContactFamilyNameKey,
                            CNContactPhoneNumbersKey,
                            CNContactEmailAddressesKey]
                                                           error:nil];
     
-    if (contacts == NULL) {
+    if (mycontacts == NULL) {
         NSLog(@"%s, AddressBook is null. Return!", __FUNCTION__);
         return;
     }
-    for (int i = 0; i < contacts.count; i++) {
+    for (int i = 0; i < mycontacts.count; i++) {
       
-        CNContact *person = contacts[i];
+        CNContact *person = mycontacts[i];
         //获取姓名
         NSString * firstName=person.givenName;
         NSString * lastName=person.familyName;

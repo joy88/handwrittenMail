@@ -22,8 +22,6 @@
 		2F1E03F81C94215F0072840F /* MCTMsgViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */; };
 		2F1E04031C9425740072840F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04011C9425740072840F /* ImageIO.framework */; };
 		2F1E04051C9425960072840F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04041C9425960072840F /* CoreGraphics.framework */; };
-		2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F31C94215F0072840F /* MCOMessageView.h */; };
-		2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F51C94215F0072840F /* MCTMsgViewController.h */; };
 		2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */; };
 		2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */; };
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
@@ -650,8 +648,6 @@
 				2F8623111C9D06D500A86A84 /* BaseFunction.swift in Sources */,
 				2F86231D1C9D06D500A86A84 /* BoardViewController.swift in Sources */,
 				2F8623101C9D06D500A86A84 /* BaseBrush.swift in Sources */,
-				2F1E04061C94286B0072840F /* MCOMessageView.h in Sources */,
-				2F1E04071C94286B0072840F /* MCTMsgViewController.h in Sources */,
 				2FCF4B351CA2D6DC008BFB3D /* SwiftDate.swift in Sources */,
 				2FE5F6761CA198300056BAE4 /* RefreshHeaderView.swift in Sources */,
 				2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */,
@@ -726,7 +722,7 @@
 		2F1064441C8B133C00510B49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -772,7 +768,7 @@
 		2F1064451C8B133C00510B49 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

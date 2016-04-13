@@ -1354,7 +1354,8 @@ extension UIViewController//实现一个提示框
         
         self.presentViewController(alertController, animated: true)
         {
-            let timmer:NSTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:#selector(UIViewController.removeIt(_:)), userInfo:alertController, repeats:false);
+    //        let timmer:NSTimer =
+                NSTimer.scheduledTimerWithTimeInterval(1.0, target:self, selector:#selector(UIViewController.removeIt(_:)), userInfo:alertController, repeats:false);
         }
     }
     

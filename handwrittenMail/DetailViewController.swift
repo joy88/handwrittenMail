@@ -266,9 +266,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.navigationItem.title="收件箱"
         //1.右边第一个按钮
         //编写新邮件
-        let composeButton = UIBarButtonItem(barButtonSystemItem:.Compose, target: self, action:#selector(DetailViewController.newMail(_:)))
+        let composeButton = UIBarButtonItem(image:UIImage(named: "composemail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain,target:self,action:#selector(DetailViewController.newMail(_:)))
         //2.回复邮件至发送人
-        let replyButton = UIBarButtonItem(barButtonSystemItem:.Reply, target: self, action: #selector(DetailViewController.replyMail(_:)))
+        let replyButton = UIBarButtonItem(image: UIImage(named: "reply")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.replyMail(_:)))
         replyButton.tag=0;//==1 代表回复全部
         
         //3.回复邮件至所有
@@ -280,18 +280,15 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //4.转发邮件
         
         let forwardButton = UIBarButtonItem(image: UIImage(named: "forward")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(DetailViewController.forwardMail(_:)))
-
-
-
         
         //3.delete mail
-        let trashButton = UIBarButtonItem(barButtonSystemItem:.Trash, target: self, action: #selector(DetailViewController.beginDeleteCurrentMsg(_:)))
+        let trashButton = UIBarButtonItem(image: UIImage(named: "deletemail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.beginDeleteCurrentMsg(_:)))
         
-        let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
+       // let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
         
         
         
-        let rightItems=[composeButton,replyButton,replyallButton,forwardButton,trashButton,organizeButton];
+        let rightItems=[composeButton,replyButton,replyallButton,forwardButton,trashButton];
         
         
         self.navigationItem.rightBarButtonItems = rightItems

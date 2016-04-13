@@ -33,8 +33,8 @@ class Pages:NSObject
         // 获取 Documents 目录
         let docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray;
         let docDir = docDirs[0] as! String;
-        var i:Int=0;
-        for i=1;i<=self.PageCount;i += 1
+//        var i:Int=0;
+        for i in 1...self.PageCount
         {
             var pagefilePath=docDir+"/"+PageList[i-1];
             
@@ -343,7 +343,8 @@ class Board: UIImageView {
         func imageForRedo() -> UIImage? {
             var image: UIImage? = nil
             if self.canRedo {
-                image = images[++index]
+                index=index+1;
+                image = images[index]//++index
             }
             setNeedsCache()
             return image
@@ -353,7 +354,7 @@ class Board: UIImageView {
         
         private func setNeedsCache() {
             return;//取消对Undo/redo的缓存文件支持
-            if images.count >= DBUndoManager.cahcesLength {
+/*            if images.count >= DBUndoManager.cahcesLength {
                 
                 
                 
@@ -370,7 +371,7 @@ class Board: UIImageView {
                         }
                     }
                 }
-            }
+            }*/
         }
         
         private static var basePath: String = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!

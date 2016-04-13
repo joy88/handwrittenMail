@@ -1214,7 +1214,9 @@ extension RichEditorView
     private func escape(string: String) -> String {
         let unicode = string.unicodeScalars
         var newString = ""
-        for var i = unicode.startIndex; i < unicode.endIndex; i = i.successor() {
+//        for var i = unicode.startIndex; i < unicode.endIndex; i = i.successor()
+        for i in unicode.startIndex ..< unicode.endIndex
+        {
             let char = unicode[i]
             if char.value < 9 || (char.value > 9 && char.value < 32) // < 32 == special characters in ASCII, 9 == horizontal tab in ASCII
                 || char.value == 39 { // 39 == ' in ASCII

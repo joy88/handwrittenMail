@@ -133,8 +133,12 @@
     
     [_pending addObject:partUniqueID];
     
-    MCOIMAPFetchContentOperation * op = [_session fetchMessageAttachmentByUIDOperationWithFolder:folder uid:[_message uid] partID:[part partID] encoding:[part encoding]];
+ //   fetchMessageAttachmentOperationWithFolder
+    
+    MCOIMAPFetchContentOperation * op = [_session fetchMessageAttachmentOperationWithFolder:folder uid:[_message uid] partID:[part partID] encoding:[part encoding] urgent:YES];
+    
     [_ops addObject:op];
+    
     [op start:^(NSError * error, NSData * data) {
         if ([error code] != MCOErrorNone) {
             [self _callbackForPartUniqueID:partUniqueID error:error];
@@ -278,6 +282,9 @@ typedef void (^DownloadCallback)(NSError * error);
 
     width = IMAGE_PREVIEW_WIDTH;
     height = IMAGE_PREVIEW_HEIGHT;
+    
+    width=self.view.bounds.size.width;
+    
     quality = 1.0;
 
     imageSource = CGImageSourceCreateWithData((__bridge CFDataRef) data, NULL);
@@ -288,7 +295,10 @@ typedef void (^DownloadCallback)(NSError * error);
     info = [[NSMutableDictionary alloc] init];
     [info setObject:(id) kCFBooleanTrue forKey:(__bridge id) kCGImageSourceCreateThumbnailWithTransform];
     [info setObject:(id) kCFBooleanTrue forKey:(__bridge id) kCGImageSourceCreateThumbnailFromImageAlways];
-    [info setObject:(id) [NSNumber numberWithFloat:(float) IMAGE_PREVIEW_WIDTH] forKey:(__bridge id) kCGImageSourceThumbnailMaxPixelSize];
+//    [info setObject:(id) [NSNumber numberWithFloat:(float) IMAGE_PREVIEW_WIDTH] forKey:(__bridge id) kCGImageSourceThumbnailMaxPixelSize];
+    
+        [info setObject:(id) [NSNumber numberWithFloat:(float) width] forKey:(__bridge id) kCGImageSourceThumbnailMaxPixelSize];
+
     thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, (__bridge CFDictionaryRef) info);
 
     CGImageDestinationRef destination;

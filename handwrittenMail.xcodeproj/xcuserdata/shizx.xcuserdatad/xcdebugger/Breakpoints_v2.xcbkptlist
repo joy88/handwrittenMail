@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1578"
-            endingLineNumber = "1578"
+            startingLineNumber = "1575"
+            endingLineNumber = "1575"
             landmarkName = "forwardMailOperation(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1568"
-            endingLineNumber = "1568"
+            startingLineNumber = "1565"
+            endingLineNumber = "1565"
             landmarkName = "forwardMailOperation(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1615"
-            endingLineNumber = "1615"
+            startingLineNumber = "1612"
+            endingLineNumber = "1612"
             landmarkName = "forwardMailOperation(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1587"
-            endingLineNumber = "1587"
+            startingLineNumber = "1584"
+            endingLineNumber = "1584"
             landmarkName = "forwardMailOperation(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1607"
-            endingLineNumber = "1607"
+            startingLineNumber = "1604"
+            endingLineNumber = "1604"
             landmarkName = "forwardMailOperation(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "913"
-            endingLineNumber = "913"
+            startingLineNumber = "910"
+            endingLineNumber = "910"
             landmarkName = "RefreshMailData(_:mailid:folder:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -353,6 +353,38 @@
             endingLineNumber = "694"
             landmarkName = "setcurrentMsgRead(_:readed:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "handwrittenMail.MailListViewController.(tableView (__ObjC.UITableView, editActionsForRowAtIndexPath : __ObjC.NSIndexPath) -&gt; Swift.Optional&lt;Swift.Array&lt;__ObjC.UITableViewRowAction&gt;&gt;).(closure #2).(closure #1)"
+                  moduleName = "handwrittenMail"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/MailListViewController.swift"
+                  timestampString = "482240211.286663"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "696"
+                  endingLineNumber = "696"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "handwrittenMail.MailListViewController.(tableView (__ObjC.UITableView, editActionsForRowAtIndexPath : __ObjC.NSIndexPath) -&gt; Swift.Optional&lt;Swift.Array&lt;__ObjC.UITableViewRowAction&gt;&gt;).(closure #2).(closure #2)"
+                  moduleName = "handwrittenMail"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/MailListViewController.swift"
+                  timestampString = "482240211.286821"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "696"
+                  endingLineNumber = "696"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -394,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1459"
-            endingLineNumber = "1459"
+            startingLineNumber = "1456"
+            endingLineNumber = "1456"
             landmarkName = "forwardMail(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -442,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482169498.972632"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1410"
-            endingLineNumber = "1410"
+            startingLineNumber = "1407"
+            endingLineNumber = "1407"
             landmarkName = "forwardMail(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -538,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482056715.997019"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "688"
-            endingLineNumber = "688"
+            startingLineNumber = "685"
+            endingLineNumber = "685"
             landmarkName = "setAttachmentList()"
             landmarkType = "5">
          </BreakpointContent>
@@ -554,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/MCTMsgViewController.mm"
-            timestampString = "480918303.191265"
+            timestampString = "482238522.874511"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "-_convertToJPEGData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -602,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/DetailViewController.swift"
-            timestampString = "482056715.997019"
+            timestampString = "482231026.946569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "591"
-            endingLineNumber = "591"
+            startingLineNumber = "588"
+            endingLineNumber = "588"
             landmarkName = "receivedRotation()"
             landmarkType = "5">
          </BreakpointContent>

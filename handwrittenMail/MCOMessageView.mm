@@ -341,10 +341,10 @@
 - (NSString *) MCOAbstractMessage:(MCOAbstractMessage *)msg templateForMainHeader:(MCOMessageHeader *)header
 {
     return @" ";//added by shiww
-    if (![[self delegate] respondsToSelector:@selector(MCOMessageView_templateForMainHeader:)]) {
+/*    if (![[self delegate] respondsToSelector:@selector(MCOMessageView_templateForMainHeader:)]) {
         return nil;
     }
-    return [[self delegate] MCOMessageView_templateForMainHeader:self];
+    return [[self delegate] MCOMessageView_templateForMainHeader:self];*/
 }
 
 - (NSString *) MCOAbstractMessage:(MCOAbstractMessage *)msg templateForImage:(MCOAbstractPart *)header
@@ -364,12 +364,12 @@
 {
     return @" ";//added by shiww
 
-    if (![[self delegate] respondsToSelector:@selector(MCOMessageView_templateForAttachment:)]) {
+/*    if (![[self delegate] respondsToSelector:@selector(MCOMessageView_templateForAttachment:)]) {
         return NULL;
     }
     NSString * templateString = [[self delegate] MCOMessageView_templateForAttachment:self];
     templateString = [NSString stringWithFormat:@"<div id=\"{{CONTENTID}}\">%@</div>", templateString];
-    return templateString;
+    return templateString;*/
 }
 
 - (NSString *) MCOAbstractMessage_templateForMessage:(MCOAbstractMessage *)msg
