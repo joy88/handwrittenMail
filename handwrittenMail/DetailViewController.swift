@@ -680,6 +680,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
             var strFileSize=String(format: "%.2f", fileSize)
             
+            let strTemp=attachment.filename;
+            print(strTemp);
+            
             strFileSize = "\(attachment.filename)"+"("+strFileSize+"M)";
             
             let email=MCOAddress(displayName:strFileSize, mailbox: "s@s.s")//displayName中是文件名啊
