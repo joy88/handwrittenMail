@@ -114,11 +114,15 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
  
         self.mailHeaderView.addSubview(mailToLbl);
         self.mailHeaderView.addSubview(mailToInputText);
+        mailToInputText.text.keyboardType = .EmailAddress;
+        
         
         
         self.mailHeaderView.addSubview(mailCcLbl);
         
         self.mailHeaderView.addSubview(mailCcInputText);
+        mailCcInputText.text.keyboardType = .EmailAddress;
+
         
         self.mailHeaderView.addSubview(mailTopicLbl);
         

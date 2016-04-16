@@ -9,6 +9,61 @@
 import UIKit
 
 class SettingViewController: UIViewController {
+    //MARK:设置默认的邮件参数
+    @IBAction func doSwithMailConfig(sender: UISegmentedControl) {
+        let mail126=mailLoginInfo();
+        mail126.hostname="imap.126.com"
+        mail126.port=993;
+        mail126.smtphostname="smtp.126.com"
+        mail126.smtpport=465;
+        
+        let mail163=mailLoginInfo();
+        mail163.hostname="imap.163.com"
+        mail163.port=993;
+        mail163.smtphostname="smtp.163.com"
+        mail163.smtpport=465;
+        
+        let mailsina=mailLoginInfo();
+        mailsina.hostname="imap.sina.com"
+        mailsina.port=993;
+        mailsina.smtphostname="smtp.sina.com"
+        mailsina.smtpport=465;
+        
+        let mailqq=mailLoginInfo();
+        mailqq.hostname="imap.qq.com"
+        mailqq.port=993;
+        mailqq.smtphostname="smtp.qq.com"
+        mailqq.smtpport=465;
+        
+        let mailgmail=mailLoginInfo();
+        mailgmail.hostname="imap.gmail.com"
+        mailgmail.port=993;
+        mailgmail.smtphostname="smtp.gmail.com"
+        mailgmail.smtpport=465;
+
+        let mailyahoo=mailLoginInfo();
+        mailyahoo.hostname="imap.mail.yahoo.com"
+        mailyahoo.port=993;
+        mailyahoo.smtphostname="smtp.mail.yahoo.com"
+        mailyahoo.smtpport=465;
+
+        
+        let mailConfigs=[mail126,mail163,mailsina,mailqq,mailgmail,mailyahoo]
+        
+        let index=sender.selectedSegmentIndex;
+        
+        if index>=0
+        {
+            let mailconfig=mailConfigs[index];
+            
+            self.imapHost.text=mailconfig.hostname;
+            self.imapPort.text="\(mailconfig.port)";
+            self.smtpHost.text=mailconfig.smtphostname;
+            self.smtpPort.text="\(mailconfig.smtpport)"
+        }
+        
+
+    }
     var masterView:MasterViewController?;
     //MARK:退出系统
     @IBAction func exit(sender: AnyObject) {
@@ -42,8 +97,7 @@ class SettingViewController: UIViewController {
 
         
     }
-    
-    override func viewDidLoad() {
+     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.

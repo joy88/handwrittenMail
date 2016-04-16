@@ -24,7 +24,7 @@
             <rect key="frame" x="0.0" y="0.0" width="528" height="500"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="v7G-cE-KRj">
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" id="v7G-cE-KRj">
                     <rect key="frame" x="53" y="41" width="374" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <segments>
@@ -37,6 +37,9 @@
                         <segment title="Gmail"/>
                         <segment title="Yahoo"/>
                     </segments>
+                    <connections>
+                        <action selector="doSwithMailConfig:" destination="-1" eventType="valueChanged" id="01K-uQ-z4B"/>
+                    </connections>
                 </segmentedControl>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户名:" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hDe-kM-7N5">
                     <rect key="frame" x="53" y="101" width="65" height="27"/>

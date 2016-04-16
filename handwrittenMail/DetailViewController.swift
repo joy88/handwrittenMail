@@ -681,7 +681,15 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             var strFileSize=String(format: "%.2f", fileSize)
             
             let strTemp=attachment.filename;
-            print(strTemp);
+            
+            //added by shiww,test
+            /*
+            let (data, enc) = UTF8ToGB2312(strTemp)
+            let gbkStr = NSString(data: data!, encoding: enc)!
+            
+            print("GBK string is: \(gbkStr)")
+            
+            print(strTemp);*/
             
             strFileSize = "\(attachment.filename)"+"("+strFileSize+"M)";
             
@@ -704,6 +712,14 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             index += 1;
         }
         
+    }
+    
+    private  func UTF8ToGB2312(str: String) -> (NSData?, UInt) {
+        let enc = CFStringConvertEncodingToNSStringEncoding(UInt32(CFStringEncodings.HZ_GB_2312.rawValue))
+        
+        let data = str.dataUsingEncoding(enc, allowLossyConversion: false)
+        
+        return (data, enc)
     }
     
     //MARK:长按附件按钮，分享附件到其他系统中

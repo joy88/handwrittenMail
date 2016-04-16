@@ -594,25 +594,20 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     //MARK:发邮件地址录入窗口自动布局
     private func AutoLayoutMailComposerView(startX:CGFloat,startY:CGFloat,frameWidth:CGFloat)
     {
-//        private var mailComposerView:UIView=UIView();//收件人都录入窗口
-//        private var mailToLbl:UILabel=UILabel();//收件人地址标签
-//        var mailToInputText=ACTextArea();//收件人地址录入窗口
-//        private var mailSendBtn=UIButton();//发送按钮
-//        private var mailCcLbl=UILabel();//抄送人地址标签
-//        var mailCcInputText=ACTextArea();//抄送人地址录入窗口
-//        private var mailCancelBtn=UIButton();//关闭按钮
-//        private var mailTopicLbl=UILabel();//邮件主题标签
-//        var mailTopicInputText=UITextField();//邮件主题录入窗口;
 
         
         self.mailComposerView.addSubview(mailToLbl);
         self.mailComposerView.addSubview(mailToInputText);
+        mailToInputText.text.keyboardType = .EmailAddress;
+
 
         self.mailComposerView.addSubview(mailSendBtn);
 
         self.mailComposerView.addSubview(mailCcLbl);
 
         self.mailComposerView.addSubview(mailCcInputText);
+        mailCcInputText.text.keyboardType = .EmailAddress;
+
 
         self.mailComposerView.addSubview(mailCancelBtn);
         self.mailComposerView.addSubview(mailTopicLbl);

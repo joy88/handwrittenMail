@@ -11,6 +11,7 @@ import RichEditorView
 
 class SetMailTemplateViewController: UIViewController {
 
+    private var focusWndIndex:Int = -1;
     //MARK:关闭窗口
     @IBAction func doClose(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil);
@@ -53,7 +54,75 @@ class SetMailTemplateViewController: UIViewController {
     }()
 
     
+    @IBAction func inNewMailTopic(sender: AnyObject) {
+        focusWndIndex=0;
+    }
     
+    @IBAction func inReplyMailTopic(sender: UITextField) {
+        focusWndIndex=1;
+    }
+    @IBAction func inForwardMailTopic(sender: UITextField) {
+        focusWndIndex=2;
+    }
+    //MARK:插入发送人模板
+    @IBAction func doInsertMailSender(sender: UIButton) {
+ 
+        
+        if self.focusWndIndex<0 || self.focusWndIndex==3
+        {
+            return;
+        }
+        
+        var topicInputControl:UITextField?;
+        
+        if self.focusWndIndex==1
+        {
+            topicInputControl=self.replayMailInput;
+        }
+        if self.focusWndIndex==0
+        {
+            topicInputControl=self.newMailInput;
+        }
+
+        if self.focusWndIndex==2
+        {
+            topicInputControl=self.forwardMailInput;
+        }
+        
+        topicInputControl?.insertText("#mailsender#");
+    }
+    //MARK:插入收件人模板
+
+    @IBAction func doInsertMailTo(sender: UIButton) {
+        if self.focusWndIndex != 3
+        {
+            return;
+        }
+        self.richEditorView.insertHtml("#mailto#");
+    }
+    //MARK:插入发送日期模板
+
+    @IBAction func doInsertMailDate(sender: UIButton) {
+        if self.focusWndIndex != 3
+        {
+            return;
+        }
+
+        self.richEditorView.insertHtml("#maildate#");
+
+    }
+    //MARK:插入抄送人模板
+
+    @IBAction func doInsertMailCc(sender: UIButton) {
+        if self.focusWndIndex != 3
+        {
+            return;
+        }
+
+        self.richEditorView.insertHtml("#mailcc#");
+
+    }
+    //MARK:viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -196,7 +265,11 @@ extension SetMailTemplateViewController: RichEditorDelegate {
         //        }
     }
     
-    func richEditorTookFocus(editor: RichEditorView) { }
+    func richEditorTookFocus(editor: RichEditorView)
+    {
+        focusWndIndex=3;
+        
+ }
     
     func richEditorLostFocus(editor: RichEditorView) { }
     
@@ -205,5 +278,39 @@ extension SetMailTemplateViewController: RichEditorDelegate {
     func richEditor(editor: RichEditorView, shouldInteractWithURL url: NSURL) -> Bool { return true }
     
     func richEditor(editor: RichEditorView, handleCustomAction content: String) { }
+    
+}
+
+//MARK:对UITextField的扩展
+extension UITextField
+{
+    //当前光标位置
+    var selectedRange:NSRange{
+        get
+        {
+            let beginning = self.beginningOfDocument;
+            
+            let selectedRange = self.selectedTextRange;
+            let selectionStart = selectedRange!.start;
+            let selectionEnd = selectedRange!.end;
+            
+            let location = self.offsetFromPosition(beginning,toPosition:selectionStart);
+            let length = self.offsetFromPosition(selectionStart,toPosition:selectionEnd);
+            
+            return NSMakeRange(location, length);
+            
+        }
+        set(range)
+        {
+            let beginning = self.beginningOfDocument;
+            
+            let startPosition = self.positionFromPosition(beginning, offset:range.location);
+            let endPosition = self.positionFromPosition(beginning, offset:range.location + range.length);
+            let selectionRange = self.textRangeFromPosition(startPosition!,toPosition:endPosition!);
+            
+            self.selectedTextRange = selectionRange;
+            
+        }
+    }
     
 }
