@@ -822,7 +822,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     
                     let cid="cngis-"+uuid;
                     
-                    htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+                    htmlBody=htmlBody+"<div><center><img src=\"cid:"+cid+"\" style=\"border:10px solid lightgray\"  width=\"750px\" ></center></div>";
                     
                     
                     let attachment=MCOAttachment(contentsOfFile:pageList);
@@ -1075,8 +1075,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
             let uuid = NSUUID().UUIDString;//必须要确保文件名唯一
             
             let cid="cngis-"+uuid;
-            
-            htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+        
+            htmlBody=htmlBody+"<div><center><img src=\"cid:"+cid+"\" style=\"border:10px solid lightgray\"  width=\"750px\" ></center></div>";
+
             
             
             let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: cid+".png");

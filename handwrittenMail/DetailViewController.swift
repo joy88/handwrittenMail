@@ -284,11 +284,11 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //3.delete mail
         let trashButton = UIBarButtonItem(image: UIImage(named: "deletemail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.beginDeleteCurrentMsg(_:)))
         
-       // let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
+        let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
         
         
         
-        let rightItems=[composeButton,replyButton,replyallButton,forwardButton,trashButton];
+        let rightItems=[composeButton,replyButton,replyallButton,forwardButton,trashButton,organizeButton];
         
         
         self.navigationItem.rightBarButtonItems = rightItems
@@ -680,7 +680,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
             var strFileSize=String(format: "%.2f", fileSize)
             
-            let strTemp=attachment.filename;
+//            let strTemp=attachment.filename;
             
             //added by shiww,test
             /*
@@ -688,6 +688,11 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             let gbkStr = NSString(data: data!, encoding: enc)!
             
             print("GBK string is: \(gbkStr)")
+            
+            let string: NSString = strTemp
+            let dddd = string.dataUsingEncoding(NSUTF8StringEncoding)
+            
+            let tttt=attachment.decodedStringForData(dddd);
             
             print(strTemp);*/
             
@@ -908,6 +913,13 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:清空DetailView的内容
     func clearAll()
     {
+/*        //直接取已加载的HTML代码
+        let lJs = "document.documentElement.innerHTML";
+        let webHtml = self.mywebView.webView.stringByEvaluatingJavaScriptFromString(lJs);
+        
+        print(webHtml);*/
+        
+
         var navHeight:CGFloat=0;
         
         if let navCtrFrame=self.navigationController?.navigationBar.frame
@@ -960,6 +972,17 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         
         self.session=session;
+//        self.session.connectionLogger =
+//            {
+//                (connectionID, type, data)->Void in
+//                
+//                if data != nil
+//                {
+//                    let strtemp=NSString(data: data, encoding:NSUTF8StringEncoding);
+//                    
+//                    print(strtemp);
+//                }
+//        }
         self.folder=folder;
         self.message=mailid;
         
