@@ -808,7 +808,13 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 }
                 
                 var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
-
+                
+                htmlBody=htmlBody+"<div style=\"padding: 15px 15px 1px 15px;text-align:center;background-color:#eef2f3;\">\n"
+                
+                htmlBody=htmlBody+"<div>\n";
+                
+                let strImagePrefix="<div style=\"padding: 0px 0px 0px 0px;margin-bottom:15px;\">\n<div style=\"max-width:750px;margin:0px auto 0px auto;padding:0px 0px 0px 0px;display:block;background-color:white;background-color:#ffffff;box-shadow:0px 1px 3px rgba(0,0,0,.25);-webkit-box-shadow:0px 1px 3px rgba(0,0,0,.25);border-radius:4px;\">";
+                
                 
                 self.saveCurrentPages(UIButton());//保存一下当前手写信息
                 
@@ -822,8 +828,13 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     
                     let cid="cngis-"+uuid;
                     
-                    htmlBody=htmlBody+"<div><center><img src=\"cid:"+cid+"\" style=\"border:10px solid lightgray\"  width=\"750px\" ></center></div>";
+                   // htmlBody=htmlBody+"<div><center><img src=\"cid:"+cid+"\" style=\"border:10px solid lightgray\"  width=\"750px\" ></center></div>";
                     
+                    let strimage=strImagePrefix+"<img src=\"cid:"+cid+"\" width=\"100%\" style=\"margin: 0px; padding:0px; border-radius:4px;\"/>\n</div>\n</div>";
+                    htmlBody=htmlBody+strimage;
+                    
+ //                   print(strimage);
+
                     
                     let attachment=MCOAttachment(contentsOfFile:pageList);
                     attachment.contentID=cid;
@@ -831,6 +842,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
 
                     
                 }
+                htmlBody=htmlBody+"</div>\n</div>";
+
                 
                 //如果是回复或转发邮件,则需要把老邮件附件-图片格式
                 if self.mailOrign != nil
@@ -1025,6 +1038,12 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         var htmlBody="<html><body><div></div>"//<div><img src=\"cid:123\"></div></body></html>";
         
+        htmlBody=htmlBody+"<div style=\"padding: 15px 15px 1px 15px;text-align:center;background-color:#eef2f3;\">\n"
+        
+        htmlBody=htmlBody+"<div>\n";
+        
+        let strImagePrefix="<div style=\"padding: 0px 0px 0px 0px;margin-bottom:15px;\">\n<div style=\"max-width:750px;margin:0px auto 0px auto;padding:0px 0px 0px 0px;display:block;background-color:white;background-color:#ffffff;box-shadow:0px 1px 3px rgba(0,0,0,.25);-webkit-box-shadow:0px 1px 3px rgba(0,0,0,.25);border-radius:4px;\">";
+        
         
         self.saveCurrentPages(UIButton());//保存一下当前手写信息
         
@@ -1038,7 +1057,12 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
             
             let cid="cngis-"+uuid;
             
-            htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
+            // htmlBody=htmlBody+"<div><center><img src=\"cid:"+cid+"\" style=\"border:10px solid lightgray\"  width=\"750px\" ></center></div>";
+            
+            let strimage=strImagePrefix+"<img src=\"cid:"+cid+"\" width=\"100%\" style=\"margin: 0px; padding:0px; border-radius:4px;\"/>\n</div>\n</div>";
+            htmlBody=htmlBody+strimage;
+            
+            //                   print(strimage);
             
             
             let attachment=MCOAttachment(contentsOfFile:pageList);
@@ -1047,6 +1071,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
             
             
         }
+        
+        htmlBody=htmlBody+"</div>\n</div>";
+        
         
         //如果是回复或转发邮件,则需要把老邮件附件-图片格式
         if self.mailOrign != nil
