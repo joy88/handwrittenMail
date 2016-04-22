@@ -385,6 +385,7 @@
             endingLineNumber = "881"
             landmarkName = "emailClicked(_:)"
             landmarkType = "5">
+<<<<<<< HEAD
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -417,6 +418,8 @@
                   offsetFromSymbolStart = "220">
                </Location>
             </Locations>
+=======
+>>>>>>> origin/master
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -433,6 +436,7 @@
             endingLineNumber = "463"
             landmarkName = "setupMail(_:)"
             landmarkType = "5">
+<<<<<<< HEAD
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -465,6 +469,8 @@
                   offsetFromSymbolStart = "96">
                </Location>
             </Locations>
+=======
+>>>>>>> origin/master
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -673,6 +679,7 @@
             endingLineNumber = "1145"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "5">
+<<<<<<< HEAD
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -705,6 +712,8 @@
                   offsetFromSymbolStart = "1140">
                </Location>
             </Locations>
+=======
+>>>>>>> origin/master
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -817,6 +826,7 @@
             endingLineNumber = "65"
             landmarkName = "inForwardMailTopic(_:)"
             landmarkType = "5">
+<<<<<<< HEAD
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -849,6 +859,8 @@
                   offsetFromSymbolStart = "0">
                </Location>
             </Locations>
+=======
+>>>>>>> origin/master
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -865,6 +877,7 @@
             endingLineNumber = "62"
             landmarkName = "inReplyMailTopic(_:)"
             landmarkType = "5">
+<<<<<<< HEAD
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -897,6 +910,8 @@
                   offsetFromSymbolStart = "0">
                </Location>
             </Locations>
+=======
+>>>>>>> origin/master
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -913,6 +928,7 @@
             endingLineNumber = "58"
             landmarkName = "inNewMailTopic(_:)"
             landmarkType = "5">
+<<<<<<< HEAD
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -945,6 +961,8 @@
                   offsetFromSymbolStart = "0">
                </Location>
             </Locations>
+=======
+>>>>>>> origin/master
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -961,6 +979,7 @@
             endingLineNumber = "97"
             landmarkName = "doInsertMailTo(_:)"
             landmarkType = "5">
+<<<<<<< HEAD
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -993,6 +1012,8 @@
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
+=======
+>>>>>>> origin/master
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1008,6 +1029,38 @@
             startingLineNumber = "270"
             endingLineNumber = "270"
             landmarkName = "richEditorTookFocus(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "handwrittenMail/HANDWRITOR/Base/Board.swift"
+            timestampString = "482988496.814372"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "savePage(_:forEvernote:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "handwrittenMail/HANDWRITOR/Base/Board.swift"
+            timestampString = "482988498.141553"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "savePage(_:forEvernote:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
