@@ -40,7 +40,7 @@ class Pages:NSObject
             
             if forEvernote
             {
-                pagefilePath=pagefilePath+"_ev.png";
+                pagefilePath=pagefilePath+"_ev.jpg";
             }
             else
             {
@@ -101,7 +101,7 @@ class Pages:NSObject
         
         if forEvernote
         {
-            pagefilePath=pagefilePath+"_ev.png";
+            pagefilePath=pagefilePath+"_ev.jpg";
         }
         else
         {
@@ -187,20 +187,29 @@ class Pages:NSObject
         
         var pagefilePath=docDir+"/"+PageList[CurrentPage-1];
 //        print("pagepreix=\(PageList[CurrentPage-1])");
+        
+        var saveResult=false;
+        
         if forEvernote
         {
-            pagefilePath=pagefilePath+"_ev.png";
+            pagefilePath=pagefilePath+"_ev.jpg";
+            
+            //用JPG存，图片比较小，适合于email发送
+            
+            saveResult=UIImageJPEGRepresentation(image,0.8)!.writeToFile(pagefilePath, atomically: true);
+
         }
         else
         {
             pagefilePath=pagefilePath+".png";
             
+            saveResult=UIImagePNGRepresentation(image)!.writeToFile(pagefilePath, atomically: true);
+
+            
         }
         
 //        print("Save into "+pagefilePath);
 
-        
-        let saveResult=UIImagePNGRepresentation(image)!.writeToFile(pagefilePath, atomically: true);
         
         return saveResult;
         
