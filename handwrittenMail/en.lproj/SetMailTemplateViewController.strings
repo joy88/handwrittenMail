@@ -1,0 +1,30 @@
+
+/* Class = "UILabel"; text = "回复邮件主题:"; ObjectID = "5uG-u9-p0e"; */
+"5uG-u9-p0e.text" = "Reply Mail Topic:";
+
+/* Class = "UILabel"; text = "转发邮件主题:"; ObjectID = "BOm-3l-6ZC"; */
+"BOm-3l-6ZC.text" = "Forward Mail Topic:";
+
+/* Class = "UILabel"; text = "新建邮件主题:"; ObjectID = "Msv-y5-duv"; */
+"Msv-y5-duv.text" = "New Mail Topic:";
+
+/* Class = "UIButton"; normalTitle = "邮件日期"; ObjectID = "RKB-Rd-lJR"; */
+"RKB-Rd-lJR.normalTitle" = "Mail Date";
+
+/* Class = "UIButton"; normalTitle = "取消"; ObjectID = "Ym0-8e-lIL"; */
+"Ym0-8e-lIL.normalTitle" = "Cancel";
+
+/* Class = "UIButton"; normalTitle = "收件人"; ObjectID = "brl-vy-1Mk"; */
+"brl-vy-1Mk.normalTitle" = "Mail To";
+
+/* Class = "UIButton"; normalTitle = "保存"; ObjectID = "je6-ZI-fAL"; */
+"je6-ZI-fAL.normalTitle" = "Save";
+
+/* Class = "UILabel"; text = "邮件正文模板"; ObjectID = "l2N-tZ-Bgx"; */
+"l2N-tZ-Bgx.text" = "Content Template";
+
+/* Class = "UIButton"; normalTitle = "发件人"; ObjectID = "wuJ-KW-ox2"; */
+"wuJ-KW-ox2.normalTitle" = "Mail From";
+
+/* Class = "UIButton"; normalTitle = "抄送人"; ObjectID = "yXS-9q-VVS"; */
+"yXS-9q-VVS.normalTitle" = "Mail Cc";

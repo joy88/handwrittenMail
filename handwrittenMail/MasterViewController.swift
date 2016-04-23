@@ -31,7 +31,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
     //MARK:下拉刷新,上拉加载
     func setupRefresh(){
         self.tableView.addHeaderWithCallback({
-            self.setupStatus("正在加载邮件目录");
+            self.setupStatus(BaseFunction.getIntenetString("正在加载邮件目录"));
             
             let delayInSeconds = Int64(NSEC_PER_SEC) * 2
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
@@ -48,7 +48,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         
         self.tableView.addFooterWithCallback({
             
-            self.setupStatus("正在加载邮件目录");
+            self.setupStatus(BaseFunction.getIntenetString("正在加载邮件目录"));
             
             let delayInSeconds:Int64 = Int64(NSEC_PER_SEC) * 2
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
@@ -93,7 +93,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         self.navigationController?.navigationBar.backgroundColor = UIColor.redColor()
         
         //3.加底部状态信息
-        let statusbutton = UIBarButtonItem(title: "刚刚更新", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+        let statusbutton = UIBarButtonItem(title:BaseFunction.getIntenetString("刚刚更新"), style: UIBarButtonItemStyle.Plain, target: self,action: nil)
         let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
         
         
@@ -402,7 +402,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         var str:String?;//="TEST";
         if section>0
         {
-            str="邮箱";
+            str=BaseFunction.getIntenetString("邮箱");
         }
         return str;
         
@@ -426,7 +426,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
 //    }
     self.tableView.reloadData();
     
-    self.setupStatus("邮件目录刚刚更新");
+    self.setupStatus(BaseFunction.getIntenetString("邮件目录刚刚更新"));
 
     }
     //MARK:更新邮件目录的邮件数量

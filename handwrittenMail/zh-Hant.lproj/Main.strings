@@ -1,0 +1,36 @@
+
+/* Class = "UITableViewController"; title = "MailFolder"; ObjectID = "7bK-jq-Zjz"; */
+"7bK-jq-Zjz.title" = "MailFolder";
+
+/* Class = "UITableViewController"; title = "MailList"; ObjectID = "9SN-bc-0mr"; */
+"9SN-bc-0mr.title" = "MailList";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Arm-wq-HPj"; */
+"Arm-wq-HPj.text" = "Title";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "FBd-6y-VKl"; */
+"FBd-6y-VKl.text" = "Detail";
+
+/* Class = "UIViewController"; title = "邮件"; ObjectID = "JEX-9P-axG"; */
+"JEX-9P-axG.title" = "郵件";
+
+/* Class = "UINavigationController"; title = "邮箱"; ObjectID = "RMx-3f-FxP"; */
+"RMx-3f-FxP.title" = "郵箱";
+
+/* Class = "UINavigationItem"; title = "邮箱"; ObjectID = "Zdf-7t-Un8"; */
+"Zdf-7t-Un8.title" = "郵箱";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "bTh-0L-l2H"; */
+"bTh-0L-l2H.text" = "Title";
+
+/* Class = "UINavigationItem"; title = "邮件"; ObjectID = "mOI-FS-AaM"; */
+"mOI-FS-AaM.title" = "郵件";
+
+/* Class = "UINavigationController"; title = "MailList"; ObjectID = "s0H-Wd-dvl"; */
+"s0H-Wd-dvl.title" = "MailList";
+
+/* Class = "UINavigationController"; title = "邮件"; ObjectID = "vC3-pB-5Vb"; */
+"vC3-pB-5Vb.title" = "郵件";
+
+/* Class = "UINavigationItem"; title = "邮件列表"; ObjectID = "wVZ-gu-PFQ"; */
+"wVZ-gu-PFQ.title" = "郵件列表";

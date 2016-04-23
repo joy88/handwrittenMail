@@ -876,7 +876,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     htmlBody=htmlBody+"<div><img src=\"cid:"+cid+"\"></div>";
                     
                     
-                    let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: cid+".png");
+                    let attachment=MCOAttachment(data: UIImageJPEGRepresentation(self.mailOrign!,0.8), filename: cid+".jpg");
                     attachment.contentID=cid;
                     messageBuilder.addRelatedAttachment(attachment);
                 }
@@ -1107,7 +1107,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
 
             
             
-            let attachment=MCOAttachment(data: UIImagePNGRepresentation(self.mailOrign!), filename: cid+".png");
+            let attachment=MCOAttachment(data: UIImageJPEGRepresentation(self.mailOrign!,0.8), filename: cid+".jpg");
             attachment.contentID=cid;
             messageBuilder.addRelatedAttachment(attachment);
         }

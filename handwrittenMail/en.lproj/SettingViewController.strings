@@ -1,0 +1,96 @@
+
+/* Class = "UILabel"; text = "fetch full message"; ObjectID = "7Tl-au-VzO"; */
+"7Tl-au-VzO.text" = "fetch full message";
+
+/* Class = "UIButton"; normalTitle = "和收件信息相同"; ObjectID = "Af9-oH-Gpt"; */
+"Af9-oH-Gpt.normalTitle" = "Same As IMAP";
+
+/* Class = "UITextField"; placeholder = "993"; ObjectID = "Ar3-VQ-wpS"; */
+"Ar3-VQ-wpS.placeholder" = "993";
+
+/* Class = "UITextField"; text = "993"; ObjectID = "Ar3-VQ-wpS"; */
+"Ar3-VQ-wpS.text" = "993";
+
+/* Class = "UILabel"; text = "密    码:"; ObjectID = "CLP-07-RCK"; */
+"CLP-07-RCK.text" = "Password:";
+
+/* Class = "UILabel"; text = "呢称:"; ObjectID = "CRH-so-5uD"; */
+"CRH-so-5uD.text" = "Nickle:";
+
+/* Class = "UIButton"; normalTitle = "退出系统"; ObjectID = "DgV-wL-55q"; */
+"DgV-wL-55q.normalTitle" = "Exit";
+
+/* Class = "UITextField"; placeholder = "www.www.www"; ObjectID = "FaG-vU-D5Q"; */
+"FaG-vU-D5Q.placeholder" = "www.www.www";
+
+/* Class = "UITextField"; text = "smtp."; ObjectID = "FaG-vU-D5Q"; */
+"FaG-vU-D5Q.text" = "smtp.";
+
+/* Class = "UILabel"; text = "使用OAuth2"; ObjectID = "H68-jM-054"; */
+"H68-jM-054.text" = "Use OAuth2";
+
+/* Class = "UILabel"; text = "端口号:"; ObjectID = "OAF-qi-l4M"; */
+"OAF-qi-l4M.text" = "Port:";
+
+/* Class = "UILabel"; text = "IMAP地址:"; ObjectID = "Ocl-EN-zp1"; */
+"Ocl-EN-zp1.text" = "IMAP:";
+
+/* Class = "UIButton"; normalTitle = "确定"; ObjectID = "QBC-k8-eYs"; */
+"QBC-k8-eYs.normalTitle" = "OK";
+
+/* Class = "UIButton"; normalTitle = "邮件模板"; ObjectID = "VFP-r5-khS"; */
+"VFP-r5-khS.normalTitle" = "Mail Template";
+
+/* Class = "UITextField"; placeholder = "sss@sss.com"; ObjectID = "cRF-sN-WkQ"; */
+"cRF-sN-WkQ.placeholder" = "sss@sss.com";
+
+/* Class = "UILabel"; text = "端口号:"; ObjectID = "gbP-BX-SBT"; */
+"gbP-BX-SBT.text" = "Port:";
+
+/* Class = "UILabel"; text = "用户名:"; ObjectID = "hDe-kM-7N5"; */
+"hDe-kM-7N5.text" = "UserName:";
+
+/* Class = "UILabel"; text = "密    码:"; ObjectID = "hHc-xf-BNT"; */
+"hHc-xf-BNT.text" = "Password:";
+
+/* Class = "UILabel"; text = "用户名:"; ObjectID = "hNf-Cr-aLa"; */
+"hNf-Cr-aLa.text" = "UserName:";
+
+/* Class = "UIButton"; normalTitle = "取消"; ObjectID = "kGB-Lz-PYq"; */
+"kGB-Lz-PYq.normalTitle" = "Cancel";
+
+/* Class = "UITextField"; placeholder = "www.www.www"; ObjectID = "lJi-XR-K0j"; */
+"lJi-XR-K0j.placeholder" = "www.www.www";
+
+/* Class = "UITextField"; text = "imap."; ObjectID = "lJi-XR-K0j"; */
+"lJi-XR-K0j.text" = "imap.";
+
+/* Class = "UITextField"; placeholder = "ssss@ssss.com"; ObjectID = "mpj-gC-MRu"; */
+"mpj-gC-MRu.placeholder" = "ssss@ssss.com";
+
+/* Class = "UILabel"; text = "SMTP地址:"; ObjectID = "oRO-u5-uzR"; */
+"oRO-u5-uzR.text" = "SMTP:";
+
+/* Class = "UISegmentedControl"; v7G-cE-KRj.segmentTitles[0] = "126.com"; ObjectID = "v7G-cE-KRj"; */
+"v7G-cE-KRj.segmentTitles[0]" = "126.com";
+
+/* Class = "UISegmentedControl"; v7G-cE-KRj.segmentTitles[1] = "163.com"; ObjectID = "v7G-cE-KRj"; */
+"v7G-cE-KRj.segmentTitles[1]" = "163.com";
+
+/* Class = "UISegmentedControl"; v7G-cE-KRj.segmentTitles[2] = "sina.com"; ObjectID = "v7G-cE-KRj"; */
+"v7G-cE-KRj.segmentTitles[2]" = "sina.com";
+
+/* Class = "UISegmentedControl"; v7G-cE-KRj.segmentTitles[3] = "qq.com"; ObjectID = "v7G-cE-KRj"; */
+"v7G-cE-KRj.segmentTitles[3]" = "qq.com";
+
+/* Class = "UISegmentedControl"; v7G-cE-KRj.segmentTitles[4] = "Gmail"; ObjectID = "v7G-cE-KRj"; */
+"v7G-cE-KRj.segmentTitles[4]" = "Gmail";
+
+/* Class = "UISegmentedControl"; v7G-cE-KRj.segmentTitles[5] = "Yahoo"; ObjectID = "v7G-cE-KRj"; */
+"v7G-cE-KRj.segmentTitles[5]" = "Yahoo";
+
+/* Class = "UITextField"; placeholder = "465"; ObjectID = "zpe-sI-veS"; */
+"zpe-sI-veS.placeholder" = "465";
+
+/* Class = "UITextField"; text = "465"; ObjectID = "zpe-sI-veS"; */
+"zpe-sI-veS.text" = "465";

@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  handwrittenMail
+
+  Created by shiweiwei on 16/4/23.
+  Copyright © 2016年 shiweiwei. All rights reserved.
+*/
+"SORRY"="Sorry";
+"SYSTEMINFO"="System Info";
+"LOAD_INFO_NOW"="Load info now...";
+"LOAD_INFO_SUCCEED"="Info loaded!";
+"INPUT_AGAIN"="Reinput！";
+"ERROR"="Error";
+"CLOSE"="Close";
+"OK"="OK";
+"CANCEL"="Cancel";
+"INFO"="Info";
+"SAVE_SUCCEED"="Save Ok!";
+"WARNING"="Warning";
+"DELETE_PAGE_CONFIRM"="Sure to delete current page?";
+"CLEAR_PAGE_CONFIRM"="Sure to clear current page?";
+"正在加载邮件目录"="Updating MailFolder";
+"刚刚更新"="Update Over";
+"邮箱"="MailBox";
+"邮件目录刚刚更新"="Update MailFolder Ready";
+"邮件主题"="Mail Topic";
+"请页面加载完毕后再进行编辑操作!"="Edit mail after loaded!";
+"收件箱"="INBOX";
+"确认要删除当前邮件?"="Delete this mail?";
+"确认删除"="Delete Now";
+"取消删除"="Don't Delete";
+"发件人:"="From:";
+"收件人:"="To:";
+"附件:"="🖇🖇";
+"抄送:"="Cc:";
+"正在下载,已完成%2d%%"="Downloading,completed %2d%%";
+"邮件地址信息"="MailAddress";
+"手写邮件"="Hand Mail";
+"普通邮件"="Mail";
+"回复邮件选项"="Reply Option";
+"普通邮件-不带附件"="Mail Without Attachment";
+"普通邮件-带附件"="Mail With Attachment";
+"手写邮件-不带附件"="HandMail-Without Attachment";
+"手写邮件-带附件"="HandMail-With Attachment";
+"转发选项"="Forward Option";
+"新邮件选项"="New Mail Option";
+
+

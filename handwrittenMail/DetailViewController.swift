@@ -58,7 +58,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     var mailSender=MCOAddress(displayName: "", mailbox: "s@s.com")!;//MARK:发件人地址
     private var mailToLists=[MCOAddress]();//MARK:收件人地址列表
     private var mailCcLists=[MCOAddress]();//MARK:抄送人地址列表
-    var mailSubject="邮件主题";
+    var mailSubject=BaseFunction.getIntenetString("邮件主题");
     var mailDate=NSDate();//MARK:邮件日期
     
     //MARK:手势代理
@@ -89,7 +89,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         {
             if self.mywebView.webView.loading
             {
-                self.ShowNotice("警告", "请页面加载完毕后再进行编辑操作!");
+                self.ShowNotice(BaseFunction.getIntenetString("WARNING"), BaseFunction.getIntenetString("请页面加载完毕后再进行编辑操作!"));
                 return;
             }
             self.editOldMailOperation();
@@ -262,8 +262,8 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.view.addGestureRecognizer(viewTap);
 
         
-        self.navigationItem.leftBarButtonItem?.title="邮箱"
-        self.navigationItem.title="收件箱"
+        self.navigationItem.leftBarButtonItem?.title=BaseFunction.getIntenetString("邮箱");
+        self.navigationItem.title=BaseFunction.getIntenetString("收件箱");
         //1.右边第一个按钮
         //编写新邮件
         let composeButton = UIBarButtonItem(image:UIImage(named: "composemail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain,target:self,action:#selector(DetailViewController.newMail(_:)))
@@ -377,9 +377,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:开始删除当前邮件
     func beginDeleteCurrentMsg(sender: AnyObject)
     {
-        let deleteMenu = UIAlertController(title: nil, message: "确认要删除当前邮件?", preferredStyle: .ActionSheet)
+        let deleteMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("确认要删除当前邮件?"), preferredStyle: .ActionSheet)
         
-        let deleteAction = UIAlertAction(title: "确认删除", style: UIAlertActionStyle.Default)
+        let deleteAction = UIAlertAction(title: BaseFunction.getIntenetString("确认删除"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -388,7 +388,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
         };
         
-        let refuseAction = UIAlertAction(title: "取消删除", style: UIAlertActionStyle.Default,handler: nil)
+        let refuseAction = UIAlertAction(title: BaseFunction.getIntenetString("取消删除"), style: UIAlertActionStyle.Default,handler: nil)
         
         deleteMenu.addAction(deleteAction)
         deleteMenu.addAction(refuseAction)
@@ -468,7 +468,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         top1=topSpace+navHeight;//要考虑加上导航栏的高度
 
 //        var mailFromLbl=UILabel()//"发件人"标签
-          mailFromLbl.setLabel("发件人:", x: marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 18, isBold: true, color: black)
+          mailFromLbl.setLabel(BaseFunction.getIntenetString("发件人:"), x: marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 18, isBold: true, color: black)
         
 //        var mailFromBtn=UIEmailButton()//发件人显示按钮
         mailFromBtn.setEmailTitle(self.mailSender, x: (marginSpace+ctrWidth+xSpace), y: top1, width: ctrWidth, height: ctrHight, fonSize: 17, isBold: true, color: blue);
@@ -487,7 +487,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         top2=top1+ctrHight+ySpace
         
-        mailToLbl.setLabel("收件人:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
+        mailToLbl.setLabel(BaseFunction.getIntenetString("收件人:"), x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
         
         
 //        var mailToBtns=[UIEmailButton]();//收件人
@@ -505,7 +505,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             self.mailCcLbl.hidden=false;
 
         
-        mailCcLbl.setLabel("抄送:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
+        mailCcLbl.setLabel(BaseFunction.getIntenetString("抄送:"), x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
 
 //        var mailCcBtns=[UIEmailButton]()//抄送人
         
@@ -553,7 +553,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         if (self.message != nil) && (self.message.attachments().count>0)
         {
-            attachLbl.setLabel("附件:", x: marginSpace, y: top7, width: ctrWidth, height: ctrHight, fonSize: 19, isBold: true, color: black);
+            attachLbl.setLabel(BaseFunction.getIntenetString("附件:"), x: marginSpace, y: top7, width: ctrWidth, height: ctrHight, fonSize: 19, isBold: true, color: black);
             
             self.view.addSubview(attachLbl);
             
@@ -781,7 +781,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                     //                    print("nowvalue=\(nowValue),totalValue=\(totalValue)");//,percent=\(nowValue*100/totalValue)");
                     if totalValue != 0
                     {
-                        let btnTitle=String(format: "正在下载,已完成%2d%%",nowValue*100/totalValue);
+                        let btnTitle=String(format:BaseFunction.getIntenetString("正在下载,已完成%2d%%"),nowValue*100/totalValue);
                         attachmentBtn.setTitle(btnTitle, forState: .Normal)
                     }
             };
@@ -878,7 +878,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:响应email地址点击事件
     func emailClicked(button: UIEmailButton)
     {
-        let showEmailAddressMenu = UIAlertController(title: nil, message: "邮件地址信息", preferredStyle: .ActionSheet)
+        let showEmailAddressMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("邮件地址信息"), preferredStyle: .ActionSheet)
         
         let mailDisaplayName="\(button.mailAddress.displayName)";
         let mailAddress=button.mailAddress.mailbox;
@@ -1196,9 +1196,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
     //MARK:编写新邮件
     func newMail(sender: AnyObject) {
-        let composeMenu = UIAlertController(title: nil, message: "新邮件选项", preferredStyle: .ActionSheet)
         
-        let handwrittenAction = UIAlertAction(title: "手写邮件", style: UIAlertActionStyle.Default)
+        let composeMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("新邮件选项"), preferredStyle: .ActionSheet)
+        
+        let handwrittenAction = UIAlertAction(title:BaseFunction.getIntenetString("手写邮件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1218,7 +1219,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
         };
         
-        let digitalmailAction = UIAlertAction(title: "普通邮件", style: UIAlertActionStyle.Default)
+        let digitalmailAction = UIAlertAction(title: BaseFunction.getIntenetString("普通邮件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1274,9 +1275,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:全部回复邮件
     func replyMail(sender: AnyObject) {
         
-        let composeMenu = UIAlertController(title: nil, message: "回复邮件选项", preferredStyle: .ActionSheet)
+        let composeMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("回复邮件选项"), preferredStyle: .ActionSheet)
         
-        let handwrittenAction = UIAlertAction(title: "手写邮件", style: UIAlertActionStyle.Default)
+        let handwrittenAction = UIAlertAction(title: BaseFunction.getIntenetString("手写邮件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1285,7 +1286,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
         };
         
-        let digitalmailAction = UIAlertAction(title: "普通邮件", style: UIAlertActionStyle.Default)
+        let digitalmailAction = UIAlertAction(title:BaseFunction.getIntenetString("普通邮件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1442,9 +1443,9 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     //MARK:转发邮件
     func forwardMail(sender: AnyObject) {
        // self.mywebView.exportViewToPng();
-        let forwardMenu = UIAlertController(title: nil, message: "转发选项", preferredStyle: .ActionSheet)
+        let forwardMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("转发选项"), preferredStyle: .ActionSheet)
         
-        let forwardhandwithattachAction = UIAlertAction(title: "手写邮件-带附件", style: UIAlertActionStyle.Default)
+        let forwardhandwithattachAction = UIAlertAction(title: BaseFunction.getIntenetString("手写邮件-带附件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1453,7 +1454,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         
         };
         
-        let forwardhandnoattachAction = UIAlertAction(title: "手写邮件-不带附件", style: UIAlertActionStyle.Default)
+        let forwardhandnoattachAction = UIAlertAction(title: BaseFunction.getIntenetString("手写邮件-不带附件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1463,7 +1464,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
         };
         
-        let forwardtextwithattachAction = UIAlertAction(title: "普通邮件-带附件", style: UIAlertActionStyle.Default)
+        let forwardtextwithattachAction = UIAlertAction(title: BaseFunction.getIntenetString("普通邮件-带附件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1472,7 +1473,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             
         };
         
-        let forwardtextnoattachAction = UIAlertAction(title: "普通邮件-不带附件", style: UIAlertActionStyle.Default)
+        let forwardtextnoattachAction = UIAlertAction(title: BaseFunction.getIntenetString("普通邮件-不带附件"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -1485,7 +1486,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 
         
         
-        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: BaseFunction.getIntenetString("CANCEL"), style: UIAlertActionStyle.Cancel, handler: nil)
         
         forwardMenu.addAction(forwardhandwithattachAction)
         forwardMenu.addAction(forwardhandnoattachAction)
@@ -1720,7 +1721,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 //                    print("nowvalue=\(nowValue),totalValue=\(totalValue)");//,percent=\(nowValue*100/totalValue)");
                     if totalValue != 0
                     {
-                        let btnTitle=String(format: "正在下载,已完成%2d%%",nowValue*100/totalValue);
+                        let btnTitle=String(format: BaseFunction.getIntenetString("正在下载,已完成%2d%%"),nowValue*100/totalValue);
                         sender.setTitle(btnTitle, forState: .Normal)
                     }
             };

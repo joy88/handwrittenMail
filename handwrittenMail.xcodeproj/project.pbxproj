@@ -17,13 +17,18 @@
 		2F1064661C8B143400510B49 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064651C8B143400510B49 /* CFNetwork.framework */; };
 		2F1064681C8B143F00510B49 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1064671C8B143F00510B49 /* Security.framework */; };
 		2F16466F1CA4309800AFE9FF /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F16466D1CA4309800AFE9FF /* SettingViewController.swift */; };
-		2F1646701CA4309800AFE9FF /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F16466E1CA4309800AFE9FF /* SettingViewController.xib */; };
 		2F1E03F71C94215F0072840F /* MCOMessageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F41C94215F0072840F /* MCOMessageView.mm */; };
 		2F1E03F81C94215F0072840F /* MCTMsgViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E03F61C94215F0072840F /* MCTMsgViewController.mm */; };
 		2F1E04031C9425740072840F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04011C9425740072840F /* ImageIO.framework */; };
 		2F1E04051C9425960072840F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F1E04041C9425960072840F /* CoreGraphics.framework */; };
 		2F3756AB1C906A0A0059FC58 /* UIMailListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */; };
 		2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */; };
+		2F4B1DDA1CCBAA3C002C68B7 /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F4B1DDC1CCBAA3C002C68B7 /* Board.storyboard */; };
+		2F4B1DE61CCBAAE0002C68B7 /* PaintingBrushSetting.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4B1DE81CCBAAE0002C68B7 /* PaintingBrushSetting.xib */; };
+		2F4B1DFF1CCBACAC002C68B7 /* SetBkgroundViewCtrller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4B1E011CCBACAC002C68B7 /* SetBkgroundViewCtrller.xib */; };
+		2F4B1E0A1CCBAD9C002C68B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F4B1E0C1CCBAD9C002C68B7 /* Localizable.strings */; };
+		2F4B1E101CCBAF70002C68B7 /* SetMailTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4B1E121CCBAF70002C68B7 /* SetMailTemplateViewController.xib */; };
+		2F4B1E191CCBB066002C68B7 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4B1E1B1CCBB066002C68B7 /* SettingViewController.xib */; };
 		2F508CC11C8DCD37006E9736 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC01C8DCD37006E9736 /* MailListViewController.swift */; };
 		2F508CC51C8DD3FB006E9736 /* BaseMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC41C8DD3FB006E9736 /* BaseMail.swift */; };
 		2F508CC71C8DD616006E9736 /* ImapMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F508CC61C8DD616006E9736 /* ImapMail.swift */; };
@@ -41,7 +46,6 @@
 		2F8623171C9D06D500A86A84 /* BoardImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F8622F91C9D06D500A86A84 /* BoardImages.xcassets */; };
 		2F8623181C9D06D500A86A84 /* PaintingBrushSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622FB1C9D06D500A86A84 /* PaintingBrushSetting.swift */; };
 		2F86231A1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8622FD1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift */; };
-		2F86231B1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F8622FE1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib */; };
 		2F86231D1C9D06D500A86A84 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623001C9D06D500A86A84 /* BoardViewController.swift */; };
 		2F86231E1C9D06D500A86A84 /* DashLineBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623021C9D06D500A86A84 /* DashLineBrush.swift */; };
 		2F86231F1C9D06D500A86A84 /* EllipseBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623031C9D06D500A86A84 /* EllipseBrush.swift */; };
@@ -52,13 +56,10 @@
 		2F8623241C9D06D500A86A84 /* PencilBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623081C9D06D500A86A84 /* PencilBrush.swift */; };
 		2F8623251C9D06D500A86A84 /* RectangleBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8623091C9D06D500A86A84 /* RectangleBrush.swift */; };
 		2F8623261C9D06D500A86A84 /* TextBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F86230A1C9D06D500A86A84 /* TextBrush.swift */; };
-		2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */; };
-		2F8623391C9D100300A86A84 /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F8623381C9D100300A86A84 /* Board.storyboard */; };
 		2F8922B21CA17EC100A78CA1 /* MCOMessageViewScript.js in Resources */ = {isa = PBXBuildFile; fileRef = 2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */; };
 		2F967DF71CB3B0F8002B823D /* TextMailComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F967DF61CB3B0F8002B823D /* TextMailComposerViewController.swift */; };
 		2FCF4B351CA2D6DC008BFB3D /* SwiftDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCF4B341CA2D6DC008BFB3D /* SwiftDate.swift */; };
 		2FD820CF1CBA048F001FACCC /* SetMailTemplateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD820CD1CBA048F001FACCC /* SetMailTemplateViewController.swift */; };
-		2FD820D01CBA048F001FACCC /* SetMailTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FD820CE1CBA048F001FACCC /* SetMailTemplateViewController.xib */; };
 		2FE5F6711CA198300056BAE4 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE5F66A1CA198300056BAE4 /* arrow@2x.png */; };
 		2FE5F6721CA198300056BAE4 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66B1CA198300056BAE4 /* Refresh.swift */; };
 		2FE5F6731CA198300056BAE4 /* RefreshBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5F66C1CA198300056BAE4 /* RefreshBaseView.swift */; };
@@ -149,7 +150,6 @@
 		2F1064671C8B143F00510B49 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2F10646B1C8B158D00510B49 /* Maincore-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Maincore-Bridging-Header.h"; sourceTree = "<group>"; };
 		2F16466D1CA4309800AFE9FF /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		2F16466E1CA4309800AFE9FF /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		2F1E03F31C94215F0072840F /* MCOMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOMessageView.h; sourceTree = "<group>"; };
 		2F1E03F41C94215F0072840F /* MCOMessageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MCOMessageView.mm; sourceTree = "<group>"; };
 		2F1E03F51C94215F0072840F /* MCTMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTMsgViewController.h; sourceTree = "<group>"; };
@@ -158,6 +158,36 @@
 		2F1E04041C9425960072840F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMailListViewCell.swift; sourceTree = "<group>"; };
 		2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIMailListViewCell.xib; sourceTree = "<group>"; };
+		2F4B1DDB1CCBAA3C002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Board.storyboard; sourceTree = "<group>"; };
+		2F4B1DE71CCBAAE0002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PaintingBrushSetting.xib; sourceTree = "<group>"; };
+		2F4B1DF31CCBAC0D002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PaintingBrushSetting.strings"; sourceTree = "<group>"; };
+		2F4B1DF41CCBAC0D002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Board.strings"; sourceTree = "<group>"; };
+		2F4B1DF51CCBAC0D002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		2F4B1DF61CCBAC0D002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		2F4B1DF71CCBAC16002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/PaintingBrushSetting.strings"; sourceTree = "<group>"; };
+		2F4B1DF81CCBAC16002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Board.strings"; sourceTree = "<group>"; };
+		2F4B1DF91CCBAC16002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		2F4B1DFA1CCBAC16002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		2F4B1DFB1CCBAC38002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/PaintingBrushSetting.strings; sourceTree = "<group>"; };
+		2F4B1DFC1CCBAC38002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Board.strings; sourceTree = "<group>"; };
+		2F4B1DFD1CCBAC39002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		2F4B1DFE1CCBAC39002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2F4B1E001CCBACAC002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SetBkgroundViewCtrller.xib; sourceTree = "<group>"; };
+		2F4B1E031CCBACAE002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SetBkgroundViewCtrller.strings"; sourceTree = "<group>"; };
+		2F4B1E051CCBACAF002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/SetBkgroundViewCtrller.strings"; sourceTree = "<group>"; };
+		2F4B1E071CCBACAF002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SetBkgroundViewCtrller.strings; sourceTree = "<group>"; };
+		2F4B1E0B1CCBAD9C002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2F4B1E0D1CCBAD9D002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		2F4B1E0E1CCBAD9E002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		2F4B1E0F1CCBAD9E002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2F4B1E111CCBAF70002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SetMailTemplateViewController.xib; sourceTree = "<group>"; };
+		2F4B1E141CCBAF73002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SetMailTemplateViewController.strings"; sourceTree = "<group>"; };
+		2F4B1E161CCBAF74002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SetMailTemplateViewController.strings; sourceTree = "<group>"; };
+		2F4B1E181CCBAF76002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/SetMailTemplateViewController.strings"; sourceTree = "<group>"; };
+		2F4B1E1A1CCBB066002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SettingViewController.xib; sourceTree = "<group>"; };
+		2F4B1E1D1CCBB068002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SettingViewController.strings"; sourceTree = "<group>"; };
+		2F4B1E1F1CCBB06B002C68B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/SettingViewController.strings"; sourceTree = "<group>"; };
+		2F4B1E211CCBB06C002C68B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SettingViewController.strings; sourceTree = "<group>"; };
 		2F508CC01C8DCD37006E9736 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
 		2F508CC41C8DD3FB006E9736 /* BaseMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMail.swift; sourceTree = "<group>"; };
 		2F508CC61C8DD616006E9736 /* ImapMail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImapMail.swift; sourceTree = "<group>"; };
@@ -183,7 +213,6 @@
 		2F8622F91C9D06D500A86A84 /* BoardImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = BoardImages.xcassets; sourceTree = "<group>"; };
 		2F8622FB1C9D06D500A86A84 /* PaintingBrushSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintingBrushSetting.swift; sourceTree = "<group>"; };
 		2F8622FD1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetBkgroundViewCtrller.swift; sourceTree = "<group>"; };
-		2F8622FE1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetBkgroundViewCtrller.xib; sourceTree = "<group>"; };
 		2F8623001C9D06D500A86A84 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		2F8623021C9D06D500A86A84 /* DashLineBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashLineBrush.swift; sourceTree = "<group>"; };
 		2F8623031C9D06D500A86A84 /* EllipseBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EllipseBrush.swift; sourceTree = "<group>"; };
@@ -194,13 +223,10 @@
 		2F8623081C9D06D500A86A84 /* PencilBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PencilBrush.swift; sourceTree = "<group>"; };
 		2F8623091C9D06D500A86A84 /* RectangleBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleBrush.swift; sourceTree = "<group>"; };
 		2F86230A1C9D06D500A86A84 /* TextBrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextBrush.swift; sourceTree = "<group>"; };
-		2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaintingBrushSetting.xib; sourceTree = "<group>"; };
-		2F8623381C9D100300A86A84 /* Board.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Board.storyboard; sourceTree = "<group>"; };
 		2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MCOMessageViewScript.js; sourceTree = "<group>"; };
 		2F967DF61CB3B0F8002B823D /* TextMailComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMailComposerViewController.swift; sourceTree = "<group>"; };
 		2FCF4B341CA2D6DC008BFB3D /* SwiftDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDate.swift; sourceTree = "<group>"; };
 		2FD820CD1CBA048F001FACCC /* SetMailTemplateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetMailTemplateViewController.swift; sourceTree = "<group>"; };
-		2FD820CE1CBA048F001FACCC /* SetMailTemplateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetMailTemplateViewController.xib; sourceTree = "<group>"; };
 		2FE5F66A1CA198300056BAE4 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		2FE5F66B1CA198300056BAE4 /* Refresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
 		2FE5F66C1CA198300056BAE4 /* RefreshBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshBaseView.swift; sourceTree = "<group>"; };
@@ -291,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				2F10646B1C8B158D00510B49 /* Maincore-Bridging-Header.h */,
+				2F4B1E0C1CCBAD9C002C68B7 /* Localizable.strings */,
 			);
 			name = SupportFile;
 			sourceTree = "<group>";
@@ -306,10 +333,10 @@
 				2F508CC41C8DD3FB006E9736 /* BaseMail.swift */,
 				2F508CC61C8DD616006E9736 /* ImapMail.swift */,
 				2F16466D1CA4309800AFE9FF /* SettingViewController.swift */,
-				2F16466E1CA4309800AFE9FF /* SettingViewController.xib */,
+				2F4B1E1B1CCBB066002C68B7 /* SettingViewController.xib */,
 				2F5C2A541CA98A1B0066FD12 /* forwadmailhead.html */,
 				2FD820CD1CBA048F001FACCC /* SetMailTemplateViewController.swift */,
-				2FD820CE1CBA048F001FACCC /* SetMailTemplateViewController.xib */,
+				2F4B1E121CCBAF70002C68B7 /* SetMailTemplateViewController.xib */,
 			);
 			name = MailFunction;
 			sourceTree = "<group>";
@@ -368,7 +395,7 @@
 				2F8622F91C9D06D500A86A84 /* BoardImages.xcassets */,
 				2F8622FA1C9D06D500A86A84 /* BoardSet */,
 				2F8623001C9D06D500A86A84 /* BoardViewController.swift */,
-				2F8623381C9D100300A86A84 /* Board.storyboard */,
+				2F4B1DDC1CCBAA3C002C68B7 /* Board.storyboard */,
 				2F8623011C9D06D500A86A84 /* Brushes */,
 			);
 			path = HANDWRITOR;
@@ -387,10 +414,10 @@
 		2F8622FA1C9D06D500A86A84 /* BoardSet */ = {
 			isa = PBXGroup;
 			children = (
-				2F86232F1C9D0FB600A86A84 /* PaintingBrushSetting.xib */,
+				2F4B1DE81CCBAAE0002C68B7 /* PaintingBrushSetting.xib */,
 				2F8622FB1C9D06D500A86A84 /* PaintingBrushSetting.swift */,
 				2F8622FD1C9D06D500A86A84 /* SetBkgroundViewCtrller.swift */,
-				2F8622FE1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib */,
+				2F4B1E011CCBACAC002C68B7 /* SetBkgroundViewCtrller.xib */,
 			);
 			path = BoardSet;
 			sourceTree = "<group>";
@@ -491,8 +518,10 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				"zh-Hans",
+				"zh-Hant",
+				en,
 			);
 			mainGroup = 2F1064291C8B133C00510B49;
 			productRefGroup = 2F1064331C8B133C00510B49 /* Products */;
@@ -575,16 +604,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F1064421C8B133C00510B49 /* LaunchScreen.storyboard in Resources */,
-				2F8623391C9D100300A86A84 /* Board.storyboard in Resources */,
+				2F4B1DDA1CCBAA3C002C68B7 /* Board.storyboard in Resources */,
 				2F5C2A551CA98A1B0066FD12 /* forwadmailhead.html in Resources */,
-				2F86231B1C9D06D500A86A84 /* SetBkgroundViewCtrller.xib in Resources */,
+				2F4B1E0A1CCBAD9C002C68B7 /* Localizable.strings in Resources */,
+				2F4B1DFF1CCBACAC002C68B7 /* SetBkgroundViewCtrller.xib in Resources */,
 				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
-				2F8623301C9D0FB600A86A84 /* PaintingBrushSetting.xib in Resources */,
+				2F4B1DE61CCBAAE0002C68B7 /* PaintingBrushSetting.xib in Resources */,
 				2F8922B21CA17EC100A78CA1 /* MCOMessageViewScript.js in Resources */,
 				2FE5F6711CA198300056BAE4 /* arrow@2x.png in Resources */,
-				2F1646701CA4309800AFE9FF /* SettingViewController.xib in Resources */,
+				2F4B1E191CCBB066002C68B7 /* SettingViewController.xib in Resources */,
 				2F10643D1C8B133C00510B49 /* Main.storyboard in Resources */,
-				2FD820D01CBA048F001FACCC /* SetMailTemplateViewController.xib in Resources */,
+				2F4B1E101CCBAF70002C68B7 /* SetMailTemplateViewController.xib in Resources */,
 				2F8623171C9D06D500A86A84 /* BoardImages.xcassets in Resources */,
 				2F3756AC1C906A0A0059FC58 /* UIMailListViewCell.xib in Resources */,
 			);
@@ -704,6 +734,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				2F10643C1C8B133C00510B49 /* Base */,
+				2F4B1DF51CCBAC0D002C68B7 /* zh-Hans */,
+				2F4B1DF91CCBAC16002C68B7 /* zh-Hant */,
+				2F4B1DFD1CCBAC39002C68B7 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -712,8 +745,77 @@
 			isa = PBXVariantGroup;
 			children = (
 				2F1064411C8B133C00510B49 /* Base */,
+				2F4B1DF61CCBAC0D002C68B7 /* zh-Hans */,
+				2F4B1DFA1CCBAC16002C68B7 /* zh-Hant */,
+				2F4B1DFE1CCBAC39002C68B7 /* en */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2F4B1DDC1CCBAA3C002C68B7 /* Board.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4B1DDB1CCBAA3C002C68B7 /* Base */,
+				2F4B1DF41CCBAC0D002C68B7 /* zh-Hans */,
+				2F4B1DF81CCBAC16002C68B7 /* zh-Hant */,
+				2F4B1DFC1CCBAC38002C68B7 /* en */,
+			);
+			name = Board.storyboard;
+			sourceTree = "<group>";
+		};
+		2F4B1DE81CCBAAE0002C68B7 /* PaintingBrushSetting.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4B1DE71CCBAAE0002C68B7 /* Base */,
+				2F4B1DF31CCBAC0D002C68B7 /* zh-Hans */,
+				2F4B1DF71CCBAC16002C68B7 /* zh-Hant */,
+				2F4B1DFB1CCBAC38002C68B7 /* en */,
+			);
+			name = PaintingBrushSetting.xib;
+			sourceTree = "<group>";
+		};
+		2F4B1E011CCBACAC002C68B7 /* SetBkgroundViewCtrller.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4B1E001CCBACAC002C68B7 /* Base */,
+				2F4B1E031CCBACAE002C68B7 /* zh-Hans */,
+				2F4B1E051CCBACAF002C68B7 /* zh-Hant */,
+				2F4B1E071CCBACAF002C68B7 /* en */,
+			);
+			name = SetBkgroundViewCtrller.xib;
+			sourceTree = "<group>";
+		};
+		2F4B1E0C1CCBAD9C002C68B7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4B1E0B1CCBAD9C002C68B7 /* Base */,
+				2F4B1E0D1CCBAD9D002C68B7 /* zh-Hans */,
+				2F4B1E0E1CCBAD9E002C68B7 /* zh-Hant */,
+				2F4B1E0F1CCBAD9E002C68B7 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		2F4B1E121CCBAF70002C68B7 /* SetMailTemplateViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4B1E111CCBAF70002C68B7 /* Base */,
+				2F4B1E141CCBAF73002C68B7 /* zh-Hans */,
+				2F4B1E161CCBAF74002C68B7 /* en */,
+				2F4B1E181CCBAF76002C68B7 /* zh-Hant */,
+			);
+			name = SetMailTemplateViewController.xib;
+			sourceTree = "<group>";
+		};
+		2F4B1E1B1CCBB066002C68B7 /* SettingViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F4B1E1A1CCBB066002C68B7 /* Base */,
+				2F4B1E1D1CCBB068002C68B7 /* zh-Hans */,
+				2F4B1E1F1CCBB06B002C68B7 /* zh-Hant */,
+				2F4B1E211CCBB06C002C68B7 /* en */,
+			);
+			name = SettingViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
