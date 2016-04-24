@@ -154,16 +154,16 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         mailToolBar.frame=CGRectMake(0, startY,frameWidth,44);
 
         
-        let cancelbutton = UIBarButtonItem(title: "取消", style:UIBarButtonItemStyle.Plain,target: self,action: #selector(TextMailComposerViewController.doCloseMailComposer(_:)))
+        let cancelbutton = UIBarButtonItem(title: BaseFunction.getIntenetString("CANCEL"), style:UIBarButtonItemStyle.Plain,target: self,action: #selector(TextMailComposerViewController.doCloseMailComposer(_:)))
         
         let flexButton1=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
-        let titlebutton = UIBarButtonItem(title: "新邮件", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+        let titlebutton = UIBarButtonItem(title:BaseFunction.getIntenetString("新邮件"), style: UIBarButtonItemStyle.Plain, target: self,action: nil)
         
         titlebutton.tintColor=UIColor.blackColor();
         
         let flexButton2=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
 
-        let sendbutton = UIBarButtonItem(title: "发送", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(TextMailComposerViewController.doSendMail))
+        let sendbutton = UIBarButtonItem(title: BaseFunction.getIntenetString("发送"), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(TextMailComposerViewController.doSendMail))
 
         
         let items=[cancelbutton,flexButton1,titlebutton,flexButton2,sendbutton];
@@ -174,7 +174,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         top1=top0+44+ySpace;
         
         //        private var mailToLbl:UILabel=UILabel();//收件人地址标签
-        mailToLbl.setLabel("收件人:", x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: gray)
+        mailToLbl.setLabel(BaseFunction.getIntenetString("收件人:"), x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: gray)
         mailToLbl.textAlignment = .Right
         
         //        var mailToInputText=ACTextArea();//收件人地址录入窗口
@@ -191,7 +191,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         Line1.frame=CGRectMake(marginSpace, top2-ySpace+1, frameWidth-2*marginSpace, 1);
 
         
-        mailCcLbl.setLabel("抄送:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
+        mailCcLbl.setLabel(BaseFunction.getIntenetString("抄送:"), x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
         mailCcLbl.textAlignment = .Right
 
         
@@ -209,7 +209,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         Line2.frame=CGRectMake(marginSpace, top3-ySpace+1, frameWidth-2*marginSpace, 1);
 
         
-        mailTopicLbl.setLabel("主题:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
+        mailTopicLbl.setLabel(BaseFunction.getIntenetString("主题:"), x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: gray);
         mailTopicLbl.textAlignment = .Right
         
         
@@ -336,7 +336,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     messageBuilder.header.subject = self.mailTopicInputText.text  // 邮件标题
                     if !canSendMail
                     {
-                        self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
+                        self.ShowNotice(BaseFunction.getIntenetString("WARNING"), BaseFunction.getIntenetString("发送地址或邮件主题是否为空!"));
                         //恢复发送按钮状态
                         self.setSendButtonEnable(true);
                         
@@ -458,7 +458,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                             
                             if totalValue != 0
                             {
-                                let wndTitle=String(format: "正在发送邮件,已完成%2d%%",nowValue*100/totalValue);
+                                let wndTitle=String(format: BaseFunction.getIntenetString("正在发送邮件,已完成%2d%%"),nowValue*100/totalValue);
                                 self.setWindowTitle(wndTitle)
                             }
                     };
@@ -542,9 +542,9 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
     //MARK:关闭邮件地址录入窗口
     func doCloseMailComposer(sender:UIBarButtonItem)
     {
-        let composeCloseMenu = UIAlertController(title: nil, message: "选项", preferredStyle: .ActionSheet)
+        let composeCloseMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("选项"), preferredStyle: .ActionSheet)
         
-        let deleteDraftAction = UIAlertAction(title: "放弃", style: UIAlertActionStyle.Default)
+        let deleteDraftAction = UIAlertAction(title: BaseFunction.getIntenetString("放弃"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -552,7 +552,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
             
         };
         
-        let storeDraftAction = UIAlertAction(title: "存储草稿", style: UIAlertActionStyle.Default)
+        let storeDraftAction = UIAlertAction(title: BaseFunction.getIntenetString("存储草稿"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -937,7 +937,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         if self.mailHtmlbodyOrigin != nil
         {
             
-            var tempHtmlbody = "<br/><p>以下是原邮件内容</p><br/>";
+            var tempHtmlbody = "<br/><p>以下是原邮件内容(Original Mail)</p><br/>";
             
             let path = NSBundle.mainBundle().pathForResource("forwadmailhead", ofType:"html");
             if path != nil

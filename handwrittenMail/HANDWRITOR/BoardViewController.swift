@@ -634,13 +634,13 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         top1=ySpace;
         
         //        private var mailToLbl:UILabel=UILabel();//收件人地址标签
-        mailToLbl.setLabel("收件人:", x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: black)
+        mailToLbl.setLabel(BaseFunction.getIntenetString("收件人:"), x:marginSpace, y: top1, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: true, color: black)
         //        var mailToInputText=ACTextArea();//收件人地址录入窗口
         mailToInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top1, width: frameWidth-ctrWidth*2-4*xSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
         
         //        private var mailSendBtn=UIButton();//发送按钮
         
-        mailSendBtn.setTitle("发送", forState:.Normal);
+        mailSendBtn.setTitle(BaseFunction.getIntenetString("发送"), forState:.Normal);
         
         mailSendBtn.frame=CGRectMake(frameWidth-ctrWidth-marginSpace,top1,ctrWidth,ctrHight*3)
         mailSendBtn.setTitleColor(white, forState: .Normal);//不加上这句,看不到,可以字体是白色的原因吧
@@ -658,13 +658,13 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         //        private var mailCcLbl=UILabel();//抄送人地址标签
         top2=top1+ctrHight*3+ySpace
         
-        mailCcLbl.setLabel("抄送:", x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
+        mailCcLbl.setLabel(BaseFunction.getIntenetString("抄送:"), x: marginSpace, y: top2, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
         
         //        var mailCcInputText=ACTextArea();//抄送人地址录入窗口
         mailCcInputText.setTextArea((marginSpace+ctrWidth+xSpace), y: top2, width: frameWidth-ctrWidth*2-2*xSpace-2*marginSpace, height: ctrHight*3, fonSize: 17, isBold: true, color: blue);
 
         //        private var mailCancelBtn=UIButton();//关闭按钮
-        mailCancelBtn.setTitle("关闭", forState:.Normal);
+        mailCancelBtn.setTitle(BaseFunction.getIntenetString("CLOSE"), forState:.Normal);
         
         mailCancelBtn.frame=CGRectMake(frameWidth-ctrWidth-marginSpace,top2,ctrWidth,ctrHight*3)
         mailCancelBtn.setTitleColor(white, forState: .Normal);//不加上这句,看不
@@ -680,7 +680,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         //        private var mailTopicLbl=UILabel();//邮件主题标签
         top3=top2+ySpace+ctrHight*3;
         
-        mailTopicLbl.setLabel("主题:", x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
+        mailTopicLbl.setLabel(BaseFunction.getIntenetString("主题:"), x: marginSpace, y: top3, width: ctrWidth, height: ctrHight, fonSize: 16, isBold: false, color: black);
 
         
         //        var mailTopicInputText=UITextField();//邮件主题录入窗口;
@@ -712,9 +712,9 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
     //MARK:关闭窗口
     @IBAction func viewExit(sender: UIButton) {
         
-        let composeCloseMenu = UIAlertController(title: nil, message: "选项", preferredStyle: .ActionSheet)
+        let composeCloseMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("选项"), preferredStyle: .ActionSheet)
         
-        let deleteDraftAction = UIAlertAction(title: "放弃", style: UIAlertActionStyle.Default)
+        let deleteDraftAction = UIAlertAction(title:BaseFunction.getIntenetString("放弃"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -722,7 +722,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
             
         };
         
-        let storeDraftAction = UIAlertAction(title: "存储草稿", style: UIAlertActionStyle.Default)
+        let storeDraftAction = UIAlertAction(title: BaseFunction.getIntenetString("存储草稿"), style: UIAlertActionStyle.Default)
         {
             (UIAlertAction) -> Void in
             
@@ -801,7 +801,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                 messageBuilder.header.subject = self.mailTopicInputText.text  // 邮件标题
                 if !canSendMail
                 {
-                    self.ShowNotice("警告", "发送地址或邮件主题是否为空!");
+                    self.ShowNotice(BaseFunction.getIntenetString("WARNING"),BaseFunction.getIntenetString("发送地址或邮件主题是否为空!"));
                     //恢复发送按钮状态
                     self.setSendButtonEnable(true);
                     return;//不能发送邮件了

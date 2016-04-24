@@ -24,7 +24,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //MARK:下拉刷新,上拉加载
     func setupRefresh(){
         self.tableView.addHeaderWithCallback({
-            self.setupStatus("正在加载邮件列表");
+            self.setupStatus(BaseFunction.getIntenetString("正在加载邮件列表"));
 
               let delayInSeconds = Int64(NSEC_PER_SEC) * 2
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
@@ -39,7 +39,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         self.tableView.addFooterWithCallback({
             
-            self.setupStatus("正在加载邮件列表");
+            self.setupStatus(BaseFunction.getIntenetString("正在加载邮件列表"));
 
               let delayInSeconds:Int64 = Int64(NSEC_PER_SEC) * 2
             let popTime:dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW,delayInSeconds)
@@ -72,7 +72,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         setupRightBarButtonItem();
         
         //3.加底部状态信息
-        let statusbutton = UIBarButtonItem(title: "刚刚更新", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+        let statusbutton = UIBarButtonItem(title: BaseFunction.getIntenetString("刚刚更新"), style: UIBarButtonItemStyle.Plain, target: self,action: nil)
         let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
         
         
@@ -89,7 +89,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         
         setupRefresh();//下拉刷新,上拉加载
         
-        self.navigationItem.title="收件箱"
+        self.navigationItem.title=BaseFunction.getIntenetString("收件箱")
         
         self.tableView.editing = false;//默认tableview的editing 是不开启的
         
@@ -98,7 +98,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     //MARK:加右边按钮
     func setupRightBarButtonItem()
     {
-        let rightButtonItem = UIBarButtonItem(title: "编辑", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.deleteMultiMails))
+        let rightButtonItem = UIBarButtonItem(title:BaseFunction.getIntenetString("编辑"), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.deleteMultiMails))
         self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
@@ -122,7 +122,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         else
         {
             //3.加底部状态信息
-            let statusbutton = UIBarButtonItem(title: "刚刚更新", style: UIBarButtonItemStyle.Plain, target: self,action: nil)
+            let statusbutton = UIBarButtonItem(title: BaseFunction.getIntenetString("刚刚更新"), style: UIBarButtonItemStyle.Plain, target: self,action: nil)
             let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
 
     
@@ -140,9 +140,9 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     private func setDeleteButtons()
     {
         //3.加底部状态信息
-        let selectButton = UIBarButtonItem(title: "全选", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.selectAllMail))
+        let selectButton = UIBarButtonItem(title:BaseFunction.getIntenetString("全选"), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.selectAllMail))
         let flexButton=UIBarButtonItem(barButtonSystemItem:UIBarButtonSystemItem.FlexibleSpace, target: self,action: nil)
-        let deleteButton =  UIBarButtonItem(title: "删除", style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.deleteSelectedMails));
+        let deleteButton =  UIBarButtonItem(title: BaseFunction.getIntenetString("删除"), style: UIBarButtonItemStyle.Plain, target: self,action: #selector(MailListViewController.deleteSelectedMails));
        
         
         let items=[selectButton,flexButton,deleteButton];
@@ -331,7 +331,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         else
         if sendtime.isYesterday()
         {
-            timePrefix="昨天";
+            timePrefix=BaseFunction.getIntenetString("昨天");
         }
         else
         if sendtime.isYesterday()
@@ -423,7 +423,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         let tableview=self.view as! UITableView;
         tableview.reloadData();
         
-        self.setupStatus("邮件列表刚刚更新");
+        self.setupStatus(BaseFunction.getIntenetString("邮件列表刚刚更新"));
 
         if !upFresh //只有下拉时才刷新
         {
@@ -493,11 +493,11 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     override func tableView(tableView: UITableView,
                             editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?{
         // 1
-        let shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "删除" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+        let shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title:BaseFunction.getIntenetString("删除") , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
             // 2
-            let deleteMenu = UIAlertController(title: nil, message: "删除", preferredStyle: .ActionSheet)
+            let deleteMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("删除"), preferredStyle: .ActionSheet)
             
-            let deleteAction = UIAlertAction(title: "确定删除", style: UIAlertActionStyle.Default)
+            let deleteAction = UIAlertAction(title: BaseFunction.getIntenetString("确认删除"), style: UIAlertActionStyle.Default)
             {
                 //删除邮件
                 (UIAlertAction) -> Void in
@@ -506,7 +506,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
 
                 
             }
-            let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: BaseFunction.getIntenetString("CANCEL"), style: UIAlertActionStyle.Cancel, handler: nil)
             
             deleteMenu.addAction(deleteAction)
             deleteMenu.addAction(cancelAction)
@@ -525,11 +525,11 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         })
        // shareAction.backgroundColor=UIColor(patternImage: UIImage(named: "trash")!);
         // 3
-        let unreadAction =  UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "已读?" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+        let unreadAction =  UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: BaseFunction.getIntenetString("已读?") , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
             // 4
-            let setreadMenu = UIAlertController(title: nil, message: "阅读状态", preferredStyle: .ActionSheet)
+            let setreadMenu = UIAlertController(title: nil, message: BaseFunction.getIntenetString("阅读状态"), preferredStyle: .ActionSheet)
             
-            let readAction = UIAlertAction(title: "已读", style: UIAlertActionStyle.Default)
+            let readAction = UIAlertAction(title: BaseFunction.getIntenetString("已读"), style: UIAlertActionStyle.Default)
             {
                 (UIAlertAction) -> Void in
                 
@@ -537,7 +537,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
                 
             };
 
-            let unreadAction = UIAlertAction(title: "未读", style: UIAlertActionStyle.Default)
+            let unreadAction = UIAlertAction(title:  BaseFunction.getIntenetString("未读"), style: UIAlertActionStyle.Default)
             {
                 (UIAlertAction) -> Void in
                 
@@ -546,7 +546,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
             };
 
             
-            let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+            let cancelAction = UIAlertAction(title:BaseFunction.getIntenetString("CANCEL"), style: UIAlertActionStyle.Cancel, handler: nil)
             
             setreadMenu.addAction(readAction)
             setreadMenu.addAction(unreadAction)

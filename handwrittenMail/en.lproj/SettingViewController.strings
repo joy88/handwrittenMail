@@ -12,7 +12,7 @@
 "Ar3-VQ-wpS.text" = "993";
 
 /* Class = "UILabel"; text = "密    码:"; ObjectID = "CLP-07-RCK"; */
-"CLP-07-RCK.text" = "Password:";
+"CLP-07-RCK.text" = "PWD:";
 
 /* Class = "UILabel"; text = "呢称:"; ObjectID = "CRH-so-5uD"; */
 "CRH-so-5uD.text" = "Nickle:";
@@ -39,7 +39,7 @@
 "QBC-k8-eYs.normalTitle" = "OK";
 
 /* Class = "UIButton"; normalTitle = "邮件模板"; ObjectID = "VFP-r5-khS"; */
-"VFP-r5-khS.normalTitle" = "Mail Template";
+"VFP-r5-khS.normalTitle" = "Mail TMPL";
 
 /* Class = "UITextField"; placeholder = "sss@sss.com"; ObjectID = "cRF-sN-WkQ"; */
 "cRF-sN-WkQ.placeholder" = "sss@sss.com";
@@ -48,13 +48,13 @@
 "gbP-BX-SBT.text" = "Port:";
 
 /* Class = "UILabel"; text = "用户名:"; ObjectID = "hDe-kM-7N5"; */
-"hDe-kM-7N5.text" = "UserName:";
+"hDe-kM-7N5.text" = "User:";
 
 /* Class = "UILabel"; text = "密    码:"; ObjectID = "hHc-xf-BNT"; */
-"hHc-xf-BNT.text" = "Password:";
+"hHc-xf-BNT.text" = "PWD:";
 
 /* Class = "UILabel"; text = "用户名:"; ObjectID = "hNf-Cr-aLa"; */
-"hNf-Cr-aLa.text" = "UserName:";
+"hNf-Cr-aLa.text" = "User:";
 
 /* Class = "UIButton"; normalTitle = "取消"; ObjectID = "kGB-Lz-PYq"; */
 "kGB-Lz-PYq.normalTitle" = "Cancel";

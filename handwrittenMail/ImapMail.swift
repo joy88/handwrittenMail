@@ -352,7 +352,7 @@ class ImapMail : BaseMail {
                     
                     if numberOfMsgLoad<=0
                     {
-                        delegate.setupStatus("邮件列表刚刚更新")
+                        delegate.setupStatus(BaseFunction.getIntenetString("邮件列表刚刚更新"))
                         return;
                     }
 

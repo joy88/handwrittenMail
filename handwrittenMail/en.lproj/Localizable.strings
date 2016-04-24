@@ -44,5 +44,24 @@
 "手写邮件-带附件"="HandMail-With Attachment";
 "转发选项"="Forward Option";
 "新邮件选项"="New Mail Option";
+"正在加载邮件列表"="Maillist Loading";
+"编辑"="Edit";
+"全选"="Select All";
+"删除"="Delete";
+"昨天"="Yesterday";
+"邮件列表刚刚更新"="Maillist Updated Ready";
+"已读?"="Read?";
+"阅读状态"="Read?";
+"已读"="read";
+"未读"="unread";
+"发送"="Send";
+"主题:"="Topic:";
+"选项"="Option";
+"放弃"="Discard";
+"存储草稿"="Store Drafts";
+"正在发送邮件,已完成%2d%%"="Sending Mail,Completed%2d%%";
+"发送地址或邮件主题是否为空!"="Mail To or Topic is empty!";
+
+
 
 
