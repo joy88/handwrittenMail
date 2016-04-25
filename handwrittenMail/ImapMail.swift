@@ -434,58 +434,58 @@ class ImapMail : BaseMail {
             
             if tmpImapFolder.flags.contains(.Inbox)
             {
-                folderName="收件箱";
+                folderName=BaseFunction.getIntenetString("收件箱");
             }
             else
             if folderUperName.containsString("INBOX")// || folderUperName.containsString("收件")
             {
-                folderName="收件箱";
+                folderName=BaseFunction.getIntenetString("收件箱");
             }
             
             
             if tmpImapFolder.flags.contains(.SentMail)
             {
-                folderName="已发送";
+                folderName=BaseFunction.getIntenetString("已发送");
             }
             else
             if folderUperName.containsString("SENT MESSAGES") &&                (resultfolders[1].folderInfo.path == nil)
 
             {
-                folderName="已发送";
+                folderName=BaseFunction.getIntenetString("已发送");
             }
             
             
             if tmpImapFolder.flags.contains(.Drafts)
             {
-                folderName="草稿箱";
+                folderName=BaseFunction.getIntenetString("草稿箱");
             }
             else
             if folderUperName.containsString("DRAFT") || folderUperName.containsString("草稿")
             {
-                folderName="草稿箱";
+                folderName=BaseFunction.getIntenetString("草稿箱");
             }
             
             
             
             if tmpImapFolder.flags.contains(.Spam)
             {
-                folderName="垃圾邮件";
+                folderName=BaseFunction.getIntenetString("垃圾邮件");
             }
             else
             if folderUperName.containsString("SPAM") || folderUperName.containsString("JUNK")
             {
-                folderName="垃圾邮件";
+                folderName=BaseFunction.getIntenetString("垃圾邮件");
             }
             
             
             if tmpImapFolder.flags.contains(.Trash)
             {
-                folderName="废纸篓";
+                folderName=BaseFunction.getIntenetString("废纸篓");
             }
             else            
             if folderUperName.containsString("DELETE")
             {
-                folderName="废纸篓";
+                folderName=BaseFunction.getIntenetString("废纸篓");
             }
             
             mailfolder.folderNameAlias=folderName;
@@ -493,11 +493,11 @@ class ImapMail : BaseMail {
             //2.把收件箱\已发送和草稿箱提到前三位
 
             switch folderName {
-            case "收件箱":
+            case BaseFunction.getIntenetString("收件箱"):
                 resultfolders[0]=mailfolder;
-            case "已发送":
+            case BaseFunction.getIntenetString("已发送"):
                 resultfolders[1]=mailfolder;
-            case "草稿箱":
+            case BaseFunction.getIntenetString("草稿箱"):
                 resultfolders[2]=mailfolder;
                 self.draftFolder=mailfolder.folderInfo.path;//删除邮件时有用
                 //保存一下,新邮件时有用
@@ -505,7 +505,7 @@ class ImapMail : BaseMail {
                 defaults.setObject(self.draftFolder, forKey: "draftsbox");
             default:
                 resultfolders.append(mailfolder);
-                if folderName == "废纸篓"
+                if folderName == BaseFunction.getIntenetString("废纸篓")
                 {
                     self.deleteFolder=mailfolder.folderInfo.path;//删除邮件时有用  
                 }

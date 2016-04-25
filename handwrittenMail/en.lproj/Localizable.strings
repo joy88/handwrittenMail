@@ -61,7 +61,9 @@
 "存储草稿"="Store Drafts";
 "正在发送邮件,已完成%2d%%"="Sending Mail,Completed%2d%%";
 "发送地址或邮件主题是否为空!"="Mail To or Topic is empty!";
-
+"已发送"="SentBox";
+"草稿箱"="DraftsBox";
+"垃圾邮件"="Spam Mail";
 
 
 
