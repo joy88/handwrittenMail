@@ -64,6 +64,14 @@
 "已发送"="SentBox";
 "草稿箱"="DraftsBox";
 "垃圾邮件"="Spam Mail";
+"上拉可以加载更多数据"="Pull Up To Load More";
+"松开立即加载更多数据"="Free To Load More";
+"正在加载数据..."="Refreshing Data...";
+"上拉可以刷新"="Pull Up To Refresh";
+"松开立即刷新"="Free To Refresh";
+"正在刷新中..."="Refreshing...";
+"最后刷新时间:"="Last Time:";
+
 
 
 

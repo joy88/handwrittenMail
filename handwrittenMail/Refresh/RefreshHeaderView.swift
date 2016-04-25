@@ -82,7 +82,7 @@ class RefreshHeaderView: RefreshBaseView {
         
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         let time:String = formatter.stringFromDate(NSDate())
-        self.lastUpdateTimeLabel.text = "最后刷新时间:"+time
+        self.lastUpdateTimeLabel.text = BaseFunction.getIntenetString("最后刷新时间:")+time
         
     }
     
