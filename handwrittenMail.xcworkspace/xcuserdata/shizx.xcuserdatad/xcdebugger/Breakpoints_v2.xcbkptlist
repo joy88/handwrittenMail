@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/MCOMessageView.mm"
-            timestampString = "483266673.80282"
+            timestampString = "483443366.127992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "-_loadImages"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,13 +90,77 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "handwrittenMail/MCOMessageView.mm"
-            timestampString = "483266734.900835"
+            timestampString = "483443366.127992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "-_loadImages"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "handwrittenMail/MCOMessageView.mm"
+            timestampString = "483443363.503092"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "-longPressed:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "handwrittenMail/DetailViewController.swift"
+            timestampString = "483445471.560525"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1810"
+            endingLineNumber = "1810"
+            landmarkName = "saveImage(_:image:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Exploded, Arg[1] = Owned To Guaranteed&gt; of (extension in handwrittenMail):__ObjC.MCOMessageView.saveImage (__C.CGPoint, image : __ObjC.UIImage) -&gt; ()"
+                  moduleName = "handwrittenMail"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/DetailViewController.swift"
+                  timestampString = "483446164.456493"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1810"
+                  endingLineNumber = "1810"
+                  offsetFromSymbolStart = "672">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Exploded, Arg[1] = Owned To Guaranteed&gt; of (extension in handwrittenMail):__ObjC.MCOMessageView.saveImage (__C.CGPoint, image : __ObjC.UIImage) -&gt; ()"
+                  moduleName = "handwrittenMail"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shizx/Documents/handwrittenMail/handwrittenMail/DetailViewController.swift"
+                  timestampString = "483446164.45663"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1810"
+                  endingLineNumber = "1810"
+                  offsetFromSymbolStart = "684">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

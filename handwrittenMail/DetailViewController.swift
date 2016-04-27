@@ -1780,6 +1780,45 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 //MARK:MCOMessageView的扩展,可以将webview的内容保存为图片
 extension MCOMessageView
 {
+    //处理长按保存图片操作
+    func saveImage(pnt:CGPoint,image:UIImage)->Void
+    {
+        //还需仔细测试
+        let saveImageMenu = UIAlertController(title: nil, message:nil, preferredStyle: .ActionSheet)
+        
+        let saveImageAction = UIAlertAction(title:BaseFunction.getIntenetString("保存图片"), style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)            
+            //added by shiww,保存图片
+         };
+        
+        let cancelImageAction = UIAlertAction(title:BaseFunction.getIntenetString("CANCEL"), style: UIAlertActionStyle.Default,handler:nil)
+  
+        
+        saveImageMenu.addAction(saveImageAction)
+        saveImageMenu.addAction(cancelImageAction)
+        
+        
+        saveImageMenu.popoverPresentationController?.sourceView=self;
+        
+        let sourceRect=CGRectMake(pnt.x, pnt.y, 10, 10);
+        
+        saveImageMenu.popoverPresentationController?.sourceRect=sourceRect;
+        
+        let appDelegate=UIApplication.sharedApplication().delegate as! AppDelegate;
+        
+        let splitViewController=appDelegate.window!.rootViewController as! UISplitViewController
+        
+        let controllers = splitViewController.viewControllers
+        
+        let detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+        
+        detailViewController!.presentViewController(saveImageMenu,animated: true, completion: nil)
+        
+        
+    }
     //整个WebView视图保存为图片
     func exportViewToPng()->UIImage
     {

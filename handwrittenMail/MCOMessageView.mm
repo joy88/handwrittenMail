@@ -7,6 +7,7 @@
 //
 
 #import "MCOMessageView.h"
+#import "handwrittenMail-swift.h"
 
 @interface MCOMessageView () <MCOHTMLRendererIMAPDelegate>
 
@@ -41,12 +42,70 @@
         _webView.userInteractionEnabled=YES;//支持交互
         //_webView.backgroundColor=[UIColor blueColor];
         //_webView.automaticallyAdjustsScrollViewInsets = NO
+        //ADDED BY SHIWW,长按保存图片
+        UILongPressGestureRecognizer* longPressed = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
+        longPressed.delegate = self;
+        [_webView addGestureRecognizer:longPressed];
+        //added end
+        
         [self addSubview:_webView];
         
        }
     
     return self;
 }
+
+//UIGestureRecognizerDelegate 代理 -added
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    otherGestureRecognizer.cancelsTouchesInView = NO;
+    
+    if ([otherGestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+        otherGestureRecognizer.enabled = NO;
+        NSLog(@"Long");
+    }
+    NSLog(@"Simultaneously %@ and %@", gestureRecognizer.class, otherGestureRecognizer.class);
+    return YES;
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return YES;
+}
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"Should %@ begin", gestureRecognizer.class);
+    return YES;
+}
+//UIGestureRecognizerDelegate 代理 -added end
+
+
+-(void) longPressed :(UILongPressGestureRecognizer*) sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan)
+    {
+        return;
+    }
+    
+    CGPoint touchPoint = [sender locationInView:self.webView];
+    
+    NSLog(@"Hello from (%f, %f)", touchPoint.x, touchPoint.y);
+    
+    NSString *imgURL = [NSString stringWithFormat:@"document.elementFromPoint(%f, %f).src", touchPoint.x, touchPoint.y];
+    NSString *urlToSave = [self.webView stringByEvaluatingJavaScriptFromString:imgURL];
+    //    NSLog(@"urlToSave :%@",urlToSave);
+    if (urlToSave.length == 0) {
+        return;
+    }
+    
+    NSURL * imageURL = [NSURL URLWithString:urlToSave];
+    NSData * imageData = [NSData dataWithContentsOfURL:imageURL];
+
+    UIImage * image = [UIImage imageWithData:imageData];
+    
+    [self saveImage:touchPoint image:image];
+}
+
+
 
 - (void) dealloc
 {

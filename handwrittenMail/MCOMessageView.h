@@ -12,7 +12,7 @@
 
 @protocol MCOMessageViewDelegate;
 
-@interface MCOMessageView : UIView <UIWebViewDelegate>
+@interface MCOMessageView : UIView <UIWebViewDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic, copy) NSString * folder;
 @property (nonatomic, strong) MCOAbstractMessage * message;
