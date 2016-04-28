@@ -7,7 +7,8 @@
 //
 
 #import "MCOMessageView.h"
-#import "handwrittenMail-swift.h"
+//#import "handwrittenMail-swift.h"
+#import "swift-oc.h"
 
 @interface MCOMessageView () <MCOHTMLRendererIMAPDelegate>
 
@@ -315,6 +316,14 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if ([[[request URL] scheme] isEqual:@"mailto"]) {
+        //added by shiww,调用自身发邮件的程序，而不是调用系统的
+        NSString *mailAddress=[[request URL] absoluteString];
+        //NSString *mailAddress=@"chinagis001@126.com";
+        [self newMail:mailAddress];
+        return NO;
+    }
     
     NSURLRequest *responseRequest = [self webView:webView resource:nil willSendRequest:request redirectResponse:nil fromDataSource:nil];
     

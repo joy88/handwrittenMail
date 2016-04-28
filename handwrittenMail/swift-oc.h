@@ -99,7 +99,6 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import Foundation;
 #endif
 
-#import "/Users/shizx/Documents/handwrittenMail/handwrittenMail/Maincore-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -109,6 +108,7 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 
 @interface MCOMessageView (SWIFT_EXTENSION(handwrittenMail))
 - (void)saveImage:(CGPoint)pnt image:(UIImage * _Nonnull)image;
+- (void)newMail:(NSString * _Nonnull)mailAddress;
 - (UIImage * _Nonnull)exportViewToPng;
 @end
 #pragma clang diagnostic pop

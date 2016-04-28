@@ -158,6 +158,7 @@
 		2F1E04041C9425960072840F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2F3756A91C906A0A0059FC58 /* UIMailListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMailListViewCell.swift; sourceTree = "<group>"; };
 		2F3756AA1C906A0A0059FC58 /* UIMailListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIMailListViewCell.xib; sourceTree = "<group>"; };
+		2F37A7BB1CD1FF2F00DAF94C /* swift-oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swift-oc.h"; sourceTree = "<group>"; };
 		2F4B1DDB1CCBAA3C002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Board.storyboard; sourceTree = "<group>"; };
 		2F4B1DE71CCBAAE0002C68B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PaintingBrushSetting.xib; sourceTree = "<group>"; };
 		2F4B1DF31CCBAC0D002C68B7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PaintingBrushSetting.strings"; sourceTree = "<group>"; };
@@ -325,6 +326,7 @@
 		2F508CC21C8DD34E006E9736 /* MailFunction */ = {
 			isa = PBXGroup;
 			children = (
+				2F37A7BB1CD1FF2F00DAF94C /* swift-oc.h */,
 				2F8922B11CA17EC100A78CA1 /* MCOMessageViewScript.js */,
 				2F1E03F31C94215F0072840F /* MCOMessageView.h */,
 				2F1E03F41C94215F0072840F /* MCOMessageView.mm */,

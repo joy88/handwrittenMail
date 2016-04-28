@@ -1251,7 +1251,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
     }
     
     //MARK:非手写邮件
-    func newTextMail()
+    func newTextMail(mailAddress:String="")
     {
         //added by shiww,弹出手写邮件编写界面
         let popVC = TextMailComposerViewController();
@@ -1260,7 +1260,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         popVC.mailContentTemplate=self.mailContentTemplate;//邮件内容模板
         
         popVC.imapsession=self.session;//邮件保存到草稿箱时有用
-        
+        if mailAddress.characters.count>0
+        {
+            popVC.mailTo=[MCOAddress(mailbox:mailAddress)]
+        }
   
         
         popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -1780,6 +1783,81 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
 //MARK:MCOMessageView的扩展,可以将webview的内容保存为图片
 extension MCOMessageView
 {
+    //处理点击邮件地址发送邮件操作
+    func newMail(mailAddress:String)->Void
+    {
+        
+        let address=(mailAddress as NSString).substringFromIndex(7);//截去mailto:
+
+        print(address);
+
+        
+        let composeMenu = UIAlertController(title: BaseFunction.getIntenetString("新邮件选项"), message:nil, preferredStyle:.Alert)
+        
+        let appDelegate=UIApplication.sharedApplication().delegate as! AppDelegate;
+        
+        let splitViewController=appDelegate.window!.rootViewController as! UISplitViewController
+        
+        let controllers = splitViewController.viewControllers
+        
+        let detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+
+        
+        let handwrittenAction = UIAlertAction(title:BaseFunction.getIntenetString("手写邮件"), style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            //added by shiww,弹出手写邮件编写界面
+            let popVC = UIStoryboard(name: "Board", bundle: nil).instantiateInitialViewController()! as! BoardViewController;
+            
+            popVC.mailTopic=detailViewController!.mailTopicNewTemplate;//设置邮件主题模板
+            popVC.mailTo=[MCOAddress(mailbox:address)];
+            
+            
+            popVC.imapsession=detailViewController!.session;//保存到草稿箱时要用
+            
+            popVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            let popOverController = popVC.popoverPresentationController
+            popVC.preferredContentSize = CGSize(width: 750,height: 1000);
+            popOverController?.permittedArrowDirections = .Any
+            detailViewController!.presentViewController(popVC, animated: true, completion: nil)
+            
+        };
+        
+        let digitalmailAction = UIAlertAction(title: BaseFunction.getIntenetString("普通邮件"), style: UIAlertActionStyle.Default)
+        {
+            (UIAlertAction) -> Void in
+            
+            //  print("普通邮件代码实现在此!");
+            
+            detailViewController!.newTextMail(address);
+            
+            
+            
+        };
+        
+        
+            let cancelAction = UIAlertAction(title: BaseFunction.getIntenetString("CANCEL"), style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        composeMenu.addAction(handwrittenAction)
+        composeMenu.addAction(digitalmailAction)
+        
+                composeMenu.addAction(cancelAction)
+        
+        /*
+        composeMenu.popoverPresentationController?.sourceView=self;
+        
+        let sourceRect=CGRectMake(400,300, 10, 10);
+
+        
+        composeMenu.popoverPresentationController?.sourceRect=sourceRect;*/
+        
+        
+        detailViewController!.presentViewController(composeMenu, animated: true, completion: nil)
+        
+        
+    }
+
     //处理长按保存图片操作
     func saveImage(pnt:CGPoint,image:UIImage)->Void
     {
@@ -1795,7 +1873,7 @@ extension MCOMessageView
          };
         
         let cancelImageAction = UIAlertAction(title:BaseFunction.getIntenetString("CANCEL"), style: UIAlertActionStyle.Default,handler:nil)
-  
+        
         
         saveImageMenu.addAction(saveImageAction)
         saveImageMenu.addAction(cancelImageAction)
