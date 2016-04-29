@@ -148,49 +148,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
         let items=[selectButton,flexButton,deleteButton];
         //必须加上topViewController，否则不管用
         self.navigationController?.topViewController!.setToolbarItems(items, animated: true)
-        
-        /*
-    
-        let height=self.navigationController!.toolbar.bounds.height;
-        let width:CGFloat=90;
-    
-    //
-    //2.先设置底部按钮--全选
-    
-        let wholeView=self.view;//.superview!;
-    
-    print(wholeView.frame.size);
-    
-    
-    
-    self.bottomView = UIView(frame: CGRectMake(0, wholeView.frame.size.height-height,wholeView.frame.size.width, height));
-    bottomView!.backgroundColor=UIColor.lightGrayColor();
-    wholeView.addSubview(bottomView!);
-        bottomView!.hidden=true;
-    wholeView.bringSubviewToFront(bottomView!)
-    
-    selectedBtn = UIButton(type:UIButtonType.System);
-    selectedBtn.setTitle("全选",forState:UIControlState.Normal);
-    selectedBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
-    selectedBtn.frame = CGRectMake(0,0, width, height);
-    selectedBtn.addTarget(self,action:#selector(MailListViewController.selectAllMail),forControlEvents:.TouchUpInside);//全选
-    
-    bottomView!.addSubview(selectedBtn);
-    
-    
-    //1.先设置底部按钮--删除
-    deleteBtn = UIButton(type:UIButtonType.System);
-    deleteBtn.setTitle("删除",forState:UIControlState.Normal);
-    deleteBtn.setTitleColor(UIColor.whiteColor(), forState:UIControlState.Normal);
-    deleteBtn.backgroundColor=UIColor.redColor()
-    
-    deleteBtn.frame = CGRectMake(bottomView!.frame.size.width-width,0, width, height);
-    
-    deleteBtn.addTarget(self,action:#selector(MailListViewController.deleteSelectedMails),forControlEvents:.TouchUpInside);//全选
-    
-    
-    bottomView!.addSubview(deleteBtn);*/
-    
+     
     }
     
     //MARK:选择所有邮件
@@ -262,7 +220,7 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
     
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
     {
-        print("row = %d",indexPath.row)
+      //  print("row = %d",indexPath.row)
     }
     
     override func didReceiveMemoryWarning() {
@@ -672,11 +630,11 @@ class MailListViewController: UITableViewController,RefreshMailListDataDelegate 
                         (error:NSError?) in
                         
                         if error==nil{
-                            print("real delete succeeded!");
+                           // print("real delete succeeded!");
                             
                         }
                         else{
-                            print("real delete failed!");
+                           // print("real delete failed!");
                             
                         }
                     }

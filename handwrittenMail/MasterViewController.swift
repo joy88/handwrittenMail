@@ -150,7 +150,7 @@ class MasterViewController: UITableViewController,RefreshMailDataDelegate {
         imapOperation.start(){
             (error:NSError?)->Void in
             if (error == nil) {
-                print("login account successed!");
+                //print("login account successed!");
                 self.mail.isCanBeConnected=true;
                 //获取文件夾信息
                 

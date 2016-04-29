@@ -142,7 +142,7 @@ class ImapMail : BaseMail {
                         
  
                         
-                        print("foldername=\(folderName),\(tmpImapFolder.flags)");
+                       // print("foldername=\(folderName),\(tmpImapFolder.flags)");
                         
                         
                         let tempMailFolder=MAILFOLDER();
@@ -200,7 +200,7 @@ class ImapMail : BaseMail {
                                     
                                     
                                     //mail 数量
-                                    print("\(folderName)'s msg count=\(mailCount)");
+                                    //print("\(folderName)'s msg count=\(mailCount)");
                                     
                                     
                                 }
@@ -216,7 +216,7 @@ class ImapMail : BaseMail {
                         
                     }
                     
-                    print("Mail Folder's count=\(mailFolders.count)");
+                   // print("Mail Folder's count=\(mailFolders.count)");
                     
                 }
                 else
@@ -346,7 +346,7 @@ class ImapMail : BaseMail {
                         self.messageStart=msgLoadStart;
 
                        }
-                    print("self.messageStart=\(self.messageStart)");
+                   // print("self.messageStart=\(self.messageStart)");
                     
               //      print("self.messageStart=\(self.messageStart),self.messageEnd=\(self.messageEnd)");
                     
@@ -512,7 +512,7 @@ class ImapMail : BaseMail {
 
             }
             
-            print(mailfolder.folderNameAlias+","+mailfolder.folderInfo.path);
+          //  print(mailfolder.folderNameAlias+","+mailfolder.folderInfo.path);
           
             
         }

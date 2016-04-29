@@ -364,7 +364,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                                 tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                             }
                             catch let error as NSError {
-                                print(error.localizedDescription)
+                                //print(error.localizedDescription)
                             }
                             
                             
@@ -401,7 +401,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                                 tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                             }
                             catch let error as NSError {
-                                print(error.localizedDescription)
+                                //print(error.localizedDescription)
                             }
                             
                             
@@ -469,7 +469,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                             (error:NSError?) -> Void in
                             if error==nil
                             {
-                                print("发送成功!");
+                              //  print("发送成功!");
                                 self.dismissViewControllerAnimated(true,completion: nil);
                                 
                                 if self.oldMailContent != nil //表明是编辑草稿箱中的老邮件,需要删除原邮件
@@ -483,7 +483,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                             else
                             {
                                 self.ShowNotice("提示", "发送不成功-\(error?.localizedDescription)");
-                                print("发送不成功!%@",error);
+                               // print("发送不成功!%@",error);
                                 self.setWindowTitle("新邮件");
 
                                 
@@ -650,7 +650,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                 }
                 catch let error as NSError {
-                    print(error.localizedDescription)
+                   // print(error.localizedDescription)
                 }
                 
                 
@@ -685,7 +685,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                 }
                 catch let error as NSError {
-                    print(error.localizedDescription)
+                   // print(error.localizedDescription)
                 }
                 
                 
@@ -757,7 +757,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
         let op = self.imapsession!.appendMessageOperationWithFolder(draftsfolder,messageData:rfc822Data,flags:MCOMessageFlag.Draft);
         op.start { (error:NSError?, createdUID:UInt32) in
             if error==nil{
-                print("保存到草稿箱成功!");
+              //  print("保存到草稿箱成功!");
                 self.dismissViewControllerAnimated(true,completion: nil);
             }
             else
@@ -909,7 +909,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                 }
                 catch let error as NSError {
-                    print(error.localizedDescription)
+                    //print(error.localizedDescription)
                 }
                 
                 
@@ -946,7 +946,7 @@ class TextMailComposerViewController: UIViewController,UIImagePickerControllerDe
                     tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                 }
                 catch let error as NSError {
-                    print(error.localizedDescription)
+                   // print(error.localizedDescription)
                 }
                 
                 

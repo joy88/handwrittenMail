@@ -89,7 +89,7 @@
     
     CGPoint touchPoint = [sender locationInView:self.webView];
     
-    NSLog(@"Hello from (%f, %f)", touchPoint.x, touchPoint.y);
+//    NSLog(@"Hello from (%f, %f)", touchPoint.x, touchPoint.y);
     
     NSString *imgURL = [NSString stringWithFormat:@"document.elementFromPoint(%f, %f).src", touchPoint.x, touchPoint.y];
     NSString *urlToSave = [self.webView stringByEvaluatingJavaScriptFromString:imgURL];
@@ -561,26 +561,6 @@
 
   }
 
-//added by shiww
-/*
--(void)webViewDidFinishLoad:(UIWebView *)webView {
-    NSString* const kTouchJavaScriptString=
-    @"document.ontouchstart=function(event){\
-    x=event.targetTouches[0].clientX;\
-    y=event.targetTouches[0].clientY;\
-    document.location=\"myweb:touch:start:\"+x+\":\"+y;};\
-    document.ontouchmove=function(event){\
-    x=event.targetTouches[0].clientX;\
-    y=event.targetTouches[0].clientY;\
-    document.location=\"myweb:touch:move:\"+x+\":\"+y;};\
-    document.ontouchcancel=function(event){\
-    document.location=\"myweb:touch:cancel\";};\
-    document.ontouchend=function(event){\
-    document.location=\"myweb:touch:end\";};";
-    
-    [self.webView stringByEvaluatingJavaScriptFromString:kTouchJavaScriptString];
- 
-}*/
 
 
 

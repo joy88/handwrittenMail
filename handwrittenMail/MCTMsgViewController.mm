@@ -187,6 +187,10 @@ typedef void (^DownloadCallback)(NSError * error);
 
 - (BOOL) MCOMessageView:(MCOMessageView *)view canPreviewPart:(MCOAbstractPart *)part
 {
+    //不预览了，没有多大意义
+    return NO;
+    //added end
+
     // tiff, tif, pdf
     NSString * mimeType = [[part mimeType] lowercaseString];
     if ([mimeType isEqualToString:@"image/tiff"]) {

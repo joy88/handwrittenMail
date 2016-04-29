@@ -284,7 +284,10 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         //3.delete mail
         let trashButton = UIBarButtonItem(image: UIImage(named: "deletemail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.beginDeleteCurrentMsg(_:)))
         
-        let organizeButton = UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
+        let organizeButton = UIBarButtonItem(image: UIImage(named: "bugreport")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.reportBug));//给作者写信
+            
+            
+        //    UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
         
         
         
@@ -299,7 +302,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
          self.mywebView=self.messageView;
         self.messageView.setHtmlContent("<html><head><title>Hello</title></head><body><h1>邮件正在加载中......</h1></body></html>")
  
-//        self.mywebView.prefetchIMAPAttachmentsEnabled=true;
+        self.mywebView.prefetchIMAPAttachmentsEnabled=false;
 
         self.mywebView.prefetchIMAPImagesEnabled=true;
 
@@ -426,7 +429,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
             if indexpath != nil
             {
                 let tmppath=NSIndexPath(forRow:indexpath!,inSection:0);
-                print(tmppath.row);
+               // print(tmppath.row);
                 maillistViewController?.delCurrentMsgs([tmppath])
             }
            
@@ -910,16 +913,15 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.AutoLayoutView(button.selected)
     }
     
+    //给作者写信
+    func reportBug()
+    {
+        self.newTextMail("chinagis001@126.com");
+    }
+    
     //MARK:清空DetailView的内容
     func clearAll()
     {
-/*        //直接取已加载的HTML代码
-        let lJs = "document.documentElement.innerHTML";
-        let webHtml = self.mywebView.webView.stringByEvaluatingJavaScriptFromString(lJs);
-        
-        print(webHtml);*/
-        
-
         var navHeight:CGFloat=0;
         
         if let navCtrFrame=self.navigationController?.navigationBar.frame
@@ -1293,7 +1295,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         {
             (UIAlertAction) -> Void in
             
-            print("普通邮件代码实现在此!");
+            //print("普通邮件代码实现在此!");
             
             self.doReplyTextMail(sender.tag)
             
@@ -1452,7 +1454,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         {
             (UIAlertAction) -> Void in
             
-            print("带附件代码实现在此!");
+           // print("带附件代码实现在此!");
             self.forwardMailOperation(true);
         
         };
@@ -1461,7 +1463,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         {
             (UIAlertAction) -> Void in
             
-           print("不带附件代码实现在此!");
+          // print("不带附件代码实现在此!");
             self.forwardMailOperation(false);
 
             
@@ -1471,7 +1473,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         {
             (UIAlertAction) -> Void in
             
-            print("带附件代码转发普通邮件年实现在此!");
+         //   print("带附件代码转发普通邮件年实现在此!");
             self.forwardTextMailOperation(true);
             
         };
@@ -1480,7 +1482,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         {
             (UIAlertAction) -> Void in
             
-            print("不带附件代码转发普通邮件年实现在此!");
+          //  print("不带附件代码转发普通邮件年实现在此!");
             self.forwardTextMailOperation(false);
             
             
@@ -1756,7 +1758,7 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
                         
                     }
                     else{
-                        print("附件获取失败!");
+                      //  print("附件获取失败!");
                         sender.enabled=true;//又可以点击了
                         sender.setTitle(oldBtnTitle, forState: .Normal)
                     }
@@ -1789,7 +1791,7 @@ extension MCOMessageView
         
         let address=(mailAddress as NSString).substringFromIndex(7);//截去mailto:
 
-        print(address);
+        //print(address);
 
         
         let composeMenu = UIAlertController(title: BaseFunction.getIntenetString("新邮件选项"), message:nil, preferredStyle:.Alert)

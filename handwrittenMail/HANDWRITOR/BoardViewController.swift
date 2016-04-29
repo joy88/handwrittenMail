@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreBluetooth
+
 
 //MARK:- BoardViewController定义
 
@@ -205,7 +207,8 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         self.topView.frame=viewFrame;
         //处理完毕
         */
-
+        
+ 
         self.board.brush = brushes[0]
         
         self.loadSystemPara();
@@ -299,6 +302,57 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
         
         self.labPages.setTitle("\(self.pages.CurrentPage)/\(self.pages.PageCount)", forState: UIControlState.Normal);
         
+    }
+    
+    //如果没有连接apple pencil，则弹出警告窗口
+    override func viewDidAppear(animated: Bool) {
+        let cbCentralMgr=CBCentralManager();
+        let exDevices=cbCentralMgr.retrieveConnectedPeripheralsWithServices([CBUUID(string: "180A")]);
+        
+        //            print(exDevices.count);
+        
+        var hasPencil=false;
+        
+        for exDevice in exDevices
+        {
+            if exDevice.name=="Apple Pencil"
+            {
+                hasPencil=true;
+            }
+            
+        }
+        
+        if !hasPencil
+        {
+            let composeCloseMenu = UIAlertController(title: BaseFunction.getIntenetString("WARNING"), message: BaseFunction.getIntenetString("请连接Apple Pencil"), preferredStyle: .Alert)
+            
+            let deleteDraftAction = UIAlertAction(title:BaseFunction.getIntenetString("OK"), style: UIAlertActionStyle.Default)
+            {
+                (UIAlertAction) -> Void in
+                
+                self.dismissViewControllerAnimated(true,completion: nil);
+                
+            };
+            
+            
+            
+            //        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            composeCloseMenu.addAction(deleteDraftAction)
+            
+            
+            composeCloseMenu.popoverPresentationController?.sourceView = self.view;
+            
+            /*
+             composeCloseMenu.popoverPresentationController?.sourceRect=sender.bounds;*/
+            
+            
+            self.presentViewController(composeCloseMenu, animated: true, completion: nil)
+            
+            
+        }
+        
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -858,7 +912,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                             tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                         }
                         catch let error as NSError {
-                            print(error.localizedDescription)
+                          //  print(error.localizedDescription)
                         }
                         
                         
@@ -895,7 +949,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                             tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                         }
                         catch let error as NSError {
-                            print(error.localizedDescription)  
+                            //print(error.localizedDescription)
                         }
                         
                         
@@ -1088,7 +1142,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                 }
                 catch let error as NSError {
-                    print(error.localizedDescription)
+                 //   print(error.localizedDescription)
                 }
                 
                 
@@ -1126,7 +1180,7 @@ class BoardViewController: UIViewController,UIPopoverPresentationControllerDeleg
                     tempHtmlbody = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding);
                 }
                 catch let error as NSError {
-                    print(error.localizedDescription)
+                   // print(error.localizedDescription)
                 }
                 
                 
