@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F09E9A51CD7001F00B6BBCD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F09E9A71CD7001F00B6BBCD /* InfoPlist.strings */; };
 		2F1064361C8B133C00510B49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1064351C8B133C00510B49 /* AppDelegate.swift */; };
 		2F1064381C8B133C00510B49 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1064371C8B133C00510B49 /* MasterViewController.swift */; };
 		2F10643A1C8B133C00510B49 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1064391C8B133C00510B49 /* DetailViewController.swift */; };
@@ -137,6 +138,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F09E9A61CD7001F00B6BBCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2F09E9A81CD7002400B6BBCD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2F09E9A91CD7002500B6BBCD /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2F09E9AA1CD7002600B6BBCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2F1064321C8B133C00510B49 /* handwrittenMail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = handwrittenMail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F1064351C8B133C00510B49 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2F1064371C8B133C00510B49 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -317,6 +322,7 @@
 		2F10646C1C8B159B00510B49 /* SupportFile */ = {
 			isa = PBXGroup;
 			children = (
+				2F09E9A71CD7001F00B6BBCD /* InfoPlist.strings */,
 				2F10646B1C8B158D00510B49 /* Maincore-Bridging-Header.h */,
 				2F4B1E0C1CCBAD9C002C68B7 /* Localizable.strings */,
 			);
@@ -511,7 +517,7 @@
 				TargetAttributes = {
 					2F1064311C8B133C00510B49 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 568K22Q8ZZ;
+						DevelopmentTeam = 66879XXUSK;
 					};
 				};
 			};
@@ -609,6 +615,7 @@
 				2F4B1DDA1CCBAA3C002C68B7 /* Board.storyboard in Resources */,
 				2F5C2A551CA98A1B0066FD12 /* forwadmailhead.html in Resources */,
 				2F4B1E0A1CCBAD9C002C68B7 /* Localizable.strings in Resources */,
+				2F09E9A51CD7001F00B6BBCD /* InfoPlist.strings in Resources */,
 				2F4B1DFF1CCBACAC002C68B7 /* SetBkgroundViewCtrller.xib in Resources */,
 				2F10643F1C8B133C00510B49 /* Assets.xcassets in Resources */,
 				2F4B1DE61CCBAAE0002C68B7 /* PaintingBrushSetting.xib in Resources */,
@@ -732,6 +739,17 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		2F09E9A71CD7001F00B6BBCD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F09E9A61CD7001F00B6BBCD /* Base */,
+				2F09E9A81CD7002400B6BBCD /* zh-Hans */,
+				2F09E9A91CD7002500B6BBCD /* zh-Hant */,
+				2F09E9AA1CD7002600B6BBCD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		2F10643B1C8B133C00510B49 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -840,7 +858,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shi Weiwei (66879XXUSK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shi Weiwei (66879XXUSK)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -863,6 +882,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
+				PROVISIONING_PROFILE = "5b541392-20cc-4118-b08e-7a6591bfc550";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -886,7 +906,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shi Weiwei (66879XXUSK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shi Weiwei (66879XXUSK)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -902,6 +923,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = "-D RELEASE";
+				PROVISIONING_PROFILE = "5b541392-20cc-4118-b08e-7a6591bfc550";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -914,7 +936,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Shi Weiwei (BMJ849643C)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = handwrittenMail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -930,8 +953,9 @@
 					"-stdlib=libc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = shiweiweia.handwrittenMail;
+				PRODUCT_BUNDLE_IDENTIFIER = handemail.shiweiwei.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shizx/Documents/handwrittenMail/handwrittenMail/Maincore-Bridging-Header.h";
 			};
 			name = Debug;
@@ -942,7 +966,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Shi Weiwei (BMJ849643C)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shi Weiwei (66879XXUSK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shi Weiwei (66879XXUSK)";
 				INFOPLIST_FILE = handwrittenMail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -958,8 +983,9 @@
 					"-stdlib=libc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = shiweiweia.handwrittenMail;
+				PRODUCT_BUNDLE_IDENTIFIER = handemail.shiweiwei.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shizx/Documents/handwrittenMail/handwrittenMail/Maincore-Bridging-Header.h";
 			};
 			name = Release;

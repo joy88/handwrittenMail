@@ -8,8 +8,9 @@
 
 import UIKit
 import QuickLook
+import SafariServices
 
-class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewControllerDataSource,UIGestureRecognizerDelegate
+class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewControllerDataSource,UIGestureRecognizerDelegate,SFSafariViewControllerDelegate
 {
     //MARK:点按手势，当是草稿邮或发件箱时点击进行编辑
     private var viewTap:UITapGestureRecognizer!;
@@ -285,13 +286,16 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         let trashButton = UIBarButtonItem(image: UIImage(named: "deletemail")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.beginDeleteCurrentMsg(_:)))
         
         let organizeButton = UIBarButtonItem(image: UIImage(named: "bugreport")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.reportBug));//给作者写信
-            
+        
+        let helpButton = UIBarButtonItem(image: UIImage(named: "help")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DetailViewController.showHelpInfo));//使用帮助
+
+        
             
         //    UIBarButtonItem(barButtonSystemItem:.Organize, target: self, action: #selector(DetailViewController.clearAll));
         
         
         
-        let rightItems=[composeButton,replyButton,replyallButton,forwardButton,trashButton,organizeButton];
+        let rightItems=[composeButton,replyButton,replyallButton,forwardButton,trashButton,organizeButton,helpButton];
         
         
         self.navigationItem.rightBarButtonItems = rightItems
@@ -364,6 +368,19 @@ class DetailViewController:MCTMsgViewController,RefreshMailDelegate,QLPreviewCon
         self.loadMailTemplate();
         
 
+    }
+    //MARK:显示帮助信息
+    func showHelpInfo()
+    {
+ //       UIApplication.sharedApplication().openURL(NSURL(string:"http://www.baidu.com")!);
+        let svc = SFSafariViewController(URL:NSURL(string:"http://chinagis001.blog.163.com/blog/static/17518740720164203441259/#")!)
+        svc.delegate=self;
+        self.presentViewController(svc, animated: true, completion: nil)
+    }
+    
+    func safariViewControllerDidFinish(controller: SFSafariViewController)
+    {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     //MARK:加载邮件模板
     private func loadMailTemplate()
