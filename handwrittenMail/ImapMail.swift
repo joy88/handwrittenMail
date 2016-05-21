@@ -483,7 +483,7 @@ class ImapMail : BaseMail {
                 folderName=BaseFunction.getIntenetString("废纸篓");
             }
             else            
-            if folderUperName.containsString("DELETE")
+            if folderUperName.containsString("DELETE") && self.deleteFolder.characters.count<=0
             {
                 folderName=BaseFunction.getIntenetString("废纸篓");
             }

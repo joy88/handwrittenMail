@@ -109,7 +109,7 @@ class BaseMail : NSObject, MailOperation {
     //MARK:邮件是否可以连接
     var isCanBeConnected:Bool=false;
     
-    var deleteFolder="已删除";
+    var deleteFolder="";
     var draftFolder="草稿箱";
     
     var delegate:RefreshMailDataDelegate?;
